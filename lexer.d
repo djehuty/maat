@@ -30,6 +30,8 @@ static:
 	LexerState state;
 	bool inEscape;
 	bool foundLeadingChar;
+	bool foundLeadingSlash;
+	uint nestedCommentDepth;
 
 	// Describe the string lexer states
 	enum StringType : uint {
@@ -158,13 +160,16 @@ public:
 						Token.Type newType = tokenMapping[chr];
 						// Comments
 						if (current.type == Token.Type.Div) {
-							inEscape = false;
-							foundLeadingChar = false;
-							current.type = Token.Type.Invalid;
 							if (newType == Token.Type.Add) {
+								inEscape = false;
+								foundLeadingSlash = false;
+								foundLeadingChar = false;
+								nestedCommentDepth = 1;
+								current.type = Token.Type.Invalid;
 								state = LexerState.Comment;
 								inCommentType = CommentType.NestedComment;
 								cur_string = "";
+								continue;
 							}
 							else if (newType == Token.Type.Div) {
 								cur_string = _line[_pos+1..$];
@@ -175,11 +180,16 @@ public:
 								return current;
 							}
 							else if (newType == Token.Type.Mul) {
+								inEscape = false;
+								foundLeadingSlash = false;
+								foundLeadingChar = false;
+								nestedCommentDepth = 1;
+								current.type = Token.Type.Invalid;
 								state = LexerState.Comment;
 								inCommentType = CommentType.BlockComment;
 								cur_string = "";
+								continue;
 							}
-							continue;
 						}
 
 						if (newType != Token.Type.Invalid) {
@@ -648,21 +658,42 @@ public:
 						else if (chr == '\\') {
 							inEscape = true;
 							foundLeadingChar = false;
+							foundLeadingSlash = false;
+						}
+						else if (chr == '/' && !foundLeadingChar && inCommentType == CommentType.NestedComment) {
+							foundLeadingSlash = true;
+							cur_string ~= [chr];
+						}
+						else if (chr == '+' && foundLeadingSlash) {
+							foundLeadingSlash = false;
+							cur_string ~= [chr];
+							nestedCommentDepth++;
 						}
 						else if ((chr == '*' && inCommentType == CommentType.BlockComment) ||
 						         (chr == '+' && inCommentType == CommentType.NestedComment)) {
 							cur_string ~= [chr];
 							foundLeadingChar = true;
+							foundLeadingSlash = false;
 						}
 						else if (foundLeadingChar && chr == '/') {
+							nestedCommentDepth--;
+
 							// Good
-							state = LexerState.Normal;
-							current.string = cur_string[0..$-1];
-							current.type = Token.Type.Comment;
-							return current;
+							if (nestedCommentDepth == 0) {
+								state = LexerState.Normal;
+								current.string = cur_string[0..$-1];
+								current.type = Token.Type.Comment;
+								_pos++;
+								return current;
+							}
+							cur_string ~= [chr];
+
+							foundLeadingChar = false;
+							foundLeadingSlash = false;
 						}
 						else {
 							foundLeadingChar = false;
+							foundLeadingSlash = false;
 							cur_string ~= [chr];
 						}
 						continue;
@@ -995,7 +1026,7 @@ public:
 			if (state != LexerState.String && state != LexerState.Comment) {
 				state = LexerState.Normal;
 			}
-			else {
+			else if (state == LexerState.String) {
 				if (inStringType == StringType.Character) {
 					_error("Unmatched character literal.");
 					return Token.init;
