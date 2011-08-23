@@ -1,6 +1,5 @@
 class Token {
 public:
-
 	enum Type {
 		Invalid,
 
@@ -212,12 +211,83 @@ public:
 
 private:
 	Type _type;
-	char[] _data;
+	char[] _string;
+	ulong _integer;
+	double _decimal;
+
+	long _line;
+	long _column;
+
+	uint _columnEnd;
+	uint _lineEnd;
 
 public:
 
-	this(Type type, char[] data = null) {
+	this(Type type) {
 		_type = type;
-		_data = data;
+	}
+
+	Type type() {
+		return _type;
+	}
+
+	void type(Type value) {
+		_type = value;
+	}
+
+	void line(long value) {
+		_line = value;
+	}
+
+	long line() {
+		return _line;
+	}
+
+	void column(long value) {
+		_column = value;
+	}
+
+	long column() {
+		return _column;
+	}
+
+	void string(char[] value) {
+		_string = value;
+	}
+
+	char[] string() {
+		return _string;
+	}
+
+	void integer(ulong value) {
+		_integer = value;
+	}
+
+	ulong integer() {
+		return _integer;
+	}
+
+	void decimal(double value) {
+		_decimal = value;
+	}
+
+	double decimal() {
+		return _decimal;
+	}
+
+	void columnEnd(uint value) {
+		_columnEnd = value;
+	}
+
+	uint columnEnd() {
+		return _columnEnd;
+	}
+
+	void lineEnd(uint value) {
+		_lineEnd = value;
+	}
+
+	uint lineEnd() {
+		return _lineEnd;
 	}
 }
