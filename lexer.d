@@ -4,6 +4,7 @@ import token;
 
 // Tango is the worst
 import tango.io.device.File;
+import tango.io.Stdout;
 import Text = tango.text.Util;
 
 class Lexer {
@@ -28,6 +29,7 @@ static:
 
 	LexerState state;
 	bool inEscape;
+	bool foundLeadingChar;
 
 	// Describe the string lexer states
 	enum StringType : uint {
@@ -124,6 +126,10 @@ public:
 		// will give us a string for the line of utf8 characters.
 		for(;;) {
 			if (_line is null || _pos >= _line.length) {
+				if (_lineNumber >= _lines.length) {
+					// EOF
+					return current;
+				}
 				_line = _lines[_lineNumber];
 				_lineNumber++;
 				_pos = 0;
@@ -149,8 +155,34 @@ public:
 						return Token.init;
 
 					case LexerState.Normal:
-						if (tokenMapping[chr] != Token.Type.Invalid) {
-							Token.Type newType = tokenMapping[chr];
+						Token.Type newType = tokenMapping[chr];
+						// Comments
+						if (current.type == Token.Type.Div) {
+							inEscape = false;
+							foundLeadingChar = false;
+							current.type = Token.Type.Invalid;
+							if (newType == Token.Type.Add) {
+								state = LexerState.Comment;
+								inCommentType = CommentType.NestedComment;
+								cur_string = "";
+							}
+							else if (newType == Token.Type.Div) {
+								cur_string = _line[_pos+1..$];
+								current.type = Token.Type.Comment;
+								current.string = cur_string;
+								current.lineEnd = _lineNumber;
+								_pos = _line.length;
+								return current;
+							}
+							else if (newType == Token.Type.Mul) {
+								state = LexerState.Comment;
+								inCommentType = CommentType.BlockComment;
+								cur_string = "";
+							}
+							continue;
+						}
+
+						if (newType != Token.Type.Invalid) {
 							switch(current.type) {
 								case Token.Type.And: // &
 									if (newType == Token.Type.And) {
@@ -211,12 +243,15 @@ public:
 									}
 									else if (newType == Token.Type.Add) {
 										// /+
+										current.type = Token.Type.Comment;
 									}
 									else if (newType == Token.Type.Div) {
 										// //
+										current.type = Token.Type.Comment;
 									}
 									else if (newType == Token.Type.Mul) {
 										// /*
+										current.type = Token.Type.Comment;
 									}
 									else {
 										goto default;
@@ -605,7 +640,32 @@ public:
 						}
 						continue;
 					case LexerState.Comment:
-						break;
+						if (inEscape) {
+							// Ignore escaped characters
+							cur_string ~= [chr];
+							inEscape = false;
+						}
+						else if (chr == '\\') {
+							inEscape = true;
+							foundLeadingChar = false;
+						}
+						else if ((chr == '*' && inCommentType == CommentType.BlockComment) ||
+						         (chr == '+' && inCommentType == CommentType.NestedComment)) {
+							cur_string ~= [chr];
+							foundLeadingChar = true;
+						}
+						else if (foundLeadingChar && chr == '/') {
+							// Good
+							state = LexerState.Normal;
+							current.string = cur_string[0..$-1];
+							current.type = Token.Type.Comment;
+							return current;
+						}
+						else {
+							foundLeadingChar = false;
+							cur_string ~= [chr];
+						}
+						continue;
 					case LexerState.Identifier:
 						// check for valid succeeding character
 						if ((chr < 'a' || chr > 'z') && (chr < 'A' || chr > 'Z') && chr != '_' && (chr < '0' || chr > '9')) {
@@ -932,7 +992,7 @@ public:
 			current.line = current.line + 1;
 			current.column = 1;
 
-			if (state != LexerState.String) {
+			if (state != LexerState.String && state != LexerState.Comment) {
 				state = LexerState.Normal;
 			}
 			else {
