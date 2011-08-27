@@ -14,6 +14,13 @@ import syntax.nodes;
 
 import syntax.xorexprunit;
 
+/*
+
+	OrExpr => OrExpr | XorExpr
+	        | XorExpr
+
+*/
+
 class OrExprUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
