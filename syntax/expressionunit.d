@@ -14,6 +14,13 @@ import syntax.nodes;
 
 import syntax.assignexprunit;
 
+/*
+
+   Expression => AssignExpr , Expression
+               | AssignExpr
+
+*/
+
 class ExpressionUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
