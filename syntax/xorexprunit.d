@@ -14,6 +14,13 @@ import syntax.nodes;
 
 import syntax.andexprunit;
 
+/*
+
+	XorExpr => XorExpr ^ AndExpr
+             | AndExpr	
+
+*/
+
 class XorExprUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
