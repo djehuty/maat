@@ -14,6 +14,13 @@ import syntax.nodes;
 
 import syntax.cmpexprunit;
 
+/*
+
+	AndExpr => ( & CmpExprUnit )+
+	         | CmpExprUnit
+
+*/
+
 class AndExprUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
