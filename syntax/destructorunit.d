@@ -176,10 +176,10 @@ class DestructorUnit : ParseUnit {
 
 	protected:
 	bool thisFound = false;
-	string cur_string = "";
+	char[] cur_string = "";
 
-	static const string _common_error_msg = "Destructor declaration invalid.";
-	static const string[] _common_error_usages = [
+	static const char[] _common_error_msg = "Destructor declaration invalid.";
+	static const char[][] _common_error_usages = [
 		"~this() { }",
 		"~this();"
 			];

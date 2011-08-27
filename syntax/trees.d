@@ -3,15 +3,15 @@ module syntax.trees;
 import syntax.ast;
 
 class Import : AbstractSyntaxTree {
-	this(string packageName) {
+	this(char[] packageName) {
 		Console.putln("Import: ", packageName);
 		_packageName = packageName;
 	}
 
-	string packageName() {
+	char[] packageName() {
 		return _packageName;
 	}
 
 protected:
-	string _packageName;
+	char[] _packageName;
 }

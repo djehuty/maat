@@ -15,6 +15,7 @@ import lex.token;
 
 import syntax.nodes;
 import syntax.moduleunit;
+import syntax.ast;
 
 class Parser {
 private:

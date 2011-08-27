@@ -18,11 +18,10 @@ import syntax.mulexprunit;
 class AddExprUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
-			case DToken.Add:
-			case DToken.Sub:
-			case DToken.Cat:
+			case Token.Type.Add:
+			case Token.Type.Sub:
+			case Token.Type.Cat:
 				if (this.state == 1) {
-					Console.putln("ADD");
 					this.state = 0;
 					break;
 				}
@@ -43,8 +42,8 @@ class AddExprUnit : ParseUnit {
 	}
 
 protected:
-	string cur_string = "";
+	char[] cur_string = "";
 
-	static const string _common_error_msg = "";
-	static const string[] _common_error_usages = null;
+	static const char[] _common_error_msg = "";
+	static const char[][] _common_error_usages = null;
 }

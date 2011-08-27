@@ -17,17 +17,17 @@ class AggregateBodyUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
 			// We are always looking for the end of the body.
-			case DToken.RightCurly:
+			case Token.Type.RightCurly:
 				// Done.
 				return false;
 
 			// A new keyword will set up an allocator.
-			case DToken.New:
+			case Token.Type.New:
 				// TODO:
 				break;
 
 			// Ditto for a delete token for deallocator.
-			case DToken.Delete:
+			case Token.Type.Delete:
 				// TODO:
 				break;
 
@@ -41,8 +41,8 @@ class AggregateBodyUnit : ParseUnit {
 	}
 
 protected:
-	string cur_string = "";
+	char[] cur_string = "";
 
-	static const string _common_error_msg = "";
-	static const string[] _common_error_usages = null;
+	static const char[] _common_error_msg = "";
+	static const char[][] _common_error_usages = null;
 }

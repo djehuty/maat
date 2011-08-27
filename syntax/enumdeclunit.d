@@ -61,8 +61,8 @@ class EnumDeclUnit : ParseUnit {
 	}
 
 protected:
-	string cur_string = "";
+	char[] cur_string = "";
 
-	static const string _common_error_msg = "Enum declaration is invalid.";
-	static const string[] _common_error_usages = null;
+	static const char[] _common_error_msg = "Enum declaration is invalid.";
+	static const char[][] _common_error_usages = null;
 }

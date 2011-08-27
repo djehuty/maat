@@ -19,7 +19,7 @@ class ImportDeclUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
 			case DToken.Dot:
-				if (cur_string.length > 0 && cur_string[$-1] == '.') {
+				if (cur_string.length > 0 && cur_char[][$-1] == '.') {
 
 					// Error: We found two dots, probably left behind after an edit.
 					error(_common_error_msg,
@@ -38,7 +38,7 @@ class ImportDeclUnit : ParseUnit {
 				return false;
 
 			case DToken.Identifier:
-				if (cur_string.length > 0 && cur_string[$-1] != '.') {
+				if (cur_string.length > 0 && cur_char[][$-1] != '.') {
 
 					// Error: Found an identifier and then another identifier. Probably
 					// due to an editing mistake.
@@ -78,10 +78,10 @@ class ImportDeclUnit : ParseUnit {
 	}
 
 protected:
-	string cur_string = "";
+	char[] cur_string = "";
 
-	static const string _common_error_msg = "The import declaration is not formed correctly.";
-	static const string[] _common_error_usages = [
+	static const char[] _common_error_msg = "The import declaration is not formed correctly.";
+	static const char[][] _common_error_usages = [
 		"import package.file;",
 		"import MyAlias = package.file;",
 		"import MyFoo = package.file : Foo;"

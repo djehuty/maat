@@ -20,7 +20,7 @@ class ModuleDeclUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
 			case DToken.Dot:
-				if (cur_string.length > 0 && cur_string[$-1] == '.') {
+				if (cur_string.length > 0 && cur_char[][$-1] == '.') {
 
 					// Error: We found two dots, probably left behind after an edit.
 					error(_common_error_msg,
@@ -40,7 +40,7 @@ class ModuleDeclUnit : ParseUnit {
 
 			case DToken.Identifier:
 
-				if (cur_string.length > 0 && cur_string[$-1] != '.') {
+				if (cur_string.length > 0 && cur_char[][$-1] != '.') {
 
 					// Error: Found an identifier and then another identifier. Probably
 					// due to an editing mistake.
@@ -81,8 +81,8 @@ class ModuleDeclUnit : ParseUnit {
 		return true;
 	}
 protected:
-	string cur_string = "";
+	char[] cur_string = "";
 
-	static const string _common_error_msg = "The module declaration is not formed correctly.";
-	static const string[] _common_error_usages = ["module package.file;"];
+	static const char[] _common_error_msg = "The module declaration is not formed correctly.";
+	static const char[][] _common_error_usages = ["module package.file;"];
 }

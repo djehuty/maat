@@ -21,7 +21,7 @@ private:
 	static bool _error;
 	Token current;
 
-	void _printerror(string msg, string desc, string[] usages, uint line, uint column) {
+	void _printerror(char[] msg, char[] desc, char[][] usages, uint line, uint column) {
 		Console.putln("Syntax Error: file.d");
 		Console.putln("   Line: ", line, ": ", _lexer.line(line));
 		uint position = column;
@@ -62,15 +62,15 @@ protected:
 		return _root;
 	}
 
-	final void errorAtStart(string msg, string desc = null, string[] usages = null) {
+	final void errorAtStart(char[] msg, char[] desc = null, char[][] usages = null) {
 		_printerror(msg, desc, usages, _firstLine, _firstColumn);
 	}
 
-	final void errorAtPrevious(string msg, string desc = null, string[] usages = null) {
+	final void errorAtPrevious(char[] msg, char[] desc = null, char[][] usages = null) {
 		_printerror(msg, desc, usages, _lastLine, _lastColumn);
 	}
 
-	final void error(string msg, string desc = null, string[] usages = null) {
+	final void error(char[] msg, char[] desc = null, char[][] usages = null) {
 		_printerror(msg, desc, usages, current.line, current.column);
 	}
 
@@ -82,7 +82,7 @@ public:
 	final AbstractSyntaxTree parse() {
 		// get class name
 		ClassInfo ci = this.classinfo;
-		string className = ci.name.dup;
+		char[] className = ci.name.dup;
 
 		// Do not have a lexer installed...
 		if (_lexer is null) {
