@@ -15,6 +15,8 @@ import syntax.nodes;
 import syntax.declarationunit;
 import syntax.classbodyunit;
 
+import tango.io.Stdout;
+
 class ClassDeclUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
@@ -61,6 +63,7 @@ class ClassDeclUnit : ParseUnit {
 					// Error: Two names?
 					// TODO:
 				}
+				Stdout("Class: ")(current.string).newline;
 				cur_string = current.string;
 				break;
 

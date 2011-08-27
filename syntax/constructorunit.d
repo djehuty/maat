@@ -15,6 +15,8 @@ import syntax.nodes;
 import syntax.parameterlistunit;
 import syntax.functionbodyunit;
 
+import tango.io.Stdout;
+
 class ConstructorUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
@@ -51,6 +53,7 @@ class ConstructorUnit : ParseUnit {
 					// Error: Have not found a right paren!
 					// TODO:
 				}
+				Stdout("Constructor without body.").newline;
 				// Done.
 				return false;
 

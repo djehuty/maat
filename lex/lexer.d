@@ -9,7 +9,6 @@ import Text = tango.text.Util;
 
 class Lexer {
 private:
-static:
 
 	void _error(char[] msg) {
 		//Console.forecolor = Color.Red;
@@ -113,6 +112,10 @@ static:
 	}
 
 public:
+	char[] line(uint idx) {
+		return _lines[idx-1];
+	}
+
 	void push(Token token) {
 		_bank_push(token);
 	}

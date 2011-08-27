@@ -19,6 +19,8 @@ import syntax.nodes;
 import syntax.moduledeclunit;
 import syntax.declarationunit;
 
+import tango.io.Stdout;
+
 class ModuleUnit : ParseUnit {
 protected:
 

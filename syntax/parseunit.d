@@ -5,6 +5,9 @@ import syntax.ast;
 import lex.lexer;
 import lex.token;
 
+import tango.io.Stdout;
+import tango.util.Convert;
+
 class ParseUnit {
 private:
 	uint _firstLine;
@@ -22,25 +25,27 @@ private:
 	Token current;
 
 	void _printerror(char[] msg, char[] desc, char[][] usages, uint line, uint column) {
-		/*Console.putln("Syntax Error: file.d");
-		Console.putln("   Line: ", line, ": ", _lexer.line(line));
-		uint position = column;
-		position = position + toStr(line).length + 10;
+		Stdout("Syntax Error: file.d").newline;
+		Stdout("   Line: ")(line)(": ")(_lexer.line(line)).newline;
+		uint position = to!(char[])(line).length + 11;
 		for (uint i; i < position; i++) {
-			Console.put(" ");
+			Stdout(" ");
 		}
-		Console.putln("^");
-		Console.forecolor = Color.Gray;
-		Console.putln(" Reason: ", msg);
+		for (uint i = position; i <= position + column; i++) {
+			Stdout("-");
+		}
+		Stdout("^").newline;
+		//Console.forecolor = Color.Gray;
+		Stdout("   Reason: ")(msg).newline;
 		if (desc !is null) {
-			Console.putln("   Hint: ", desc);
+			Stdout("   Hint: ")(desc).newline;
 		}
 		if (usages !is null) {
-			Console.putln("  Usage: ", usages[0]);
+			Stdout("   Usage: ")(usages[0]).newline;
 			foreach(usage; usages[1..$]) {
-				Console.putln("         ", usage);
+				Stdout("          ")(usage).newline;
 			}
-		}*/
+		}
 		_error = true;
 	}
 
@@ -92,11 +97,13 @@ public:
 		// Go through every token...
 
 		// Starting with the first
-		current = _lexer.pop();
+		do {
+			current = _lexer.pop();
 
-		if (current.type == 0) {
-			return _root;
-		}
+			if (current.type == 0) {
+				return _root;
+			}
+		} while(current.type == Token.Type.Comment);
 
 		// get position in lexer
 		_firstLine = current.line;

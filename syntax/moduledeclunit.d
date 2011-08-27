@@ -16,6 +16,8 @@ import lex.token;
 
 import syntax.nodes;
 
+import tango.io.Stdout;
+
 class ModuleDeclUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
@@ -34,6 +36,7 @@ class ModuleDeclUnit : ParseUnit {
 				break;
 			case Token.Type.Semicolon:
 
+				Stdout("Module: ")(cur_string).newline;
 				// End of declaration
 				return false;
 
