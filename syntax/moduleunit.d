@@ -21,6 +21,13 @@ import syntax.declarationunit;
 
 import tango.io.Stdout;
 
+/*
+
+	Module => module ModuleDecl
+			| Declaration
+
+*/
+
 class ModuleUnit : ParseUnit {
 protected:
 
