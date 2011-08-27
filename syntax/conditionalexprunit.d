@@ -5,19 +5,14 @@
  *
  */
 
-module parsing.d.conditionalexprunit;
+module syntax.conditionalexprunit;
 
-import parsing.parseunit;
-import parsing.token;
+import syntax.parseunit;
+import lex.token;
 
-import parsing.d.tokens;
-import parsing.d.nodes;
+import syntax.nodes;
 
-import parsing.d.logicalorexprunit;
-
-import io.console;
-
-import djehuty;
+import syntax.logicalorexprunit;
 
 class ConditionalExprUnit : ParseUnit {
 	override bool tokenFound(Token current) {

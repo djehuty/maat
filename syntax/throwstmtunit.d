@@ -5,19 +5,14 @@
  *
  */
 
-module parsing.d.throwstmtunit;
+module syntax.throwstmtunit;
 
-import parsing.parseunit;
-import parsing.token;
+import syntax.parseunit;
+import lex.token;
 
-import parsing.d.tokens;
-import parsing.d.nodes;
+import syntax.nodes;
 
-import parsing.d.expressionunit;
-
-import io.console;
-
-import djehuty;
+import syntax.expressionunit;
 
 class ThrowStmtUnit : ParseUnit {
 	override bool tokenFound(Token current) {

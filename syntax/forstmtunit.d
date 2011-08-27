@@ -5,21 +5,16 @@
  *
  */
 
-module parsing.d.forstmtunit;
+module syntax.forstmtunit;
 
-import parsing.parseunit;
-import parsing.token;
+import syntax.parseunit;
+import lex.token;
 
-import parsing.d.tokens;
-import parsing.d.nodes;
+import syntax.nodes;
 
-import parsing.d.statementunit;
-import parsing.d.scopedstmtunit;
-import parsing.d.expressionunit;
-
-import io.console;
-
-import djehuty;
+import syntax.statementunit;
+import syntax.scopedstmtunit;
+import syntax.expressionunit;
 
 class ForStmtUnit : ParseUnit {
 	override bool tokenFound(Token current) {

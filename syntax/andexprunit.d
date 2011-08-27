@@ -5,19 +5,14 @@
  *
  */
 
-module parsing.d.andexprunit;
+module syntax.andexprunit;
 
-import parsing.parseunit;
-import parsing.token;
+import syntax.parseunit;
 
-import parsing.d.tokens;
-import parsing.d.nodes;
+import lex.token;
+import syntax.nodes;
 
-import parsing.d.cmpexprunit;
-
-import io.console;
-
-import djehuty;
+import syntax.cmpexprunit;
 
 class AndExprUnit : ParseUnit {
 	override bool tokenFound(Token current) {

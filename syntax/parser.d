@@ -11,7 +11,7 @@
 module syntax.parser;
 
 import lex.lexer;
-import lex.tokens;
+import lex.token;
 
 import syntax.nodes;
 import syntax.moduleunit;
@@ -21,12 +21,11 @@ private:
 	Lexer _lexer;
 
 public:
-	this(Stream stream) {
-		super(stream);
-		_lexer = new DLexer(stream);
+	this(Lexer lex) {
+		_lexer = lex;
 	}
 
-	override AbstractSyntaxTree parse() {
+	AbstractSyntaxTree parse() {
 		ParseUnit parseUnit = new ModuleUnit();
 		parseUnit.lexer = _lexer;
 		return parseUnit.parse();

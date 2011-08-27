@@ -3,31 +3,28 @@
  *
  */
 
-module parsing.d.declarationunit;
+module syntax.declarationunit;
 
-import parsing.parseunit;
-import parsing.lexer;
-import parsing.token;
+import syntax.parseunit;
+import lex.lexer;
+import lex.token;
 
-import parsing.d.nodes;
-import parsing.d.tokens;
-import parsing.d.moduledeclunit;
-import parsing.d.importdeclunit;
-import parsing.d.staticunit;
-import parsing.d.versionunit;
-import parsing.d.unittestunit;
-import parsing.d.debugunit;
-import parsing.d.declarationunit;
-import parsing.d.typedeclarationunit;
-import parsing.d.enumdeclunit;
-import parsing.d.aggregatedeclunit;
-import parsing.d.classdeclunit;
-import parsing.d.interfacedeclunit;
-import parsing.d.constructorunit;
-import parsing.d.destructorunit;
-import parsing.d.pragmastmtunit;
-
-import io.console;
+import syntax.nodes;
+import syntax.moduledeclunit;
+import syntax.importdeclunit;
+import syntax.staticunit;
+import syntax.versionunit;
+import syntax.unittestunit;
+import syntax.debugunit;
+import syntax.declarationunit;
+import syntax.typedeclarationunit;
+import syntax.enumdeclunit;
+import syntax.aggregatedeclunit;
+import syntax.classdeclunit;
+import syntax.interfacedeclunit;
+import syntax.constructorunit;
+import syntax.destructorunit;
+import syntax.pragmastmtunit;
 
 class DeclarationUnit : ParseUnit {
 protected:

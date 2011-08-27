@@ -1,12 +1,9 @@
-module parsing.parseunit;
+module syntax.parseunit;
 
-import parsing.ast;
-import parsing.lexer;
-import parsing.token;
+import syntax.ast;
 
-import djehuty;
-
-import io.console;
+import lex.lexer;
+import lex.token;
 
 class ParseUnit {
 private:

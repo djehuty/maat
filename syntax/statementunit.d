@@ -5,30 +5,25 @@
  *
  */
 
-module parsing.d.statementunit;
+module syntax.statementunit;
 
-import parsing.parseunit;
-import parsing.token;
+import syntax.parseunit;
+import lex.token;
 
-import parsing.d.tokens;
-import parsing.d.nodes;
+import syntax.nodes;
 
-import parsing.d.foreachstmtunit;
-import parsing.d.forstmtunit;
-import parsing.d.switchstmtunit;
-import parsing.d.casestmtunit;
-import parsing.d.defaultstmtunit;
-import parsing.d.breakstmtunit;
-import parsing.d.gotostmtunit;
-import parsing.d.continuestmtunit;
-import parsing.d.returnstmtunit;
-import parsing.d.volatilestmtunit;
-import parsing.d.throwstmtunit;
-import parsing.d.pragmastmtunit;
-
-import io.console;
-
-import djehuty;
+import syntax.foreachstmtunit;
+import syntax.forstmtunit;
+import syntax.switchstmtunit;
+import syntax.casestmtunit;
+import syntax.defaultstmtunit;
+import syntax.breakstmtunit;
+import syntax.gotostmtunit;
+import syntax.continuestmtunit;
+import syntax.returnstmtunit;
+import syntax.volatilestmtunit;
+import syntax.throwstmtunit;
+import syntax.pragmastmtunit;
 
 class StatementUnit : ParseUnit {
 	override bool tokenFound(Token current) {

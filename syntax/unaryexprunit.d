@@ -5,19 +5,14 @@
  *
  */
 
-module parsing.d.unaryexprunit;
+module syntax.unaryexprunit;
 
-import parsing.parseunit;
-import parsing.token;
+import syntax.parseunit;
+import lex.token;
 
-import parsing.d.tokens;
-import parsing.d.nodes;
+import syntax.nodes;
 
-import parsing.d.postfixexprunit;
-
-import io.console;
-
-import djehuty;
+import syntax.postfixexprunit;
 
 class UnaryExprUnit : ParseUnit {
 	override bool tokenFound(Token current) {

@@ -5,20 +5,15 @@
  *
  */
 
-module parsing.d.switchstmtunit;
+module syntax.switchstmtunit;
 
-import parsing.parseunit;
-import parsing.token;
+import syntax.parseunit;
+import lex.token;
 
-import parsing.d.tokens;
-import parsing.d.nodes;
+import syntax.nodes;
 
-import parsing.d.expressionunit;
-import parsing.d.blockstmtunit;
-
-import io.console;
-
-import djehuty;
+import syntax.expressionunit;
+import syntax.blockstmtunit;
 
 class SwitchStmtUnit : ParseUnit {
 	override bool tokenFound(Token current) {

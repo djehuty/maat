@@ -1,10 +1,6 @@
-module parsing.d.trees;
+module syntax.trees;
 
-import parsing.ast;
-
-import djehuty;
-
-import io.console;
+import syntax.ast;
 
 class Import : AbstractSyntaxTree {
 	this(string packageName) {

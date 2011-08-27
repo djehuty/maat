@@ -5,18 +5,13 @@
  *
  */
 
-module parsing.d.pragmastmtunit;
+module syntax.pragmastmtunit;
 
-import parsing.parseunit;
-import parsing.token;
+import syntax.parseunit;
+import lex.token;
 
-import parsing.d.tokens;
-import parsing.d.nodes;
-import parsing.d.statementunit;
-
-import io.console;
-
-import djehuty;
+import syntax.nodes;
+import syntax.statementunit;
 
 class PragmaStmtUnit : ParseUnit {
 	override bool tokenFound(Token current) {

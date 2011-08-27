@@ -5,19 +5,14 @@
  *
  */
 
-module parsing.d.volatilestmtunit;
+module syntax.volatilestmtunit;
 
-import parsing.parseunit;
-import parsing.token;
+import syntax.parseunit;
+import lex.token;
 
-import parsing.d.tokens;
-import parsing.d.nodes;
+import syntax.nodes;
 
-import parsing.d.statementunit;
-
-import io.console;
-
-import djehuty;
+import syntax.statementunit;
 
 class VolatileStmtUnit : ParseUnit {
 	override bool tokenFound(Token current) {

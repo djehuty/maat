@@ -8,19 +8,16 @@
  *
  */
 
-module parsing.d.moduleunit;
+module syntax.moduleunit;
 
-import parsing.parseunit;
-import parsing.lexer;
-import parsing.token;
+import lex.lexer;
+import lex.token;
 
-import parsing.d.nodes;
-import parsing.d.tokens;
+import syntax.parseunit;
+import syntax.nodes;
 
-import parsing.d.moduledeclunit;
-import parsing.d.declarationunit;
-
-import io.console;
+import syntax.moduledeclunit;
+import syntax.declarationunit;
 
 class ModuleUnit : ParseUnit {
 protected:

@@ -5,20 +5,15 @@
  *
  */
 
-module parsing.d.destructorunit;
+module syntax.destructorunit;
 
-import parsing.parseunit;
-import parsing.token;
+import syntax.parseunit;
+import lex.token;
 
-import parsing.d.tokens;
-import parsing.d.nodes;
+import syntax.nodes;
 
-import parsing.d.parameterlistunit;
-import parsing.d.functionbodyunit;
-
-import io.console;
-
-import djehuty;
+import syntax.parameterlistunit;
+import syntax.functionbodyunit;
 
 class DestructorUnit : ParseUnit {
 	override bool tokenFound(Token current) {

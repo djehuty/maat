@@ -5,19 +5,14 @@
  *
  */
 
-module parsing.d.postfixexprlistunit;
+module syntax.postfixexprlistunit;
 
-import parsing.parseunit;
-import parsing.token;
+import syntax.parseunit;
+import lex.token;
 
-import parsing.d.tokens;
-import parsing.d.nodes;
+import syntax.nodes;
 
-import parsing.d.primaryexprunit;
-
-import io.console;
-
-import djehuty;
+import syntax.primaryexprunit;
 
 class PostFixExprListUnit : ParseUnit {
 	override bool tokenFound(Token current) {

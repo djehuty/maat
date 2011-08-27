@@ -8,7 +8,7 @@
  *
  */
 
-module parsing.d.nodes;
+module syntax.nodes;
 
 enum DNode : uint {
 	Module, // module bleh.foo; => ModuleName

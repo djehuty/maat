@@ -5,19 +5,14 @@
  *
  */
 
-module parsing.d.classbodyunit;
+module syntax.classbodyunit;
 
-import parsing.parseunit;
-import parsing.token;
+import syntax.parseunit;
+import lex.token;
 
-import parsing.d.tokens;
-import parsing.d.nodes;
+import syntax.nodes;
 
-import parsing.d.declarationunit;
-
-import io.console;
-
-import djehuty;
+import syntax.declarationunit;
 
 class ClassBodyUnit : ParseUnit {
 	override bool tokenFound(Token current) {

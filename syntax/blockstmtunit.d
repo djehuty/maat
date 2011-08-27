@@ -3,15 +3,14 @@
  *
  */
 
-module parsing.d.blockstmtunit;
+module syntax.blockstmtunit;
 
-import parsing.parseunit;
-import parsing.token;
+import syntax.parseunit;
+import lex.token;
 
-import parsing.d.tokens;
-import parsing.d.nodes;
+import syntax.nodes;
 
-import parsing.d.statementunit;
+import syntax.statementunit;
 
 class BlockStmtUnit : ParseUnit {
 	override bool tokenFound(Token current) {

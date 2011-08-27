@@ -3,18 +3,15 @@
  *
  */
 
-module parsing.d.staticunit;
+module syntax.staticunit;
 
-import parsing.parseunit;
-import parsing.token;
+import syntax.parseunit;
+import lex.token;
 
-import parsing.d.tokens;
-import parsing.d.nodes;
+import syntax.nodes;
 
-import parsing.d.staticifunit;
-import parsing.d.staticassertunit;
-
-import djehuty;
+import syntax.staticifunit;
+import syntax.staticassertunit;
 
 class StaticUnit : ParseUnit {
 	override bool tokenFound(Token current) {

@@ -5,20 +5,15 @@
  *
  */
 
-module parsing.d.enumdeclunit;
+module syntax.enumdeclunit;
 
-import parsing.parseunit;
-import parsing.token;
+import syntax.parseunit;
+import lex.token;
 
-import parsing.d.tokens;
-import parsing.d.nodes;
+import syntax.nodes;
 
-import parsing.d.typeunit;
-import parsing.d.enumbodyunit;
-
-import io.console;
-
-import djehuty;
+import syntax.typeunit;
+import syntax.enumbodyunit;
 
 class EnumDeclUnit : ParseUnit {
 	override bool tokenFound(Token current) {

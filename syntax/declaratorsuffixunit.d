@@ -5,19 +5,15 @@
  *
  */
 
-module parsing.d.declaratorsuffixunit;
+module syntax.declaratorsuffixunit;
 
-import parsing.parseunit;
-import parsing.token;
+import syntax.parseunit;
 
-import parsing.d.tokens;
-import parsing.d.nodes;
+import lex.token;
 
-import parsing.d.expressionunit;
+import syntax.nodes;
 
-import io.console;
-
-import djehuty;
+import syntax.expressionunit;
 
 class DeclaratorSuffixUnit : ParseUnit {
 	override bool tokenFound(Token current) {

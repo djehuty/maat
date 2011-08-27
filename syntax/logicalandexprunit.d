@@ -5,19 +5,14 @@
  *
  */
 
-module parsing.d.logicalandexprunit;
+module syntax.logicalandexprunit;
 
-import parsing.parseunit;
-import parsing.token;
+import syntax.parseunit;
+import lex.token;
 
-import parsing.d.tokens;
-import parsing.d.nodes;
+import syntax.nodes;
 
-import parsing.d.orexprunit;
-
-import io.console;
-
-import djehuty;
+import syntax.orexprunit;
 
 class LogicalAndExprUnit : ParseUnit {
 	override bool tokenFound(Token current) {

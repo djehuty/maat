@@ -5,19 +5,14 @@
  *
  */
 
-module parsing.d.gotostmtunit;
+module syntax.gotostmtunit;
 
-import parsing.parseunit;
-import parsing.token;
+import syntax.parseunit;
+import lex.token;
 
-import parsing.d.tokens;
-import parsing.d.nodes;
+import syntax.nodes;
 
-import parsing.d.expressionunit;
-
-import io.console;
-
-import djehuty;
+import syntax.expressionunit;
 
 class GotoStmtUnit : ParseUnit {
 	override bool tokenFound(Token current) {
