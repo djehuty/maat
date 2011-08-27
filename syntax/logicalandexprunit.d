@@ -17,9 +17,8 @@ import syntax.orexprunit;
 class LogicalAndExprUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
-			case DToken.LogicalAnd:
+			case Token.Type.LogicalAnd:
 				if (this.state == 1) {
-					Console.putln("ANDAND");
 					this.state = 0;
 					break;
 				}

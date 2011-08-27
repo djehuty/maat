@@ -17,9 +17,8 @@ import syntax.logicalandexprunit;
 class LogicalOrExprUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
-			case DToken.LogicalOr:
+			case Token.Type.LogicalOr:
 				if (this.state == 1) {
-					Console.putln("OROR");
 					this.state = 0;
 					break;
 				}

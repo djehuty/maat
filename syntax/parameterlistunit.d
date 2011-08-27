@@ -20,11 +20,11 @@ class ParameterListUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
 
-			case DToken.RightParen:
+			case Token.Type.RightParen:
 				// Done.
 				return false;
 
-			case DToken.Variadic:
+			case Token.Type.Variadic:
 				if (this.state == 2) {
 					// Error: Have two variadics?!
 					// TODO: One too many variadics.
@@ -33,7 +33,7 @@ class ParameterListUnit : ParseUnit {
 				this.state = 2;
 				break;
 
-			case DToken.Comma:
+			case Token.Type.Comma:
 				if (this.state == 0) {
 					// Error: Expected a parameter!
 					// TODO: Probably accidently removed a parameter without removing the comma.

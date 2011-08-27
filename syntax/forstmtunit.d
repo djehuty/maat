@@ -19,13 +19,12 @@ import syntax.expressionunit;
 class ForStmtUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
-			case DToken.LeftParen:
-				Console.putln("For: ");
+			case Token.Type.LeftParen:
 				auto tree = expand!(StatementUnit)();
 				this.state = 1;
 				break;
 
-			case DToken.RightParen:
+			case Token.Type.RightParen:
 				if (this.state < 3 || this.state > 4) {
 				}
 
@@ -34,7 +33,7 @@ class ForStmtUnit : ParseUnit {
 				auto tree = expand!(ScopedStmtUnit)();
 				break;
 
-			case DToken.Semicolon:
+			case Token.Type.Semicolon:
 				if (this.state == 0) {
 				}
 

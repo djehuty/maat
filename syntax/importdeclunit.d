@@ -18,8 +18,8 @@ import syntax.trees;
 class ImportDeclUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
-			case DToken.Dot:
-				if (cur_string.length > 0 && cur_char[][$-1] == '.') {
+			case Token.Type.Dot:
+				if (cur_string.length > 0 && cur_string[$-1] == '.') {
 
 					// Error: We found two dots, probably left behind after an edit.
 					error(_common_error_msg,
@@ -32,13 +32,13 @@ class ImportDeclUnit : ParseUnit {
 				}
 				break;
 
-			case DToken.Semicolon:
+			case Token.Type.Semicolon:
 				// End of declaration
 				this.root = new Import(cur_string);
 				return false;
 
-			case DToken.Identifier:
-				if (cur_string.length > 0 && cur_char[][$-1] != '.') {
+			case Token.Type.Identifier:
+				if (cur_string.length > 0 && cur_string[$-1] != '.') {
 
 					// Error: Found an identifier and then another identifier. Probably
 					// due to an editing mistake.
@@ -49,18 +49,18 @@ class ImportDeclUnit : ParseUnit {
 				}
 				else {
 					// Add the package or module name to the overall value.
-					cur_string ~= toStr(current.value);
+					cur_string ~= current.string;
 				}
 
 				break;
-			case DToken.Slice:
+			case Token.Type.Slice:
 				// Error: Found .. when we expected just one dot.
 				error(_common_error_msg,
 					"You placed two dots, did you mean to only have one?",
 					_common_error_usages);
 				break;
 
-			case DToken.Variadic:
+			case Token.Type.Variadic:
 				// Error: Found ... when we expected just one dot.
 				error(_common_error_msg,
 					"You placed three dots, did you mean to only have one?",

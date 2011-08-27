@@ -18,11 +18,10 @@ class UnittestUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
 			// Look for the beginning of a functionbody
-			case DToken.In:
-			case DToken.Out:
-			case DToken.Body:
-			case DToken.LeftCurly:
-				Console.putln("Unittest");
+			case Token.Type.In:
+			case Token.Type.Out:
+			case Token.Type.Body:
+			case Token.Type.LeftCurly:
 				lexer.push(current);
 				auto tree = expand!(FunctionBodyUnit)();
 				

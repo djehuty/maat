@@ -17,7 +17,7 @@ import syntax.expressionunit;
 class ThrowStmtUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
-			case DToken.Semicolon:
+			case Token.Type.Semicolon:
 				if (this.state == 0) {
 					// Error: No expression
 					// TODO:

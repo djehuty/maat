@@ -36,7 +36,7 @@ protected:
 		switch (current.type) {
 
 			// Module Declaration
-			case DToken.Module:
+			case Token.Type.Module:
 				
 				// Error: The module declaration is found, 
 				// but it is not at the root of the parse tree.
@@ -44,98 +44,98 @@ protected:
 				break;
 
 			// Attribute Specifier
-			case DToken.Synchronized:
-			case DToken.Deprecated:
-			case DToken.Final:
-			case DToken.Override:
-			case DToken.Auto:
-			case DToken.Scope:
-			case DToken.Private:
-			case DToken.Public:
-			case DToken.Protected:
-			case DToken.Export:
-			case DToken.Extern:
-			case DToken.Align:
+			case Token.Type.Synchronized:
+			case Token.Type.Deprecated:
+			case Token.Type.Final:
+			case Token.Type.Override:
+			case Token.Type.Auto:
+			case Token.Type.Scope:
+			case Token.Type.Private:
+			case Token.Type.Public:
+			case Token.Type.Protected:
+			case Token.Type.Export:
+			case Token.Type.Extern:
+			case Token.Type.Align:
 				break;
 
-			case DToken.Pragma:
+			case Token.Type.Pragma:
 				auto tree = expand!(PragmaStmtUnit)();
 				break;
 
 			// Static
-			case DToken.Static:
+			case Token.Type.Static:
 				auto tree = expand!(StaticUnit)();
 				break;
 
 			// Import Declaration
-			case DToken.Import:
+			case Token.Type.Import:
 				auto tree = expand!(ImportDeclUnit)();
 				break;
 
 			// Enum Declaration
-			case DToken.Enum:
+			case Token.Type.Enum:
 				auto tree = expand!(EnumDeclUnit)();
 				break;
 
 			// Template Declaration
-			case DToken.Template:
+			case Token.Type.Template:
 				break;
 
 			// Mixin Declaration
-			case DToken.Mixin:
+			case Token.Type.Mixin:
 				break;
 
 			// Class Declaration
-			case DToken.Class:
+			case Token.Type.Class:
 				auto tree = expand!(ClassDeclUnit)();
 				break;
 
 			// Interface Declaration
-			case DToken.Interface:
+			case Token.Type.Interface:
 				auto tree = expand!(InterfaceDeclUnit)();
 				break;
 
 			// Aggregate Declaration
-			case DToken.Struct:
-			case DToken.Union:
+			case Token.Type.Struct:
+			case Token.Type.Union:
 				auto tree = expand!(AggregateDeclUnit)();
 				break;
 
 			// Constructor Declaration
-			case DToken.This:
+			case Token.Type.This:
 				auto tree = expand!(ConstructorUnit)();
 				break;
 
 			// Destructor Declaration
-			case DToken.Cat:
+			case Token.Type.Cat:
 				auto tree = expand!(DestructorUnit)();
 				break;
 
 			// Version Block
-			case DToken.Version:
+			case Token.Type.Version:
 				auto tree = expand!(VersionUnit)();
 				break;
 
 			// Debug Block
-			case DToken.Debug:
+			case Token.Type.Debug:
 				auto tree = expand!(DebugUnit)();
 				break;
 
 			// Unittest Block
-			case DToken.Unittest:
+			case Token.Type.Unittest:
 				auto tree = expand!(UnittestUnit)();
 				break;
 
 			// Typedef Declaration
-			case DToken.Typedef:
+			case Token.Type.Typedef:
 				break;
 
 			// Alias Declaration
-			case DToken.Alias:
+			case Token.Type.Alias:
 				break;
 
 			// A random semicolon, can't hurt
-			case DToken.Semicolon:
+			case Token.Type.Semicolon:
 				break;
 
 			// If we cannot figure it out, it must be a Type Declaration

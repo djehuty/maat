@@ -28,90 +28,87 @@ import syntax.pragmastmtunit;
 class StatementUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
-			case DToken.Semicolon:
+			case Token.Type.Semicolon:
 				return false;
 
-			case DToken.Version:
+			case Token.Type.Version:
 				break;
-			case DToken.Debug:
+			case Token.Type.Debug:
 				break;
-			case DToken.Static:
+			case Token.Type.Static:
 				break;
-			case DToken.Class:
+			case Token.Type.Class:
 				break;
-			case DToken.Interface:
+			case Token.Type.Interface:
 				break;
-			case DToken.Struct:
-			case DToken.Union:
+			case Token.Type.Struct:
+			case Token.Type.Union:
 				break;
-			case DToken.Mixin:
+			case Token.Type.Mixin:
 				break;
-			case DToken.Template:
+			case Token.Type.Template:
 				break;
-			case DToken.Enum:
+			case Token.Type.Enum:
 				break;
-			case DToken.This:
+			case Token.Type.This:
 				break;
-			case DToken.Cat:
+			case Token.Type.Cat:
 				break;
-			case DToken.Do:
+			case Token.Type.Do:
 				break;
-			case DToken.While:
+			case Token.Type.While:
 				break;
-			case DToken.If:
+			case Token.Type.If:
 				break;
-			case DToken.With:
+			case Token.Type.With:
 				break;
-			case DToken.For:
+			case Token.Type.For:
 				auto tree = expand!(ForStmtUnit)();
 				break;
-			case DToken.Foreach:
+			case Token.Type.Foreach:
 				auto tree = expand!(ForeachStmtUnit)();
 				break;
-			case DToken.Foreach_reverse:
+			case Token.Type.Foreach_reverse:
 				break;
-			case DToken.Synchronized:
+			case Token.Type.Synchronized:
 				break;
-			case DToken.Volatile:
-				Console.putln("Volatile: ");
+			case Token.Type.Volatile:
 				auto tree = expand!(VolatileStmtUnit)();
 				break;
-			case DToken.Case:
+			case Token.Type.Case:
 				auto tree = expand!(CaseStmtUnit)();
 				break;
-			case DToken.Switch:
+			case Token.Type.Switch:
 				auto tree = expand!(SwitchStmtUnit)();
 				break;
-			case DToken.Default:
+			case Token.Type.Default:
 				auto tree = expand!(DefaultStmtUnit)();
 				break;
-			case DToken.Continue:
+			case Token.Type.Continue:
 				auto tree = expand!(ContinueStmtUnit)();
 				break;
-			case DToken.Break:
+			case Token.Type.Break:
 				auto tree = expand!(BreakStmtUnit)();
 				break;
-			case DToken.Goto:
+			case Token.Type.Goto:
 				auto tree = expand!(GotoStmtUnit)();
 				break;
-			case DToken.Return:
-				Console.putln("Return: ");
+			case Token.Type.Return:
 				auto tree = expand!(ReturnStmtUnit)();
 				break;
-			case DToken.Throw:
-				Console.putln("Throw: ");
+			case Token.Type.Throw:
 				auto tree = expand!(ThrowStmtUnit)();
 				break;
-			case DToken.Scope:
+			case Token.Type.Scope:
 				break;
-			case DToken.Try:
+			case Token.Type.Try:
 				break;
-			case DToken.Pragma:
+			case Token.Type.Pragma:
 				auto tree = expand!(PragmaStmtUnit)();
 				break;
 
 			// EWWW cases
-			case DToken.Identifier:
+			case Token.Type.Identifier:
 				break;
 			default:
 				break;

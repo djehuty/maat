@@ -22,7 +22,7 @@ class ParameterUnit : ParseUnit {
 		switch (current.type) {
 
 			// Default Initializers
-			case DToken.Assign:
+			case Token.Type.Assign:
 				if (this.state < 1) {
 					// Error: We don't have a declarator!
 					// TODO:
@@ -34,10 +34,10 @@ class ParameterUnit : ParseUnit {
 				return false;
 
 			// Figure out the specifier.
-			case DToken.In:
-			case DToken.Out:
-			case DToken.Ref:
-			case DToken.Lazy:
+			case Token.Type.In:
+			case Token.Type.Out:
+			case Token.Type.Ref:
+			case Token.Type.Lazy:
 				if (this.state >= 1) {
 					// Error: Already have an in, out, ref, or lazy specifier.
 					// TODO:

@@ -14,6 +14,7 @@ import lex.lexer;
 import lex.token;
 
 import syntax.nodes;
+import syntax.parseunit;
 import syntax.moduleunit;
 import syntax.ast;
 

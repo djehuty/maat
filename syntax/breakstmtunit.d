@@ -15,17 +15,16 @@ import syntax.nodes;
 class BreakStmtUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
-			case DToken.Semicolon:
+			case Token.Type.Semicolon:
 				// Done.
-				putln("Break: ", cur_string);
 				return false;
-			case DToken.Identifier:
+			case Token.Type.Identifier:
 				if (this.state == 1) {
 					// Error: More than one identifier?!?!
 					// TODO:
 				}
 				this.state = 1;
-				cur_string = current.value.toString();
+				cur_string = current.string;
 				break;
 			default:
 				// Error:

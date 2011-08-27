@@ -29,7 +29,7 @@ protected:
 		switch (current.type) {
 
 			// Module Declaration
-			case DToken.Module:
+			case Token.Type.Module:
 				
 				if (root !is null) {
 					// Error: The module declaration is found, 

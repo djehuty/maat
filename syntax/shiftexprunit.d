@@ -17,11 +17,10 @@ import syntax.addexprunit;
 class ShiftExprUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
-			case DToken.ShiftLeft:
-			case DToken.ShiftRight:
-			case DToken.ShiftRightSigned:
+			case Token.Type.ShiftLeft:
+			case Token.Type.ShiftRight:
+			case Token.Type.ShiftRightSigned:
 				if (this.state == 1) {
-					Console.putln("SHIFT");
 					this.state = 0;
 					break;
 				}

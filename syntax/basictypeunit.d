@@ -17,45 +17,43 @@ class BasicTypeUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 
 		switch (current.type) {
-			case DToken.Bool:
-			case DToken.Byte:
-			case DToken.Ubyte:
-			case DToken.Short:
-			case DToken.Ushort:
-			case DToken.Int:
-			case DToken.Uint:
-			case DToken.Long:
-			case DToken.Ulong:
-			case DToken.Char:
-			case DToken.Wchar:
-			case DToken.Dchar:
-			case DToken.Float:
-			case DToken.Double:
-			case DToken.Real:
-			case DToken.Ifloat:
-			case DToken.Idouble:
-			case DToken.Ireal:
-			case DToken.Cfloat:
-			case DToken.Cdouble:
-			case DToken.Creal:
-			case DToken.Void:
+			case Token.Type.Bool:
+			case Token.Type.Byte:
+			case Token.Type.Ubyte:
+			case Token.Type.Short:
+			case Token.Type.Ushort:
+			case Token.Type.Int:
+			case Token.Type.Uint:
+			case Token.Type.Long:
+			case Token.Type.Ulong:
+			case Token.Type.Char:
+			case Token.Type.Wchar:
+			case Token.Type.Dchar:
+			case Token.Type.Float:
+			case Token.Type.Double:
+			case Token.Type.Real:
+			case Token.Type.Ifloat:
+			case Token.Type.Idouble:
+			case Token.Type.Ireal:
+			case Token.Type.Cfloat:
+			case Token.Type.Cdouble:
+			case Token.Type.Creal:
+			case Token.Type.Void:
 				// We have a basic type
-				Console.putln("BasicType ");
-
 				// Done.
 				return false;
 
-			case DToken.Identifier:
+			case Token.Type.Identifier:
 				// Named Type, could be a scoped list
 				// TODO:
 				break;
 
 			// Scope Operator
-			case DToken.Dot:
+			case Token.Type.Dot:
 				// TODO:
 				break;
 
-			case DToken.Typeof:
+			case Token.Type.Typeof:
 				// TypeOfExpression
 				// TODO: this
 				break;

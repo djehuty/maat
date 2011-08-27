@@ -21,7 +21,7 @@ class FunctionBodyUnit : ParseUnit {
 		switch (current.type) {
 
 			// We always look FIRST for a left curly brace
-			case DToken.LeftCurly:
+			case Token.Type.LeftCurly:
 				if (this.state % 2 == 1) {
 					// Error: Left curly already found.
 					// TODO:
@@ -30,7 +30,7 @@ class FunctionBodyUnit : ParseUnit {
 				break;
 
 			// We are always looking for the end of the block.
-			case DToken.RightCurly:
+			case Token.Type.RightCurly:
 				if (this.state % 2 == 0) {
 					// Error: Left curly not found!
 					// TODO:
@@ -43,11 +43,11 @@ class FunctionBodyUnit : ParseUnit {
 				}
 
 			// TODO: in, out, body, blockstatement foo
-			case DToken.In:
+			case Token.Type.In:
 				break;
-			case DToken.Out:
+			case Token.Type.Out:
 				break;
-			case DToken.Body:
+			case Token.Type.Body:
 				break;
 
 			default:

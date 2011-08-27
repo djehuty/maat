@@ -19,7 +19,7 @@ class StaticIfUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		if (this.state == 3) {
 			// We are looking for declarations
-			if (current.type == DToken.RightCurly) {
+			if (current.type == Token.Type.RightCurly) {
 				// Done.
 				return false;
 			}
@@ -34,7 +34,7 @@ class StaticIfUnit : ParseUnit {
 
 		switch (current.type) {
 			// Look for a left paren first. It must exist.
-			case DToken.LeftParen:
+			case Token.Type.LeftParen:
 				if (this.state == 1) {
 					// Error: Too many left parentheses.
 					// TODO:
@@ -49,7 +49,7 @@ class StaticIfUnit : ParseUnit {
 				auto tree = expand!(AssignExprUnit)();
 				break;
 
-			case DToken.RightParen:
+			case Token.Type.RightParen:
 				if (this.state == 0) {
 					// Error: Do not have a left paren.
 					// TODO: Probably forgot a left parenthesis.
@@ -65,7 +65,7 @@ class StaticIfUnit : ParseUnit {
 
 			// For declaring the rest of the file under this conditional block
 			// static if (foo):
-			case DToken.Colon:
+			case Token.Type.Colon:
 				if (this.state == 0) {
 					// Error: Do not have a condition!
 					// TODO:
@@ -83,7 +83,7 @@ class StaticIfUnit : ParseUnit {
 				return false;
 
 			// For specifying a declaration block for this condition
-			case DToken.LeftCurly:
+			case Token.Type.LeftCurly:
 				if (this.state == 0) {
 					// Error: Do not have a condition!
 					// TODO:

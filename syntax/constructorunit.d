@@ -20,7 +20,7 @@ class ConstructorUnit : ParseUnit {
 		switch (current.type) {
 
 			// First, we look for the left paren of the parameter list
-			case DToken.LeftParen:
+			case Token.Type.LeftParen:
 				if (this.state != 0) {
 					// It should be the first thing!
 					// Error: Too many left parentheses!
@@ -29,7 +29,7 @@ class ConstructorUnit : ParseUnit {
 				break;
 
 			// After finding a left paren, look for a right one
-			case DToken.RightParen:
+			case Token.Type.RightParen:
 				if (this.state == 0) {
 					// Error: No left paren found before this right one!
 					// TODO:
@@ -42,7 +42,7 @@ class ConstructorUnit : ParseUnit {
 				break;
 
 			// Look for the end of a bodyless declaration
-			case DToken.Semicolon:
+			case Token.Type.Semicolon:
 				if (this.state == 0) {
 					// Error: Have not found a left paren!
 					// TODO:
@@ -55,10 +55,10 @@ class ConstructorUnit : ParseUnit {
 				return false;
 
 			// Function body
-			case DToken.In:
-			case DToken.Out:
-			case DToken.Body:
-			case DToken.LeftCurly:
+			case Token.Type.In:
+			case Token.Type.Out:
+			case Token.Type.Body:
+			case Token.Type.LeftCurly:
 				// Have we found a parameter list?
 				if (this.state == 0) {
 					// Error: No parameter list given at all
@@ -75,7 +75,6 @@ class ConstructorUnit : ParseUnit {
 
 				// Function body!
 				lexer.push(current);
-				Console.putln("Constructor");
 				auto tree = expand!(FunctionBodyUnit)();
 
 				// Done.

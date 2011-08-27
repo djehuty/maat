@@ -20,49 +20,48 @@ class TypeDeclarationUnit : ParseUnit {
 			// Looking for a basic type or identifier
 			case 0:
 				switch (current.type) {
-					case DToken.Bool:
-					case DToken.Byte:
-					case DToken.Ubyte:
-					case DToken.Short:
-					case DToken.Ushort:
-					case DToken.Int:
-					case DToken.Uint:
-					case DToken.Long:
-					case DToken.Ulong:
-					case DToken.Char:
-					case DToken.Wchar:
-					case DToken.Dchar:
-					case DToken.Float:
-					case DToken.Double:
-					case DToken.Real:
-					case DToken.Ifloat:
-					case DToken.Idouble:
-					case DToken.Ireal:
-					case DToken.Cfloat:
-					case DToken.Cdouble:
-					case DToken.Creal:
-					case DToken.Void:
+					case Token.Type.Bool:
+					case Token.Type.Byte:
+					case Token.Type.Ubyte:
+					case Token.Type.Short:
+					case Token.Type.Ushort:
+					case Token.Type.Int:
+					case Token.Type.Uint:
+					case Token.Type.Long:
+					case Token.Type.Ulong:
+					case Token.Type.Char:
+					case Token.Type.Wchar:
+					case Token.Type.Dchar:
+					case Token.Type.Float:
+					case Token.Type.Double:
+					case Token.Type.Real:
+					case Token.Type.Ifloat:
+					case Token.Type.Idouble:
+					case Token.Type.Ireal:
+					case Token.Type.Cfloat:
+					case Token.Type.Cdouble:
+					case Token.Type.Creal:
+					case Token.Type.Void:
 						// We have a basic type... look for Declarator
-						Console.putln("TypeDecl: basic type");
 						auto tree = expand!(DeclaratorUnit)();
 						this.state = 1;
 						break;
 
-					case DToken.Identifier:
+					case Token.Type.Identifier:
 						// Named Type
 						break;
 
-					case DToken.Typeof:
+					case Token.Type.Typeof:
 						// TypeOfExpression
 						// TODO: this
 						break;
 
 					// Invalid token for this state
-					case DToken.Assign:
+					case Token.Type.Assign:
 						break;
 
 					// Invalid token for this state
-					case DToken.Semicolon:
+					case Token.Type.Semicolon:
 						break;
 
 					default:
@@ -78,13 +77,13 @@ class TypeDeclarationUnit : ParseUnit {
 			// for function literals.
 			case 1:
 				switch(current.type) {
-					case DToken.Semicolon:
+					case Token.Type.Semicolon:
 						// Done
 						return false;
-					case DToken.Comma:
+					case Token.Type.Comma:
 						// XXX: Dunno
 						return false;
-					case DToken.Assign:
+					case Token.Type.Assign:
 						// Initializer
 //						auto tree = expand!(InitializerUnit)();
 						this.state = 4;

@@ -21,7 +21,7 @@ class DestructorUnit : ParseUnit {
 
 
 			// First, we look for the left paren of the parameter list
-			case DToken.LeftParen:
+			case Token.Type.LeftParen:
 				if (!thisFound) {
 					// Error: Need this after ~
 					error(_common_error_msg,
@@ -39,7 +39,7 @@ class DestructorUnit : ParseUnit {
 				break;
 
 				// After finding a left paren, look for a right one
-			case DToken.RightParen:
+			case Token.Type.RightParen:
 				if (!thisFound) {
 					// Error: Need this after ~
 					error(_common_error_msg,
@@ -62,7 +62,7 @@ class DestructorUnit : ParseUnit {
 				break;
 
 				// Look for the end of a bodyless declaration
-			case DToken.Semicolon:
+			case Token.Type.Semicolon:
 				if (!thisFound) {
 					// Error: Need this after ~
 					error(_common_error_msg,
@@ -85,10 +85,10 @@ class DestructorUnit : ParseUnit {
 				return false;
 
 				// Function body
-			case DToken.In:
-			case DToken.Out:
-			case DToken.Body:
-			case DToken.LeftCurly:
+			case Token.Type.In:
+			case Token.Type.Out:
+			case Token.Type.Body:
+			case Token.Type.LeftCurly:
 				// Have we found a parameter list?
 				if (!thisFound) {
 					// Error: Need this after ~
@@ -113,13 +113,12 @@ class DestructorUnit : ParseUnit {
 				lexer.push(current);
 				auto tree = expand!(FunctionBodyUnit)();
 
-				Console.putln("Destructor");
 				// Done.
 				return false;
 
 				// We are only given that the first token, ~, is found...
 				// So, we must ensure that the This keyword is the first item
-			case DToken.This:
+			case Token.Type.This:
 				if (this.state == 0 && !thisFound) {
 					thisFound = true;
 				}

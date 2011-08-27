@@ -17,11 +17,10 @@ import syntax.unaryexprunit;
 class MulExprUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
-			case DToken.Mul:
-			case DToken.Div:
-			case DToken.Mod:
+			case Token.Type.Mul:
+			case Token.Type.Div:
+			case Token.Type.Mod:
 				if (this.state == 1) {
-					Console.putln("MUL");
 					this.state = 0;
 					break;
 				}

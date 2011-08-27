@@ -19,16 +19,16 @@ class ScopedStmtUnit : ParseUnit {
 		switch (current.type) {
 
 			// Statement Blocks
-			case DToken.LeftCurly:
+			case Token.Type.LeftCurly:
 				this.state = 1;
 				break;
 
-			case DToken.RightCurly:
+			case Token.Type.RightCurly:
 				if (this.state != 1) {
 				}
 				return false;
 
-			case DToken.Semicolon:
+			case Token.Type.Semicolon:
 				// Error.
 				return false;
 

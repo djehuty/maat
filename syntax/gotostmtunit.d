@@ -17,7 +17,7 @@ import syntax.expressionunit;
 class GotoStmtUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
-			case DToken.Semicolon:
+			case Token.Type.Semicolon:
 				if (this.state == 0) {
 					// Error.
 					// TODO:
@@ -28,21 +28,18 @@ class GotoStmtUnit : ParseUnit {
 				}
 				// Done.
 				return false;
-			case DToken.Identifier:
+			case Token.Type.Identifier:
 				if (this.state != 0) {
 					// Error
 					// TODO:
 				}
-				Console.putln("Goto: ", current.value);
-				cur_string = current.value.toString();
+				cur_string = current.string;
 				this.state = 1;
 				break;
-			case DToken.Default:
-				Console.putln("Goto: Default");
+			case Token.Type.Default:
 				this.state = 2;
 				break;
-			case DToken.Case:
-				Console.putln("Goto: Case");
+			case Token.Type.Case:
 				this.state = 2;
 				break;
 			default:

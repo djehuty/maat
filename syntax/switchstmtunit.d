@@ -18,20 +18,19 @@ import syntax.blockstmtunit;
 class SwitchStmtUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
-			case DToken.LeftParen:
+			case Token.Type.LeftParen:
 				if (this.state != 0) {
 				}
 
-				Console.putln("Switch:");
 				auto tree = expand!(ExpressionUnit)();
 				this.state = 1;
 				break;
-			case DToken.RightParen:
+			case Token.Type.RightParen:
 				if (this.state != 1) {
 				}
 				this.state = 2;
 				break;
-			case DToken.LeftCurly:
+			case Token.Type.LeftCurly:
 				if (this.state == 0) {
 				}
 				if (this.state == 1) {

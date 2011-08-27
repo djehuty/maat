@@ -19,26 +19,26 @@ import syntax.typeunit;
 class ForeachStmtUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
-			case DToken.LeftParen:
+			case Token.Type.LeftParen:
 				if (this.state > 0) {
 					// Error: Already found left parenthesis.
 					// TODO:
 				}
 				this.state = 1;
 				break;
-			case DToken.RightParen:
+			case Token.Type.RightParen:
 				if (this.state != 5) {
 				}
 				auto tree = expand!(ScopedStmtUnit)();
 				return false;
-			case DToken.Ref:
+			case Token.Type.Ref:
 				if (this.state == 0) {
 				}
 				else if (this.state >= 2) {
 				}
 				this.state = 2;
 				break;
-			case DToken.Identifier:
+			case Token.Type.Identifier:
 				if (this.state == 0) {
 				}
 				if (this.state > 3) {
@@ -50,7 +50,7 @@ class ForeachStmtUnit : ParseUnit {
 					// This needs lookahead to know it isn't a type
 					Token foo = lexer.pop();
 					lexer.push(foo);
-					if (foo.type == DToken.Comma || foo.type == DToken.Semicolon) {
+					if (foo.type == Token.Type.Comma || foo.type == Token.Type.Semicolon) {
 						this.state = 4;
 					}
 					else {
@@ -64,16 +64,15 @@ class ForeachStmtUnit : ParseUnit {
 				}
 
 				if (this.state == 4) {
-					Console.putln("Foreach: identifier: ", current.value);
 				}
 				break;
-			case DToken.Semicolon:
+			case Token.Type.Semicolon:
 				if (this.state < 4) {
 				}
 				auto tree = expand!(ExpressionUnit)();
 				this.state = 5;
 				break;
-			case DToken.Comma:
+			case Token.Type.Comma:
 				if (this.state != 4) {
 				}
 				this.state = 1;

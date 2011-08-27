@@ -22,13 +22,12 @@ class DeclaratorUnit : ParseUnit {
 				switch (current.type) {
 
 					// Name
-					case DToken.Identifier:
-						Console.putln("TypeDecl: Name: ", current.value);
+					case Token.Type.Identifier:
 						this.state = 1;
 						break;
 
 					// Nested Declarators
-					case DToken.LeftParen:
+					case Token.Type.LeftParen:
 						auto tree = expand!(DeclaratorUnit)();
 						this.state = 3;
 						break;
@@ -45,8 +44,8 @@ class DeclaratorUnit : ParseUnit {
 				lexer.push(current);
 				switch (current.type) {
 					// This hints to the next part being a DeclaratorSuffix
-					case DToken.LeftBracket:
-					case DToken.LeftParen:
+					case Token.Type.LeftBracket:
+					case Token.Type.LeftParen:
 						auto tree = expand!(DeclaratorSuffixUnit)();
 						break;
 					default:
@@ -60,8 +59,8 @@ class DeclaratorUnit : ParseUnit {
 				lexer.push(current);
 				switch(current.type) {
 					// We have another declarator
-					case DToken.Identifier:
-					case DToken.LeftParen:
+					case Token.Type.Identifier:
+					case Token.Type.LeftParen:
 						auto tree = expand!(DeclaratorUnit)();
 						break;
 
@@ -75,7 +74,7 @@ class DeclaratorUnit : ParseUnit {
 			// parenthesis.
 			case 3:
 				switch(current.type) {
-					case DToken.RightParen:
+					case Token.Type.RightParen:
 						// Good
 						this.state = 1;
 						break;

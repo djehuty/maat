@@ -22,10 +22,10 @@ class DeclaratorSuffixUnit : ParseUnit {
 				// Looking for ( or [
 				// Types which have () or [] after them
 				switch (current.type) {
-					case DToken.LeftParen:
+					case Token.Type.LeftParen:
 						this.state = 1;
 						break;
-					case DToken.LeftBracket:
+					case Token.Type.LeftBracket:
 						this.state = 2;
 						break;
 					default:
@@ -37,9 +37,8 @@ class DeclaratorSuffixUnit : ParseUnit {
 				// We have found a ( so we are searching for
 				// a right parenthesis
 				switch (current.type) {
-					case DToken.RightParen:
+					case Token.Type.RightParen:
 						// Done
-						Console.putln("()");
 						break;
 					default:
 						// This is a parameter list
@@ -53,15 +52,14 @@ class DeclaratorSuffixUnit : ParseUnit {
 				// We have found a [ so we are searching for
 				// a right bracket.
 				switch (current.type) {
-					case DToken.RightBracket:
-						Console.putln("[]");
+					case Token.Type.RightBracket:
 						// Done
 						return false;
 
-					case DToken.Dot:
+					case Token.Type.Dot:
 						break;
 
-					case DToken.Identifier:
+					case Token.Type.Identifier:
 						break;
 
 					default:

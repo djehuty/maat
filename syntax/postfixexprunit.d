@@ -17,23 +17,22 @@ import syntax.postfixexprlistunit;
 class PostFixExprUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
-			case DToken.Null:
-			case DToken.True:
-			case DToken.False:
-			case DToken.IntegerLiteral:
-			case DToken.Dollar:
-			case DToken.FloatingPointLiteral:
-				Console.putln("Expression: ", current.value);
+			case Token.Type.Null:
+			case Token.Type.True:
+			case Token.Type.False:
+			case Token.Type.IntegerLiteral:
+			case Token.Type.Dollar:
+			case Token.Type.FloatingPointLiteral:
 				return false;	
-			case DToken.Mixin:
+			case Token.Type.Mixin:
 				// TODO: MixinExprUnit
 //				auto tree = expand!(MixinExprUnit)();
 				break;
-			case DToken.Assert:
+			case Token.Type.Assert:
 				// TODO: AssertExprUnit
 //				auto tree = expand!(AssertExprUnit)();
 				break;
-			case DToken.Is:
+			case Token.Type.Is:
 				// TODO: IsExprUnit
 //				auto tree = expand!(IsExprUnit)();
 				break;

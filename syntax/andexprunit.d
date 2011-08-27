@@ -17,9 +17,8 @@ import syntax.cmpexprunit;
 class AndExprUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
-			case DToken.And:
+			case Token.Type.And:
 				if (this.state == 1) {
-					Console.putln("AND");
 					this.state = 0;
 					break;
 				}

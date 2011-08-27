@@ -17,9 +17,8 @@ import syntax.xorexprunit;
 class OrExprUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
-			case DToken.Or:
+			case Token.Type.Or:
 				if (this.state == 1) {
-					Console.putln("OR");
 					this.state = 0;
 					break;
 				}

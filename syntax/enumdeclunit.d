@@ -20,17 +20,16 @@ class EnumDeclUnit : ParseUnit {
 		// Looking for a name, or a colon for a type, or a curly
 		// braces for the enum body
 		switch (current.type) {
-			case DToken.Identifier:
+			case Token.Type.Identifier:
 				// The name of the enum
 				if (this.state >= 1) {
 					// We are already passed the name stage.
 					// XXX: error
 				}
 				this.state = 1;
-				cur_string = current.value.toString();
-				Console.putln("Enum: ", current.value);
+				cur_string = current.string;
 				break;
-			case DToken.Colon:
+			case Token.Type.Colon:
 				// The type of the enum
 				if (this.state >= 2) {
 					// Already passed the type stage.
@@ -39,7 +38,7 @@ class EnumDeclUnit : ParseUnit {
 				this.state = 2;
 				auto tree = expand!(TypeUnit)();
 				break;
-			case DToken.Semicolon:
+			case Token.Type.Semicolon:
 				if (this.state == 0) {
 					// Need some kind of information about the enum.
 					error(_common_error_msg,
@@ -49,7 +48,7 @@ class EnumDeclUnit : ParseUnit {
 				}
 				// Done.
 				return false;
-			case DToken.LeftCurly:
+			case Token.Type.LeftCurly:
 				// We are going into the body of the enum
 				auto tree = expand!(EnumBodyUnit)();
 				// Done.

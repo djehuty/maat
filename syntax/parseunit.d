@@ -22,7 +22,7 @@ private:
 	Token current;
 
 	void _printerror(char[] msg, char[] desc, char[][] usages, uint line, uint column) {
-		Console.putln("Syntax Error: file.d");
+		/*Console.putln("Syntax Error: file.d");
 		Console.putln("   Line: ", line, ": ", _lexer.line(line));
 		uint position = column;
 		position = position + toStr(line).length + 10;
@@ -40,7 +40,7 @@ private:
 			foreach(usage; usages[1..$]) {
 				Console.putln("         ", usage);
 			}
-		}
+		}*/
 		_error = true;
 	}
 

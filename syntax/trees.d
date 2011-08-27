@@ -4,7 +4,6 @@ import syntax.ast;
 
 class Import : AbstractSyntaxTree {
 	this(char[] packageName) {
-		Console.putln("Import: ", packageName);
 		_packageName = packageName;
 	}
 

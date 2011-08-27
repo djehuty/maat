@@ -15,7 +15,7 @@ import syntax.statementunit;
 class BlockStmtUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
-			case DToken.RightCurly:
+			case Token.Type.RightCurly:
 				// Done.
 				return false;
 			default:

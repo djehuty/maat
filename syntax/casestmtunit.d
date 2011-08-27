@@ -17,7 +17,7 @@ import syntax.expressionunit;
 class CaseStmtUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
-			case DToken.Colon:
+			case Token.Type.Colon:
 				if (this.state == 0) {
 					// Error:
 					// we have 'case: '
@@ -32,7 +32,6 @@ class CaseStmtUnit : ParseUnit {
 					// Error: Multiple expressions
 					// TODO:
 				}
-				Console.putln("Case: ");
 				auto tree = expand!(ExpressionUnit)();
 				this.state = 1;
 				break;

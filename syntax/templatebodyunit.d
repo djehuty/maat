@@ -18,18 +18,18 @@ class TemplateBodyUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
 			// We are always looking for the end of the body.
-			case DToken.RightCurly:
+			case Token.Type.RightCurly:
 				// Done.
 				return false;
 
 			// We cannot have allocators in templates!
-			case DToken.New:
+			case Token.Type.New:
 				// Error: No allocators allowed.
 				// TODO:
 				break;
 
 			// Ditto for a delete token for deallocator.
-			case DToken.Delete:
+			case Token.Type.Delete:
 				// Error: No deallocators allowed.
 				// TODO:
 				break;

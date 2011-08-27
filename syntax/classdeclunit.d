@@ -19,14 +19,14 @@ class ClassDeclUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
 			// The start of the body
-			case DToken.LeftCurly:
+			case Token.Type.LeftCurly:
 				auto tree = expand!(ClassBodyUnit)();
 
 				// Done.
 				return false;
 
 			// Look for a template parameter list
-			case DToken.LeftParen:
+			case Token.Type.LeftParen:
 				if (cur_string == "") {
 					// Error: No name?
 					// TODO:
@@ -41,7 +41,7 @@ class ClassDeclUnit : ParseUnit {
 				break;
 
 			// Look for inherited classes
-			case DToken.Colon:
+			case Token.Type.Colon:
 				if (cur_string == "") {
 					// Error: No name?
 					// TODO:
@@ -56,13 +56,12 @@ class ClassDeclUnit : ParseUnit {
 				break;
 
 			// Name
-			case DToken.Identifier:
+			case Token.Type.Identifier:
 				if (cur_string != "") {
 					// Error: Two names?
 					// TODO:
 				}
-				cur_string = current.value.toString();
-				Console.putln("Class: ", current.value);
+				cur_string = current.string;
 				break;
 
 			default:

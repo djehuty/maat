@@ -15,7 +15,7 @@ import syntax.nodes;
 class ExpressionUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
-			case DToken.Dot:
+			case Token.Type.Dot:
 				break;
 
 			default:

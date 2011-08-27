@@ -15,8 +15,7 @@ import syntax.nodes;
 class DefaultStmtUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
-			case DToken.Colon:
-				Console.putln("Default:");
+			case Token.Type.Colon:
 				// Done.
 				return false;
 			default:

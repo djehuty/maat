@@ -19,23 +19,22 @@ class EnumBodyUnit : ParseUnit {
 		switch (current.type) {
 
 			// Looking for a new member name
-			case DToken.Identifier:
+			case Token.Type.Identifier:
 				if (this.state == 1) {
 					// Error: A name next to a name??
 				}
 				this.state = 1;
-				Console.putln("Member: ", current.value);
 				break;
-			case DToken.RightCurly:
+			case Token.Type.RightCurly:
 				// Done.
 				return false;
-			case DToken.Comma:
+			case Token.Type.Comma:
 				if (this.state != 1) {
 					// Error: A comma by itself?
 				}
 				this.state = 0;
 				break;
-			case DToken.Assign:
+			case Token.Type.Assign:
 				if (this.state != 1) {
 					// Error: An equals by itself?
 				}

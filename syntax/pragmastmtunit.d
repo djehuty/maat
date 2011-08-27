@@ -16,23 +16,22 @@ import syntax.statementunit;
 class PragmaStmtUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
-			case DToken.LeftParen:
+			case Token.Type.LeftParen:
 				if(this.state >= 1){
 					//XXX: Error
 				}
 
 				this.state = 1;
 				break;
-			case DToken.Identifier:
+			case Token.Type.Identifier:
 				if(this.state != 1){
 					//XXX: Error
 				}
 
-				cur_string = current.value.toString();
-				Console.putln("Pragma: ", current.value);
+				cur_string = current.string;
 				this.state = 2;
 				break;
-			case DToken.RightParen:
+			case Token.Type.RightParen:
 				if(this.state != 2 && this.state != 3){
 					//XXX: Error
 				}
@@ -43,7 +42,7 @@ class PragmaStmtUnit : ParseUnit {
 
 				// Done.
 				return false;
-			case DToken.Comma:
+			case Token.Type.Comma:
 				if(this.state != 2){
 					//XXX: Error
 				}

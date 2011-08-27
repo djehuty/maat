@@ -17,7 +17,7 @@ import syntax.statementunit;
 class VolatileStmtUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
-			case DToken.Semicolon:
+			case Token.Type.Semicolon:
 				// Done.
 				return false;
 

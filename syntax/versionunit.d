@@ -19,7 +19,7 @@ class VersionUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		if (this.state == 4) {
 			// We are looking for declarations
-			if (current.type == DToken.RightCurly) {
+			if (current.type == Token.Type.RightCurly) {
 				// Done.
 				return false;
 			}
@@ -35,7 +35,7 @@ class VersionUnit : ParseUnit {
 		switch (current.type) {
 			// We could be declaring a version
 			// version = Release; etc
-			case DToken.Assign:
+			case Token.Type.Assign:
 				if (this.state == 1) {
 					// Error: Already started to use an identifier
 					// TODO:
@@ -54,7 +54,7 @@ class VersionUnit : ParseUnit {
 				break;
 
 			// Look for a left paren first. It must exist.
-			case DToken.LeftParen:
+			case Token.Type.LeftParen:
 				if (this.state == 1) {
 					// Error: Too many left parentheses.
 					// TODO:
@@ -71,7 +71,7 @@ class VersionUnit : ParseUnit {
 				break;
 
 			// For version assignment, we are looking for a semicolon to end it.
-			case DToken.Semicolon:
+			case Token.Type.Semicolon:
 				if (this.state == 5) {
 					// Error: No identifier given.
 					// TODO:
@@ -99,12 +99,11 @@ class VersionUnit : ParseUnit {
 				return false;
 
 			// Looking for some literal or identifier to use as the version
-			case DToken.Identifier:
-			case DToken.IntegerLiteral:
+			case Token.Type.Identifier:
+			case Token.Type.IntegerLiteral:
 				if (this.state == 5) {
 					// We are assigning a version
-					cur_string = current.value.toString();
-					Console.putln("Version enabled: ", current.value);
+					cur_string = current.string;
 					this.state = 6;
 				}
 				else if (this.state == 6) {
@@ -124,13 +123,12 @@ class VersionUnit : ParseUnit {
 					// TODO: Probably forgot a curly brace.
 				}
 				else {
-					Console.putln("Version: ", current.value);
-					cur_string = current.value.toString();
+					cur_string = current.string;
 					this.state = 2;
 				}
 				break;
 
-			case DToken.RightParen:
+			case Token.Type.RightParen:
 				if (this.state == 0) {
 					// Error: Do not have a left paren.
 					// TODO: Probably forgot a left parenthesis.
@@ -146,7 +144,7 @@ class VersionUnit : ParseUnit {
 
 			// For declaring the rest of the file under this conditional block
 			// static if (foo):
-			case DToken.Colon:
+			case Token.Type.Colon:
 				if (this.state == 0) {
 					// Error: Do not have a condition!
 					// TODO:
@@ -168,7 +166,7 @@ class VersionUnit : ParseUnit {
 				return false;
 
 			// For specifying a declaration block for this condition
-			case DToken.LeftCurly:
+			case Token.Type.LeftCurly:
 				if (this.state == 0) {
 					// Error: Do not have a condition!
 					// TODO:

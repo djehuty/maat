@@ -19,7 +19,7 @@ class DebugUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		if (this.state == 4) {
 			// We are looking for declarations
-			if (current.type == DToken.RightCurly) {
+			if (current.type == Token.Type.RightCurly) {
 				// Done.
 				return false;
 			}
@@ -34,7 +34,7 @@ class DebugUnit : ParseUnit {
 
 		switch (current.type) {
 			// Look for a left paren first. It must exist.
-			case DToken.LeftParen:
+			case Token.Type.LeftParen:
 				if (this.state == 1) {
 					// Error: Too many left parentheses.
 					// TODO:
@@ -51,7 +51,7 @@ class DebugUnit : ParseUnit {
 				break;
 
 			// For version assignment, we are looking for a semicolon to end it.
-			case DToken.Semicolon:
+			case Token.Type.Semicolon:
 				if (this.state == 5) {
 					// Error: No identifier given.
 					// TODO:
@@ -79,8 +79,8 @@ class DebugUnit : ParseUnit {
 				return false;
 
 			// Looking for some literal or identifier to use as the version
-			case DToken.Identifier:
-			case DToken.IntegerLiteral:
+			case Token.Type.Identifier:
+			case Token.Type.IntegerLiteral:
 				if (this.state == 0) {
 					// Error: No left parenthesis.
 					// TODO: Probably forgot it!
@@ -94,13 +94,12 @@ class DebugUnit : ParseUnit {
 					// TODO: Probably forgot a curly brace.
 				}
 				else {
-					Console.putln("Debug: ", current.value);
-					cur_string = current.value.toString();
+					cur_string = current.string;
 					this.state = 2;
 				}
 				break;
 
-			case DToken.RightParen:
+			case Token.Type.RightParen:
 				if (this.state == 0) {
 					// Error: Do not have a left paren.
 					// TODO: Probably forgot a left parenthesis.
@@ -116,7 +115,7 @@ class DebugUnit : ParseUnit {
 
 			// For declaring the rest of the file under this conditional block
 			// static if (foo):
-			case DToken.Colon:
+			case Token.Type.Colon:
 				if (this.state == 1) {
 					// Error: Do not have an identifier.
 					// TODO:
@@ -132,7 +131,6 @@ class DebugUnit : ParseUnit {
 
 				if (this.state == 0) {
 					// debug:
-					Console.putln("Debug: anonymous");
 				}
 				else {
 					// debug(foo):
@@ -142,7 +140,7 @@ class DebugUnit : ParseUnit {
 				return false;
 
 			// For specifying a declaration block for this condition
-			case DToken.LeftCurly:
+			case Token.Type.LeftCurly:
 				if (this.state == 1) {
 					// Error: Do not have an identifier.
 					// TODO:
@@ -154,7 +152,6 @@ class DebugUnit : ParseUnit {
 
 				if (this.state == 0) {
 					// debug {...}
-					Console.putln("Debug: anonymous");
 				}
 				else {
 					// debug(foo) {...}

@@ -17,9 +17,8 @@ import syntax.andexprunit;
 class XorExprUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
-			case DToken.Xor:
+			case Token.Type.Xor:
 				if (this.state == 1) {
-					Console.putln("XOR");
 					this.state = 0;
 					break;
 				}

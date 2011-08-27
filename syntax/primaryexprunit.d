@@ -15,9 +15,8 @@ import syntax.nodes;
 class PrimaryExprUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
-			case DToken.StringLiteral:
-				Console.putln("Expression: \"", current.value, "\"");
-				cur_string = current.value.toString();
+			case Token.Type.StringLiteral:
+				cur_string = current.string;
 				return false;
 			default:
 				break;

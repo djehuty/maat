@@ -19,21 +19,20 @@ class AggregateDeclUnit : ParseUnit {
 		switch (current.type) {
 
 			// We have found the name
-			case DToken.Identifier:
+			case Token.Type.Identifier:
 				if (cur_string != "") {
 					// Error: Two names?
 				}
-				Console.putln("Struct: ", current.value);
-				cur_string = current.value.toString();
+				cur_string = current.string;
 				break;
 
 			// We have found the left brace, so parse the body
-			case DToken.LeftCurly:
+			case Token.Type.LeftCurly:
 				auto tree = expand!(AggregateBodyUnit)();
 				// Done.
 				return false;
 
-			case DToken.Semicolon:
+			case Token.Type.Semicolon:
 				if (cur_string == "") {
 					// Error: No name?
 				}
