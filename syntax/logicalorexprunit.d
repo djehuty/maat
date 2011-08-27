@@ -14,6 +14,13 @@ import syntax.nodes;
 
 import syntax.logicalandexprunit;
 
+/*
+
+	LogicalOrExpr => LogicalOrExpr || LogicalAndExpr
+	               | LogicalAndExpr
+
+*/
+
 class LogicalOrExprUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
