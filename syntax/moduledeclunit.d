@@ -18,6 +18,12 @@ import syntax.nodes;
 
 import tango.io.Stdout;
 
+/*
+
+   ModuleDecl => ( . Identifier )+ ;
+
+*/
+
 class ModuleDeclUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
