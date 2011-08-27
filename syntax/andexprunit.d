@@ -16,8 +16,8 @@ import syntax.cmpexprunit;
 
 /*
 
-	AndExpr => ( & CmpExprUnit )+
-	         | CmpExprUnit
+	AndExpr => AndExpr & CmpExpr
+	         | CmpExpr
 
 */
 

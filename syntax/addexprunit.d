@@ -15,6 +15,15 @@ import syntax.nodes;
 
 import syntax.mulexprunit;
 
+/*
+
+	AddExpr => AddExpr + MulExpr
+	         | AddExpr - MulExpr
+			 | AddExpr ~ MulExpr
+	         | MulExpr
+
+*/
+
 class AddExprUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
