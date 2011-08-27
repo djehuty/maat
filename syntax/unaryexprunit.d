@@ -14,6 +14,25 @@ import syntax.nodes;
 
 import syntax.postfixexprunit;
 
+/*
+
+	UnaryExpr => & UnaryExpr
+	           | ++ UnaryExpr
+			   | -- UnaryExpr
+			   | * UnaryExpr
+			   | - UnaryExpr
+			   | + UnaryExpr
+			   | ! UnaryExpr
+			   | ~ UnaryExpr
+			   | ( Type ) . Identifier
+			   | NewExpr
+			   | DeleteExpr
+			   | CastExpr
+			   | NewAnonClassExpr
+			   | PostfixExpr
+
+*/
+
 class UnaryExprUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
