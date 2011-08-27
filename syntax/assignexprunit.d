@@ -14,6 +14,25 @@ import syntax.nodes;
 
 import syntax.conditionalexprunit;
 
+/*
+
+	AssignExpr => ConditionalExpr = AssignExpr
+	            | ConditionalExpr += AssignExpr
+	            | ConditionalExpr -= AssignExpr
+	            | ConditionalExpr *= AssignExpr
+	            | ConditionalExpr /= AssignExpr
+	            | ConditionalExpr %= AssignExpr
+	            | ConditionalExpr &= AssignExpr
+	            | ConditionalExpr |= AssignExpr
+	            | ConditionalExpr ^= AssignExpr
+	            | ConditionalExpr ~= AssignExpr
+	            | ConditionalExpr >>= AssignExpr
+	            | ConditionalExpr <<= AssignExpr
+	            | ConditionalExpr >>>= AssignExpr
+				| ConditionalExpr
+
+*/
+
 class AssignExprUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
