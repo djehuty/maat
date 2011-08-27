@@ -72,6 +72,13 @@ class ModuleDeclUnit : ParseUnit {
 					"You placed three dots, did you mean to only have one?",
 					_common_error_usages);
 				break;
+
+			case Token.Type.IntegerLiteral:
+			case Token.Type.FloatingPointLiteral:
+				errorAtPrevious(_common_error_msg,
+					"Identifiers, such as module names, cannot start with a number.",
+					_common_error_usages);
+				break;
 			default:
 
 				// Error: Found some illegal token. Probably due to lack of semicolon.
