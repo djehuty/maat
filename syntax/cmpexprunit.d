@@ -14,6 +14,29 @@ import syntax.nodes;
 
 import syntax.shiftexprunit;
 
+/*
+
+	CmpExpr => ShiftExpr == ShiftExpr
+	         | ShiftExpr != ShiftExpr
+			 | ShiftExpr is ShiftExpr
+			 | ShiftExpr !is ShiftExpr
+			 | ShiftExpr < ShiftExpr
+			 | ShiftExpr > ShiftExpr
+			 | ShiftExpr <= ShiftExpr
+			 | ShiftExpr >= ShiftExpr
+			 | ShiftExpr !< ShiftExpr
+			 | ShiftExpr !> ShiftExpr
+			 | ShiftExpr !<= ShiftExpr
+			 | ShiftExpr !>= ShiftExpr
+			 | ShiftExpr !<> ShiftExpr
+			 | ShiftExpr !<>= ShiftExpr
+			 | ShiftExpr <> ShiftExpr
+			 | ShiftExpr <>= ShiftExpr
+			 | ShiftExpr in ShiftExpr
+			 | ShiftExpr
+
+*/
+
 class CmpExprUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
