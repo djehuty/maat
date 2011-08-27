@@ -25,25 +25,26 @@ private:
 	Token current;
 
 	void _printerror(char[] msg, char[] desc, char[][] usages, uint line, uint column) {
-		Stdout("Syntax Error: file.d").newline;
+		Stdout("Syntax Error: ")(_lexer.filename).newline;
 		Stdout("   Line: ")(line)(": ")(_lexer.line(line)).newline;
 		uint position = to!(char[])(line).length + 11;
 		for (uint i; i < position; i++) {
 			Stdout(" ");
 		}
+		Stdout("\x1b[1;31m");
 		for (uint i = position; i <= position + column; i++) {
 			Stdout("-");
 		}
-		Stdout("^").newline;
+		Stdout("^\x1b[0;37m").newline;
 		//Console.forecolor = Color.Gray;
 		Stdout("   Reason: ")(msg).newline;
 		if (desc !is null) {
-			Stdout("   Hint: ")(desc).newline;
+			Stdout("   Hint: \x1b[1;33m")(desc)("\x1b[0;37m").newline;
 		}
 		if (usages !is null) {
-			Stdout("   Usage: ")(usages[0]).newline;
+			Stdout("   Usage: ")("\x1b[0;34m")(usages[0])("\x1b[0;37m").newline;
 			foreach(usage; usages[1..$]) {
-				Stdout("          ")(usage).newline;
+				Stdout("          ")("\x1b[0;34m")(usage)("\x1b[0;37m").newline;
 			}
 		}
 		_error = true;

@@ -53,6 +53,7 @@ private:
 	char[] cur_string;
 
 	char[] _line;
+	char[] _filename = "";
 	size_t _lineNumber;
 	size_t _pos;
 
@@ -112,6 +113,10 @@ private:
 	}
 
 public:
+	char[] filename() {
+		return _filename;
+	}
+
 	char[] line(uint idx) {
 		return _lines[idx-1];
 	}
@@ -1041,9 +1046,9 @@ public:
 		return Token.init;
 	}
 
-
-	void tokenize(char[] file) {
+	this(char[] file) {
 		auto content = cast(char[])File.get(file);
+		_filename = "file.di";
 		_lines = Text.splitLines(content);
 	}
 }
