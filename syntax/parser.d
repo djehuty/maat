@@ -8,27 +8,17 @@
  *
  */
 
-module parsing.d.parser;
+module syntax.parser;
 
-import parsing.d.lexer;
-import parsing.d.tokens;
-import parsing.d.nodes;
+import lex.lexer;
+import lex.tokens;
 
-import parsing.d.moduleunit;
+import syntax.nodes;
+import syntax.moduleunit;
 
-import parsing.token;
-import parsing.ast;
-import parsing.lexer;
-import parsing.parser;
-import parsing.parseunit;
-
-import djehuty;
-
-import io.console;
-
-class DParser : Parser {
+class Parser {
 private:
-	DLexer _lexer;
+	Lexer _lexer;
 
 public:
 	this(Stream stream) {
