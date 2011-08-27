@@ -26,13 +26,13 @@ private:
 
 	void _printerror(char[] msg, char[] desc, char[][] usages, uint line, uint column) {
 		Stdout("Syntax Error: ")(_lexer.filename).newline;
-		Stdout("   Line: ")(line)(": ")(_lexer.line(line)).newline;
-		uint position = to!(char[])(line).length + 11;
+		Stdout("   Line: ")(line)(":")(column)(": ")(_lexer.line(line)).newline;
+		uint position = to!(char[])(line).length + 1 + to!(char[])(column).length + 11;
 		for (uint i; i < position; i++) {
 			Stdout(" ");
 		}
 		Stdout("\x1b[1;31m");
-		for (uint i = position; i <= position + column; i++) {
+		for (uint i = 0; i < column-1; i++) {
 			Stdout("-");
 		}
 		Stdout("^\x1b[0;37m").newline;

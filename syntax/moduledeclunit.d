@@ -22,6 +22,21 @@ class ModuleDeclUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
 			case Token.Type.Dot:
+				if (state == 0) {
+					error(_common_error_msg,
+						"You may not start a declaration with a dot.",
+						_common_error_usages);
+					break;
+				}
+				else if (state == 1) {
+					error(_common_error_msg,
+						"There are a few too many dots in a row. Did you mean to have only one?",
+						_common_error_usages);
+					break;
+				}
+
+				state = 1;
+
 				if (cur_string.length > 0 && cur_string[$-1] == '.') {
 
 					// Error: We found two dots, probably left behind after an edit.
@@ -42,6 +57,16 @@ class ModuleDeclUnit : ParseUnit {
 
 			case Token.Type.Identifier:
 
+				if (state == 2) {
+					// Error: Found an identifier next to an identifier... unintentional space?
+					error(_common_error_msg,
+						"You cannot put a space in a module name. Did you mean to use an underscore?",
+						_common_error_usages);
+					break;
+				}
+
+				state = 2;
+
 				if (cur_string.length > 0 && cur_string[$-1] != '.') {
 
 					// Error: Found an identifier and then another identifier. Probably
@@ -59,6 +84,8 @@ class ModuleDeclUnit : ParseUnit {
 				}
 
 				break;
+
+			// Common erroneous tokens
 			case Token.Type.Slice:
 				// Error: Found .. when we expected just one dot.
 				error(_common_error_msg,
@@ -75,7 +102,7 @@ class ModuleDeclUnit : ParseUnit {
 
 			case Token.Type.IntegerLiteral:
 			case Token.Type.FloatingPointLiteral:
-				errorAtPrevious(_common_error_msg,
+				error(_common_error_msg,
 					"Identifiers, such as module names, cannot start with a number.",
 					_common_error_usages);
 				break;
