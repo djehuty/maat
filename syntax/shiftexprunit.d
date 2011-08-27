@@ -14,6 +14,15 @@ import syntax.nodes;
 
 import syntax.addexprunit;
 
+/*
+
+	ShiftExpr => ShiftExpr >> AddExpr
+	           | ShiftExpr << AddExpr
+			   | ShiftExpr >>> AddExpr
+			   | AddExpr
+
+*/
+
 class ShiftExprUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
