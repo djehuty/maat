@@ -1,3 +1,5 @@
+module lex.token;
+
 class Token {
 public:
 	enum Type {

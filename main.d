@@ -1,5 +1,5 @@
-import lexer;
-import token;
+import lex.lexer;
+import lex.token;
 
 import tango.io.Stdout;
 

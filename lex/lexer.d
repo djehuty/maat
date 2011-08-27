@@ -1,6 +1,6 @@
-module lexer;
+module lex.lexer;
 
-import token;
+import lex.token;
 
 // Tango is the worst
 import tango.io.device.File;
