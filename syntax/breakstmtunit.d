@@ -12,6 +12,14 @@ import lex.token;
 
 import syntax.nodes;
 
+/*
+
+	break
+	BreakStmt => Identifier ;
+	           | ;
+
+*/
+
 class BreakStmtUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
