@@ -16,6 +16,14 @@ import syntax.parameterunit;
 import syntax.functionbodyunit;
 import syntax.declaratorunit;
 
+/*
+
+	ParameterList => Parameter , ParameterList
+	               | Parameter )
+	               | )
+
+*/
+
 class ParameterListUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
