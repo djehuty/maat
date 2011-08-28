@@ -12,6 +12,13 @@ import lex.token;
 
 import syntax.nodes;
 
+/*
+
+	continue
+	ContinueStmt => ( Identifier )? ;
+
+*/
+
 class ContinueStmtUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
