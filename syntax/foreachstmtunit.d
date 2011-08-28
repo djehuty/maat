@@ -18,6 +18,7 @@ import syntax.typeunit;
 
 /*
 
+	foreach | foreach_reverse
 	ForeachStmt => ( ForeachTypeList ; Expression ) ScopeStmt
 	             | ( ForeachTypeList ; Tuple ) ScopeStmt
 
