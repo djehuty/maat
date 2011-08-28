@@ -12,6 +12,13 @@ import lex.token;
 
 import syntax.nodes;
 
+/*
+
+	default
+	DefaultStmt => :
+
+*/
+
 class DefaultStmtUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
