@@ -18,8 +18,8 @@ import syntax.unaryexprunit;
 
 	MulExpr => MulExpr * UnaryExpr
 	         | MulExpr / UnaryExpr
-			 | MulExpr % UnaryExpr
-			 | UnaryExpr
+	         | MulExpr % UnaryExpr
+	         | UnaryExpr
 
 */
 

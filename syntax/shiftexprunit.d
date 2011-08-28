@@ -18,8 +18,8 @@ import syntax.addexprunit;
 
 	ShiftExpr => ShiftExpr >> AddExpr
 	           | ShiftExpr << AddExpr
-			   | ShiftExpr >>> AddExpr
-			   | AddExpr
+	           | ShiftExpr >>> AddExpr
+	           | AddExpr
 
 */
 

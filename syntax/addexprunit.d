@@ -19,7 +19,7 @@ import syntax.mulexprunit;
 
 	AddExpr => AddExpr + MulExpr
 	         | AddExpr - MulExpr
-			 | AddExpr ~ MulExpr
+	         | AddExpr ~ MulExpr
 	         | MulExpr
 
 */

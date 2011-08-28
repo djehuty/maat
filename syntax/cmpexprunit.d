@@ -18,22 +18,22 @@ import syntax.shiftexprunit;
 
 	CmpExpr => ShiftExpr == ShiftExpr
 	         | ShiftExpr != ShiftExpr
-			 | ShiftExpr is ShiftExpr
-			 | ShiftExpr !is ShiftExpr
-			 | ShiftExpr < ShiftExpr
-			 | ShiftExpr > ShiftExpr
-			 | ShiftExpr <= ShiftExpr
-			 | ShiftExpr >= ShiftExpr
-			 | ShiftExpr !< ShiftExpr
-			 | ShiftExpr !> ShiftExpr
-			 | ShiftExpr !<= ShiftExpr
-			 | ShiftExpr !>= ShiftExpr
-			 | ShiftExpr !<> ShiftExpr
-			 | ShiftExpr !<>= ShiftExpr
-			 | ShiftExpr <> ShiftExpr
-			 | ShiftExpr <>= ShiftExpr
-			 | ShiftExpr in ShiftExpr
-			 | ShiftExpr
+	         | ShiftExpr is ShiftExpr
+	         | ShiftExpr !is ShiftExpr
+	         | ShiftExpr < ShiftExpr
+	         | ShiftExpr > ShiftExpr
+	         | ShiftExpr <= ShiftExpr
+	         | ShiftExpr >= ShiftExpr
+	         | ShiftExpr !< ShiftExpr
+	         | ShiftExpr !> ShiftExpr
+	         | ShiftExpr !<= ShiftExpr
+	         | ShiftExpr !>= ShiftExpr
+	         | ShiftExpr !<> ShiftExpr
+	         | ShiftExpr !<>= ShiftExpr
+	         | ShiftExpr <> ShiftExpr
+	         | ShiftExpr <>= ShiftExpr
+	         | ShiftExpr in ShiftExpr
+	         | ShiftExpr
 
 */
 
