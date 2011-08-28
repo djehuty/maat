@@ -16,6 +16,17 @@ import syntax.statementunit;
 import syntax.scopedstmtunit;
 import syntax.expressionunit;
 
+/*
+
+	ForStmt => ( NoScopeNonEmptyStmt ; Increment ) ScopeStmt
+	         | ( NoScopeNonEmptyStmy ; ; ) ScopeStmt
+	         | ( ; Expression ; Increment ) ScopeStmt
+	         | ( ; Expression ; ) ScopeStmt
+	         | ( ; ; Increment ) ScopeStmt
+	         | ( ; ; ) ScopeStmt
+
+*/
+
 class ForStmtUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
