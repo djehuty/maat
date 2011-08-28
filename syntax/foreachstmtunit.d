@@ -16,6 +16,21 @@ import syntax.expressionunit;
 import syntax.scopedstmtunit;
 import syntax.typeunit;
 
+/*
+
+	ForeachStmt => ( ForeachTypeList ; Expression ) ScopeStmt
+	             | ( ForeachTypeList ; Tuple ) ScopeStmt
+
+	ForeachTypeList => ForeachType , ForeachTypeList
+	                 | ForeachType
+
+	ForeachType => ref Type Identifier
+	             | Type Identifier
+	             | ref Identifier
+	             | Identifier
+
+*/
+
 class ForeachStmtUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
