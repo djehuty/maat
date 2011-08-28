@@ -18,6 +18,7 @@ import syntax.expressionunit;
 
 /*
 
+	for
 	ForStmt => ( NoScopeNonEmptyStmt ; Increment ) ScopeStmt
 	         | ( NoScopeNonEmptyStmy ; ; ) ScopeStmt
 	         | ( ; Expression ; Increment ) ScopeStmt
