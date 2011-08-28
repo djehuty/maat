@@ -1,4 +1,4 @@
-module io.stream;
+module;
 
 /*
 This class represents a data stream of arbitrary bytes.

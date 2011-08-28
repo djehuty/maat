@@ -57,6 +57,23 @@ class ModuleDeclUnit : ParseUnit {
 				break;
 			case Token.Type.Semicolon:
 
+				if (state == 0) {
+					// module ;
+					// Error: No module name given
+					error(_common_error_msg,
+						"You forgot to name the module.",
+						_common_error_usages);
+					break;
+				}
+				else if (state == 1) {
+					// module foo. ;
+					// Error: Ended on a dot.
+					error(_common_error_msg,
+						"You ended the module name with a dot. Perhaps you forgot to delete this dot?",
+						_common_error_usages);
+					break;
+				}
+
 				Stdout("Module: ")(cur_string).newline;
 				// End of declaration
 				return false;

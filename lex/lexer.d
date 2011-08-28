@@ -1048,7 +1048,7 @@ public:
 
 	this(char[] file) {
 		auto content = cast(char[])File.get(file);
-		_filename = "file.di";
+		_filename = file.dup;
 		_lines = Text.splitLines(content);
 	}
 }
