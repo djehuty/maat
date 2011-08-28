@@ -15,6 +15,20 @@ import syntax.nodes;
 
 import syntax.trees;
 
+import tango.io.Stdout;
+
+/*
+
+	ImportDecl => ( static )? import ImportList ;
+
+	ImportList => ( Identifier . )+ ( : ImportBindList )? , ImportList
+	            | ( Identifier . )+ ( : ImportBindList )?
+
+	ImportBindList => Identifier ( = Identifier )? , ImportBindList
+	                | Identifier ( = Identifier )?
+
+*/
+
 class ImportDeclUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
@@ -34,6 +48,7 @@ class ImportDeclUnit : ParseUnit {
 
 			case Token.Type.Semicolon:
 				// End of declaration
+				Stdout("Import: ")(cur_string).newline;
 				this.root = new Import(cur_string);
 				return false;
 
