@@ -14,6 +14,15 @@ import syntax.nodes;
 
 import syntax.expressionunit;
 
+/*
+
+	goto
+	GotoStmt => Identifier ;
+	          | default ;
+	          | case ( Expression )? ;
+
+*/
+
 class GotoStmtUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
