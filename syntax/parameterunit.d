@@ -17,6 +17,16 @@ import syntax.functionbodyunit;
 import syntax.declaratorunit;
 import syntax.basictypeunit;
 
+/*
+
+	Parameter => Declarator ( = AssignExpr )?
+	           | ref Declarator ( = AssignExpr )?
+	           | out Declarator ( = AssignExpr )?
+	           | in Declarator ( = AssignExpr )?
+	           | lazy Declarator ( = AssignExpr )?
+
+*/
+
 class ParameterUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
