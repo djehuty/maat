@@ -14,6 +14,13 @@ import syntax.nodes;
 
 import syntax.expressionunit;
 
+/*
+
+	case
+	CaseStmt => Expression ( , Expression )* :
+
+*/
+
 class CaseStmtUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
