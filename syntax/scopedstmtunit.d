@@ -14,6 +14,8 @@ import syntax.nodes;
 
 import syntax.statementunit;
 
+import tango.io.Stdout;
+
 class ScopedStmtUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
@@ -34,6 +36,7 @@ class ScopedStmtUnit : ParseUnit {
 
 			default:
 				// Just a statement
+				lexer.push(current);
 				auto tree = expand!(StatementUnit)();
 				if (this.state == 0) {
 					return false;

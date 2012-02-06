@@ -124,6 +124,7 @@ class DeclaratorUnit : ParseUnit {
 
 					default:
 						// Fine.
+						lexer.push(current);
 						break;
 				}
 				return false;

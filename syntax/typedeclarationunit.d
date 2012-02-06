@@ -12,6 +12,10 @@ import syntax.nodes;
 
 import syntax.staticunit;
 import syntax.declaratorunit;
+import syntax.initializerunit;
+import syntax.functionbodyunit;
+
+import tango.io.Stdout;
 
 class TypeDeclarationUnit : ParseUnit {
 	override bool tokenFound(Token current) {
@@ -42,13 +46,13 @@ class TypeDeclarationUnit : ParseUnit {
 					case Token.Type.Cdouble:
 					case Token.Type.Creal:
 					case Token.Type.Void:
+						// Named Type
+					case Token.Type.Identifier:
+
 						// We have a basic type... look for Declarator
+						Stdout("DECLARATOR").newline;
 						auto tree = expand!(DeclaratorUnit)();
 						this.state = 1;
-						break;
-
-					case Token.Type.Identifier:
-						// Named Type
 						break;
 
 					case Token.Type.Typeof:
@@ -79,18 +83,49 @@ class TypeDeclarationUnit : ParseUnit {
 				switch(current.type) {
 					case Token.Type.Semicolon:
 						// Done
+						Stdout("done").newline;
 						return false;
 					case Token.Type.Comma:
-						// XXX: Dunno
-						return false;
+						// Look for another declarator
+						Stdout("DECLARATOR").newline;
+						auto tree = expand!(DeclaratorUnit)();
+						break;
+
 					case Token.Type.Assign:
 						// Initializer
-//						auto tree = expand!(InitializerUnit)();
+						auto tree = expand!(InitializerUnit)();
 						this.state = 4;
 						break;
-					default:
+					case Token.Type.LeftCurly:
+					case Token.Type.In:
+					case Token.Type.Out:
+					case Token.Type.Body:
 						// It could be a function body
-//						auto tree = expand!(FunctionBodyUnit)();
+						lexer.push(current);
+						auto tree = expand!(FunctionBodyUnit)();
+						return false;
+
+					default:
+						// Bad
+						break;
+				}
+				break;
+
+			case 4:
+				switch(current.type) {
+					case Token.Type.Comma:
+						// Initializer list
+						auto tree = expand!(DeclaratorUnit)();
+						state = 1;
+						break;
+
+					case Token.Type.Assign:
+						// Bad
+						break;
+
+					case Token.Type.Semicolon:
+						// Done
+						Stdout("done").newline;
 						return false;
 				}
 				break;

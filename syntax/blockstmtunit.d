@@ -12,6 +12,8 @@ import syntax.nodes;
 
 import syntax.statementunit;
 
+import tango.io.Stdout;
+
 class BlockStmtUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (current.type) {
@@ -22,6 +24,8 @@ class BlockStmtUnit : ParseUnit {
 				// We can look for a simple declaration
 				lexer.push(current);
 				auto tree = expand!(StatementUnit)();
+
+				Stdout("Statement Consumed").newline;
 				break;
 		}
 		return true;

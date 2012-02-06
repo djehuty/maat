@@ -24,13 +24,24 @@ import syntax.returnstmtunit;
 import syntax.volatilestmtunit;
 import syntax.throwstmtunit;
 import syntax.pragmastmtunit;
+import syntax.ifstmtunit;
+
+import syntax.typedeclarationunit;
+import syntax.expressionunit;
+
+import tango.io.Stdout;
 
 class StatementUnit : ParseUnit {
 	override bool tokenFound(Token current) {
-		switch (current.type) {
-			case Token.Type.Semicolon:
-				return false;
+		if (state == 1 && current.type == Token.Type.Semicolon) {
+			// Good.
+			return false;
+		}
+		else if (state == 1) {
+			// Bad. Expected ;
+		}
 
+		switch (current.type) {
 			case Token.Type.Version:
 				break;
 			case Token.Type.Debug:
@@ -59,15 +70,16 @@ class StatementUnit : ParseUnit {
 			case Token.Type.While:
 				break;
 			case Token.Type.If:
-				break;
+				auto tree = expand!(IfStmtUnit)();
+				return false;
 			case Token.Type.With:
 				break;
 			case Token.Type.For:
 				auto tree = expand!(ForStmtUnit)();
-				break;
+				return false;
 			case Token.Type.Foreach:
 				auto tree = expand!(ForeachStmtUnit)();
-				break;
+				return false;
 			case Token.Type.Foreach_reverse:
 				break;
 			case Token.Type.Synchronized:
@@ -107,16 +119,54 @@ class StatementUnit : ParseUnit {
 				auto tree = expand!(PragmaStmtUnit)();
 				break;
 
-			// EWWW cases
+			// int a = 5;
+			case Token.Type.Bool:
+			case Token.Type.Byte:
+			case Token.Type.Ubyte:
+			case Token.Type.Short:
+			case Token.Type.Ushort:
+			case Token.Type.Int:
+			case Token.Type.Uint:
+			case Token.Type.Long:
+			case Token.Type.Ulong:
+			case Token.Type.Char:
+			case Token.Type.Wchar:
+			case Token.Type.Dchar:
+			case Token.Type.Float:
+			case Token.Type.Double:
+			case Token.Type.Real:
+			case Token.Type.Ifloat:
+			case Token.Type.Idouble:
+			case Token.Type.Ireal:
+			case Token.Type.Cfloat:
+			case Token.Type.Cdouble:
+			case Token.Type.Creal:
+			case Token.Type.Void:
+				// Declaration
+				lexer.push(current);
+				auto tree = expand!(TypeDeclarationUnit)();
+				return false;
+
 			case Token.Type.Identifier:
+				// I DON'T KNOW. COULD BE AN EXPRESSION:
+				//  a = 5;
+				// OR A TYPE DECLARATION!
+				// size_t foo = 4;
+				
+				// Must disabiguate
 				break;
+			
+			// 2 + 2;
 			default:
+				lexer.push(current);
+				auto tree = expand!(ExpressionUnit)();
+				state = 1;
 				break;
 		}
 		return true;
 	}
 
-protected:
+	protected:
 	char[] cur_string = "";
 
 	static const char[] _common_error_msg = "";

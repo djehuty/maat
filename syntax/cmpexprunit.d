@@ -14,6 +14,8 @@ import syntax.nodes;
 
 import syntax.shiftexprunit;
 
+import tango.io.Stdout;
+
 /*
 
 	CmpExpr => ShiftExpr == ShiftExpr

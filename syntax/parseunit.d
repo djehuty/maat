@@ -131,6 +131,7 @@ public:
 		AbstractSyntaxTree expand() {
 			auto machine = new T();
 			machine.lexer = _lexer;
+			//Stdout(T.stringof).newline;
 			return machine.parse();
 		}
 	}

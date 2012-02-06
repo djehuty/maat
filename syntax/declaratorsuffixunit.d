@@ -14,6 +14,7 @@ import lex.token;
 import syntax.nodes;
 
 import syntax.expressionunit;
+import syntax.parameterlistunit;
 
 /*
 
@@ -52,7 +53,8 @@ class DeclaratorSuffixUnit : ParseUnit {
 					default:
 						// This is a parameter list
 						// XXX:
-//						auto tree = expand!(ParameterList)();
+						lexer.push(current);
+						auto tree = expand!(ParameterListUnit)();
 						break;
 				}
 				return false;

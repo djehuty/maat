@@ -1,7 +1,7 @@
 /*
- * expressionunit.d
+ * functionbodyunit.d
  *
- * This module parses expressions.
+ * This module parses function bodies.
  *
  */
 
@@ -12,9 +12,7 @@ import lex.token;
 
 import syntax.nodes;
 
-import syntax.parameterlistunit;
-import syntax.functionbodyunit;
-import syntax.statementunit;
+import syntax.blockstmtunit;
 
 class FunctionBodyUnit : ParseUnit {
 	override bool tokenFound(Token current) {
@@ -22,40 +20,35 @@ class FunctionBodyUnit : ParseUnit {
 
 			// We always look FIRST for a left curly brace
 			case Token.Type.LeftCurly:
-				if (this.state % 2 == 1) {
-					// Error: Left curly already found.
-					// TODO:
-				}
-				this.state = this.state + 1;
+				auto tree = expand!(BlockStmtUnit)();
 				break;
-
-			// We are always looking for the end of the block.
-			case Token.Type.RightCurly:
-				if (this.state % 2 == 0) {
-					// Error: Left curly not found!
-					// TODO:
-				}
-				this.state = this.state - 1;
-
-				if (this.state == 0) {
-					// Done.
-					return false;
-				}
 
 			// TODO: in, out, body, blockstatement foo
 			case Token.Type.In:
+				if (state & 1 > 0) {
+					// Bad (In already found)
+				}
+				if (state & 4 > 0) {
+					// Bad (Body already found)
+				}
+				state = state | 1;
 				break;
 			case Token.Type.Out:
+				if (state & 2 > 0) {
+					// Bad (Out already found)
+				}
+				if (state & 4 > 0) {
+					// Bad (Body already found)
+				}
+				state = state | 2;
 				break;
 			case Token.Type.Body:
+				state = state | 4;
 				break;
 
 			default:
 				lexer.push(current);
-				if (this.state % 2 == 0) {
-				}
-				auto tree = expand!(StatementUnit)();
-				break;
+				return false;
 		}
 		return true;
 	}

@@ -1,5 +1,5 @@
 /*
- * typedeclarationunit.d
+ * basictypesuffixunit.d
  *
  */
 
