@@ -5,7 +5,7 @@
  *
  */
 
-module syntax.declaratorunit;
+module syntax.declaratormiddleunit;
 
 import syntax.parseunit;
 import lex.token;
@@ -19,11 +19,12 @@ import syntax.basictypesuffixunit;
 import tango.io.Stdout;
 /*
 
-	Declarator => ( BasicTypeSuffix )* ( Declarator ) ( DeclaratorSuffix )*
-	            | ( BasicTypeSuffix )* Identifier ( DeclaratorSuffix )*
+	Declarator => ( BasicTypeSuffix )? ( Declarator ) ( DeclaratorSuffix )*
+	            | ( BasicTypeSuffix )? Identifier ( DeclaratorSuffix )*
 
 	(must start with one of these: {* [ ( delegate function})
-	DeclaratorMiddle => ( BasicTypeSuffix )* ( ( DeclaratorMiddle ) )? ( DeclaratorSuffix )*
+	DeclaratorMiddle => Declarator
+	                  | ( BasicTypeSuffix )* ( ( DeclaratorMiddle ) )? ( DeclaratorSuffix )*
 
 	DeclaratorSuffix => [ ]
 	                  | [ Expression ]
@@ -50,7 +51,7 @@ import tango.io.Stdout;
 
 */
 
-class DeclaratorUnit : ParseUnit {
+class DeclaratorMiddleUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (state) {
 			case 0:
@@ -60,13 +61,12 @@ class DeclaratorUnit : ParseUnit {
 					case Token.Type.Function:
 					case Token.Type.Mul:
 						lexer.push(current);
-						Stdout("BasicTypeSuffixUnit").newline;
 						auto tree = expand!(BasicTypeSuffixUnit)();
 						break;
 
 					case Token.Type.LeftParen:
 						// Recursive Declarator
-						auto tree = expand!(DeclaratorUnit)();
+						auto tree = expand!(DeclaratorMiddleUnit)();
 						state = 2;
 						break;
 
@@ -76,8 +76,9 @@ class DeclaratorUnit : ParseUnit {
 						break;
 
 					default:
-						// Bad
-						break;
+						// Fine.
+						lexer.push(current);
+						return false;
 				}
 				break;
 
@@ -87,14 +88,17 @@ class DeclaratorUnit : ParseUnit {
 				switch (current.type) {
 					case Token.Type.LeftParen:
 						// Recursive Declarator
-						auto tree = expand!(DeclaratorUnit)();
+						auto tree = expand!(DeclaratorMiddleUnit)();
 						state = 2;
+						break;
 					case Token.Type.Identifier:
 						state = 3;
 						Stdout("Name: ")(current.string).newline;
 						break;
 					default:
-						// Bad
+						// OK.
+						lexer.push(current);
+						state = 3;
 						break;
 				}
 				break;
@@ -124,7 +128,7 @@ class DeclaratorUnit : ParseUnit {
 
 					default:
 						// Fine.
-						break;
+						lexer.push(current);
 				}
 				return false;
 			default:

@@ -12,6 +12,42 @@ import syntax.nodes;
 
 import syntax.staticunit;
 import syntax.declaratorunit;
+import syntax.identifierlistunit;
+
+/*
+
+	BasicType => bool
+	           | byte
+	           | ubyte
+	           | short
+	           | ushort
+	           | int
+	           | uint
+	           | long
+	           | ulong
+	           | char
+	           | wchar
+	           | dchar
+	           | float
+	           | double
+	           | real
+	           | ifloat
+	           | idouble
+	           | ireal
+	           | cfloat
+	           | cdouble
+	           | creal
+	           | void
+	           | . IdentifierList
+	           | IdentifierList
+	           | Typeof ( . IdentifierList )?
+
+	IdentifierList => Identifier . IdentifierList
+	                | Identifier
+	                | TemplateInstance . IdentifierList
+	                | TemplateInstance
+
+*/
 
 class BasicTypeUnit : ParseUnit {
 	override bool tokenFound(Token current) {
@@ -45,12 +81,13 @@ class BasicTypeUnit : ParseUnit {
 
 			case Token.Type.Identifier:
 				// Named Type, could be a scoped list
-				// TODO:
-				break;
+				lexer.push(current);
+				auto tree = expand!(IdentifierListUnit)();
+				return false;
 
 			// Scope Operator
 			case Token.Type.Dot:
-				// TODO:
+				auto tree = expand!(IdentifierListUnit)();
 				break;
 
 			case Token.Type.Typeof:
@@ -59,10 +96,8 @@ class BasicTypeUnit : ParseUnit {
 				break;
 
 			default:
-
-				// We will pass this off to a Declarator
-				auto tree = expand!(DeclaratorUnit)();
-				this.state = 1;
+				// Error:
+				// TODO:
 				break;
 		}
 		return true;

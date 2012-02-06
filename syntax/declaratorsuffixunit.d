@@ -15,6 +15,15 @@ import syntax.nodes;
 
 import syntax.expressionunit;
 
+/*
+
+	DeclaratorSuffix => [ ]
+	                  | [ Expression ]
+	                  | [ Type ]
+	                  | ( TemplateParameterList )? ( ParameterList
+
+*/
+
 class DeclaratorSuffixUnit : ParseUnit {
 	override bool tokenFound(Token current) {
 		switch (this.state) {
