@@ -5,9 +5,8 @@
 
 module syntax.parameter_unit;
 
-import syntax.parameter_list_unit;
-import syntax.function_body_unit;
 import syntax.assign_expression_unit;
+import syntax.declarator_middle_unit;
 
 import lex.lexer;
 import lex.token;
@@ -140,7 +139,7 @@ public:
 
 				_lexer.push(token);
 
-//				auto tree = expand!(DeclaratorMiddleUnit)();
+				auto middle = (new DeclaratorMiddleUnit(_lexer, _logger)).parse;
 				_state = States.FoundDeclaratorMiddle;
 				break;
 
@@ -149,7 +148,7 @@ public:
 
 				if (_state == States.FoundBasicType) {
 					// Could be a declarator then.
-//					auto tree = expand!(DeclaratorMiddleUnit)();
+					auto middle = (new DeclaratorMiddleUnit(_lexer, _logger)).parse;
 					_state = States.FoundDeclaratorMiddle;
 				}
 				else if (_state == States.Start ||
