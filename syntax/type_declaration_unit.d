@@ -1,0 +1,163 @@
+/*
+ * type_declaration_unit.d
+ *
+ */
+
+module syntax.type_declaration_unit;
+
+import syntax.declarator_unit;
+import syntax.initializer_unit;
+
+import lex.lexer;
+import lex.token;
+
+import logger;
+
+import ast.typedeclarationnode;
+
+import tango.io.Stdout;
+
+class TypeDeclarationUnit {
+private:
+	Lexer  _lexer;
+	Logger _logger;
+	int    _state = 0;
+
+public:
+	this(Lexer lexer, Logger logger) {
+		_lexer  = lexer;
+		_logger = logger;
+	}
+
+	TypeDeclarationNode parse() {
+		Token token;
+
+		do {
+			token = _lexer.pop();
+		} while (tokenFound(token));
+
+		return new TypeDeclarationNode();
+	}
+
+	bool tokenFound(Token token) {
+		if (token.type == Token.Type.Comment) {
+			return true;
+		}
+
+		switch(this._state) {
+
+			// Looking for a basic type or identifier
+			case 0:
+				switch (token.type) {
+					case Token.Type.Bool:
+					case Token.Type.Byte:
+					case Token.Type.Ubyte:
+					case Token.Type.Short:
+					case Token.Type.Ushort:
+					case Token.Type.Int:
+					case Token.Type.Uint:
+					case Token.Type.Long:
+					case Token.Type.Ulong:
+					case Token.Type.Char:
+					case Token.Type.Wchar:
+					case Token.Type.Dchar:
+					case Token.Type.Float:
+					case Token.Type.Double:
+					case Token.Type.Real:
+					case Token.Type.Ifloat:
+					case Token.Type.Idouble:
+					case Token.Type.Ireal:
+					case Token.Type.Cfloat:
+					case Token.Type.Cdouble:
+					case Token.Type.Creal:
+					case Token.Type.Void:
+						// Named Type
+					case Token.Type.Identifier:
+						// XXX: Handle scoped identifiers?
+
+						// We have a basic type... look for Declarator
+						Stdout("DECLARaaATOR").newline;
+						auto declarator = (new DeclaratorUnit(_lexer, _logger)).parse();
+						this._state = 1;
+						break;
+
+					case Token.Type.Typeof:
+						// TypeOfExpression
+						// TODO: this
+						break;
+
+					// Invalid token for this _state
+					case Token.Type.Assign:
+						break;
+
+					// Invalid token for this _state
+					case Token.Type.Semicolon:
+						break;
+
+					default:
+
+						// We will pass this off to a Declarator
+						_lexer.push(token);
+						auto decl = (new DeclaratorUnit(_lexer, _logger)).parse();
+						this._state = 1;
+						break;
+				}
+
+			// We have found a basic type and are looking for either an initializer
+			// or another type declaration. We could also have a function body
+			// for function literals.
+			case 1:
+				switch(token.type) {
+					case Token.Type.Semicolon:
+						// Done
+						return false;
+					case Token.Type.Comma:
+						// Look for another declarator
+						Stdout("DECLARATOR").newline;
+						auto expr = (new DeclaratorUnit(_lexer, _logger)).parse;
+						break;
+
+					case Token.Type.Assign:
+						// Initializer
+						auto expr = (new InitializerUnit(_lexer, _logger)).parse;
+						this._state = 4;
+						break;
+					case Token.Type.LeftCurly:
+					case Token.Type.In:
+					case Token.Type.Out:
+					case Token.Type.Body:
+						// It could be a function body
+						_lexer.push(token);
+						//auto tree = expand!(FunctionBodyUnit)();
+						return false;
+
+					default:
+						// Bad
+						break;
+				}
+				break;
+
+			case 4:
+				switch(token.type) {
+					case Token.Type.Comma:
+						// Initializer list
+						auto decl = (new DeclaratorUnit(_lexer, _logger)).parse;
+						_state = 1;
+						break;
+
+					case Token.Type.Assign:
+						// Bad
+						break;
+
+					case Token.Type.Semicolon:
+						// Done
+						return false;
+				}
+				break;
+
+			default:
+				break;
+		}
+		return true;
+	}
+}

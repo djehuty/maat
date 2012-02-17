@@ -129,7 +129,7 @@ public:
 		if (!_bank_empty) {
 			return _bank_pop();
 		}
-		Token current = new Token(Token.Type.Invalid);
+		Token current = new Token(Token.Type.EOF);
 		current.line = _lineNumber;
 		current.column = _pos + 1;
 
@@ -173,7 +173,7 @@ public:
 								foundLeadingSlash = false;
 								foundLeadingChar = false;
 								nestedCommentDepth = 1;
-								current.type = Token.Type.Invalid;
+								current.type = Token.Type.EOF;
 								state = LexerState.Comment;
 								inCommentType = CommentType.NestedComment;
 								cur_string = "";
@@ -192,7 +192,7 @@ public:
 								foundLeadingSlash = false;
 								foundLeadingChar = false;
 								nestedCommentDepth = 1;
-								current.type = Token.Type.Invalid;
+								current.type = Token.Type.EOF;
 								state = LexerState.Comment;
 								inCommentType = CommentType.BlockComment;
 								cur_string = "";
@@ -200,7 +200,7 @@ public:
 							}
 						}
 
-						if (newType != Token.Type.Invalid) {
+						if (newType != Token.Type.EOF) {
 							switch(current.type) {
 								case Token.Type.And: // &
 									if (newType == Token.Type.And) {
@@ -456,12 +456,12 @@ public:
 										goto default;
 									}
 									break;
-								case Token.Type.Invalid:
+								case Token.Type.EOF:
 									current.type = tokenMapping[chr];
 									break;
 								default:
 									// Token Error
-									if (current.type != Token.Type.Invalid) {
+									if (current.type != Token.Type.EOF) {
 										current.columnEnd = _pos;
 										current.lineEnd = _lineNumber;
 										return current;
@@ -480,7 +480,7 @@ public:
 							state = LexerState.String;
 							inStringType = StringType.Character;
 							cur_string = "";
-							if (current.type != Token.Type.Invalid) {
+							if (current.type != Token.Type.EOF) {
 								current.columnEnd = _pos;
 								current.lineEnd = _lineNumber;
 								_pos++;
@@ -492,7 +492,7 @@ public:
 							state = LexerState.String;
 							inStringType = StringType.DoubleQuote;
 							cur_string = "";
-							if (current.type != Token.Type.Invalid) {
+							if (current.type != Token.Type.EOF) {
 								current.columnEnd = _pos;
 								current.lineEnd = _lineNumber;
 								_pos++;
@@ -504,7 +504,7 @@ public:
 							state = LexerState.String;
 							inStringType = StringType.WhatYouSeeQuote;
 							cur_string = "";
-							if (current.type != Token.Type.Invalid) {
+							if (current.type != Token.Type.EOF) {
 								current.columnEnd = _pos;
 								current.lineEnd = _lineNumber;
 								_pos++;
@@ -515,7 +515,7 @@ public:
 
 						// Whitespace
 						else if (chr == ' ' || chr == '\t' || chr == '\n') {
-							if (current.type != Token.Type.Invalid) {
+							if (current.type != Token.Type.EOF) {
 								current.columnEnd = _pos;
 								current.lineEnd = _lineNumber;
 								_pos++;
@@ -529,7 +529,7 @@ public:
 						else if ((chr >= 'a' && chr <= 'z') || (chr >= 'A' && chr <= 'Z') || chr == '_') {
 							state = LexerState.Identifier;
 							cur_string = "";
-							if (current.type != Token.Type.Invalid) {
+							if (current.type != Token.Type.EOF) {
 								current.columnEnd = _pos;
 								current.lineEnd = _lineNumber;
 								return current;
@@ -546,7 +546,7 @@ public:
 							cur_exponent = 0;
 
 							if (current.type == Token.Type.Dot) {
-								current.type = Token.Type.Invalid;
+								current.type = Token.Type.EOF;
 								inDecimal = true;
 								inExponent = false;
 								cur_integer = 0;
@@ -557,7 +557,7 @@ public:
 							else {
 								state = LexerState.Integer;
 
-								if (current.type != Token.Type.Invalid) {
+								if (current.type != Token.Type.EOF) {
 									current.columnEnd = _pos;
 									current.lineEnd = _lineNumber;
 									return current;
@@ -735,7 +735,7 @@ public:
 								current.string = cur_string;
 							}
 							state = LexerState.Normal;
-							if (current.type != Token.Type.Invalid) {
+							if (current.type != Token.Type.EOF) {
 								current.columnEnd = _pos;
 								current.lineEnd = _lineNumber;
 								return current;
@@ -1023,7 +1023,7 @@ public:
 				}
 			}
 
-			if (current.type != Token.Type.Invalid) {
+			if (current.type != Token.Type.EOF) {
 				current.columnEnd = _pos;
 				current.lineEnd = _lineNumber;
 				return current;

@@ -13,10 +13,11 @@ module syntax.parser;
 import lex.lexer;
 import lex.token;
 
-import syntax.nodes;
-import syntax.parseunit;
-import syntax.moduleunit;
-import syntax.ast;
+import logger;
+
+import syntax.module_unit;
+
+import ast.modulenode;
 
 class Parser {
 private:
@@ -27,9 +28,9 @@ public:
 		_lexer = lex;
 	}
 
-	AbstractSyntaxTree parse() {
-		ParseUnit parseUnit = new ModuleUnit();
-		parseUnit.lexer = _lexer;
-		return parseUnit.parse();
+	ModuleNode parse(Logger logger) {
+		auto parseUnit = new ModuleUnit(_lexer, logger);
+		auto tree = parseUnit.parse();
+		return tree;
 	}
 }
