@@ -1,7 +1,7 @@
-module ast.ifnode;
+module ast.if_node;
 
-import ast.expressionnode;
-import ast.blocknode;
+import ast.expression_node;
+import ast.block_node;
 
 class IfNode {
 private:

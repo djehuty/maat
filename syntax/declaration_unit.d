@@ -22,7 +22,7 @@ import lex.token;
 
 import logger;
 
-import ast.declarationnode;
+import ast.declaration_node;
 
 class DeclarationUnit {
 private:

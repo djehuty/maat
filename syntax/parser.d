@@ -17,7 +17,7 @@ import logger;
 
 import syntax.module_unit;
 
-import ast.modulenode;
+import ast.module_node;
 
 class Parser {
 private:

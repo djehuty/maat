@@ -15,8 +15,8 @@ import lex.token;
 
 import logger;
 
-import ast.modulenode;
-import ast.declarationnode;
+import ast.module_node;
+import ast.declaration_node;
 
 import syntax.module_declaration_unit;
 import syntax.declaration_unit;

@@ -13,7 +13,7 @@ import lex.token;
 
 import logger;
 
-import ast.typedeclarationnode;
+import ast.type_declaration_node;
 
 import tango.io.Stdout;
 

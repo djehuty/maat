@@ -1,6 +1,6 @@
-module ast.modulenode;
+module ast.module_node;
 
-import ast.declarationnode;
+import ast.declaration_node;
 
 class ModuleNode {
 private:

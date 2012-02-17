@@ -1,4 +1,4 @@
-module ast.declarationnode;
+module ast.declaration_node;
 
 class DeclarationNode {
 private:

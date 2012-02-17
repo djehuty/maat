@@ -7,7 +7,7 @@ module syntax.declarator_unit;
 
 import syntax.basic_type_suffix_unit;
 
-import ast.declaratornode;
+import ast.declarator_node;
 
 import lex.token;
 import lex.lexer;
