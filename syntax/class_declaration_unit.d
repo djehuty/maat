@@ -7,6 +7,8 @@ module syntax.class_declaration_unit;
 
 import syntax.class_body_unit;
 
+import ast.class_node;
+
 import lex.lexer;
 import lex.token;
 import logger;
@@ -29,14 +31,14 @@ public:
 		_logger = logger;
 	}
 	
-	char[] parse() {
+	ClassNode parse() {
 		Token token;
 
 		do {
 			token = _lexer.pop();
 		} while (tokenFound(token));
 
-		return "";
+		return null;
 	}
 
 	bool tokenFound(Token token) {
