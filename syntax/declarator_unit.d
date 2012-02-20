@@ -55,6 +55,8 @@ private:
 
 	int    _state;
 
+	char[] _name;
+
 public:
 
 	this(Lexer lexer, Logger logger) {
@@ -69,7 +71,7 @@ public:
 			token = _lexer.pop();
 		} while (tokenFound(token));
 
-		return new DeclaratorNode();
+		return new DeclaratorNode(_name);
 	}
 
 	bool tokenFound(Token token) {
@@ -93,6 +95,7 @@ public:
 
 					case Token.Type.Identifier:
 						_state = 3;
+						_name = token.string;
 						Stdout("Name: ")(token.string).newline;
 						break;
 
@@ -113,6 +116,7 @@ public:
 						break;
 					case Token.Type.Identifier:
 						_state = 3;
+						_name = token.string;
 						Stdout("Name: ")(token.string).newline;
 						break;
 					default:

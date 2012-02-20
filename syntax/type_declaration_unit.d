@@ -15,6 +15,8 @@ import lex.token;
 import logger;
 
 import ast.type_declaration_node;
+import ast.declarator_node;
+import ast.function_node;
 
 import tango.io.Stdout;
 
@@ -23,6 +25,9 @@ private:
 	Lexer  _lexer;
 	Logger _logger;
 	int    _state = 0;
+
+	DeclaratorNode _node;
+	FunctionNode _function;
 
 public:
 	this(Lexer lexer, Logger logger) {
@@ -37,6 +42,9 @@ public:
 			token = _lexer.pop();
 		} while (tokenFound(token));
 
+		if (_function !is null) {
+			Stdout("Function ")(_node.name).newline;
+		}
 		return new TypeDeclarationNode();
 	}
 
@@ -78,7 +86,7 @@ public:
 
 						// We have a basic type... look for Declarator
 						Stdout("DECLARaaATOR").newline;
-						auto declarator = (new DeclaratorUnit(_lexer, _logger)).parse();
+						_node = (new DeclaratorUnit(_lexer, _logger)).parse();
 						this._state = 1;
 						break;
 
@@ -130,6 +138,7 @@ public:
 						// It could be a function body
 						_lexer.push(token);
 						auto function_body = (new FunctionBodyUnit(_lexer, _logger)).parse;
+						_function = new FunctionNode(_node.name, null, null, null);
 						return false;
 
 					default:
