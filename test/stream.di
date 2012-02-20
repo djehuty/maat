@@ -8,4 +8,7 @@ int x = 4;
 
 class Stream {
 	this();
+
+	void foo() {
+	}
 }

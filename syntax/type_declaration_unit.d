@@ -7,6 +7,7 @@ module syntax.type_declaration_unit;
 
 import syntax.declarator_unit;
 import syntax.initializer_unit;
+import syntax.function_body_unit;
 
 import lex.lexer;
 import lex.token;
@@ -128,7 +129,7 @@ public:
 					case Token.Type.Body:
 						// It could be a function body
 						_lexer.push(token);
-						//auto tree = expand!(FunctionBodyUnit)();
+						auto function_body = (new FunctionBodyUnit(_lexer, _logger)).parse;
 						return false;
 
 					default:

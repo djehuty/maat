@@ -7,6 +7,8 @@ module syntax.function_body_unit;
 
 import syntax.block_statement_unit;
 
+import ast.statement_node;
+
 import lex.lexer;
 import lex.token;
 import logger;
@@ -25,14 +27,14 @@ public:
 		_logger = logger;
 	}
 	
-	char[] parse() {
+	StatementNode[] parse() {
 		Token token;
 
 		do {
 			token = _lexer.pop();
 		} while (tokenFound(token));
 
-		return "";
+		return null;
 	}
 
 	bool tokenFound(Token token) {
