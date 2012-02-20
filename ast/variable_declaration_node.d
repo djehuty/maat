@@ -1,9 +1,9 @@
-module ast.variable_node;
+module ast.variable_declaration_node;
 
 import ast.type_node;
 import ast.expression_node;
 
-class VariableNode {
+class VariableDeclarationNode {
 private:
 	char[]         _name;
 	TypeNode       _type;
