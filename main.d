@@ -14,5 +14,9 @@ int main() {
 	Logger logger = new Logger();
 	auto ast = p.parse(logger);
 
+	foreach(decl; ast.imports) {
+		Stdout("Importing ")(decl.moduleName).newline;
+	}
+
 	return 0;
 }

@@ -6,10 +6,10 @@ private:
 
 public:
 	this(char[] moduleName) {
-		_moduleName = moduleName;
+		_moduleName = moduleName.dup;
 	}
 
 	char[] moduleName() {
-		return moduleName;
+		return _moduleName.dup;
 	}
 }

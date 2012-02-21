@@ -1,5 +1,7 @@
 module io.stream;
 
+import io.buffer;
+
 /*
 This class represents a data stream of arbitrary bytes.
 */

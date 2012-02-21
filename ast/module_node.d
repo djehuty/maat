@@ -1,6 +1,7 @@
 module ast.module_node;
 
 import ast.declaration_node;
+import ast.import_declaration_node;
 
 class ModuleNode {
 private:
@@ -21,15 +22,15 @@ public:
 		return _declarations;
 	}
 
-	DeclarationNode[] imports() {
+	ImportDeclarationNode[] imports() {
 		if (_declarations is null) {
 			return null;
 		}
 
-		DeclarationNode[] ret = [];
-		foreach(node; _declarations) {
-			if (node.type == DeclarationNode.Type.ImportDeclaration) {
-				ret ~= node;
+		ImportDeclarationNode[] ret = [];
+		foreach(decl; _declarations) {
+			if (decl.type == DeclarationNode.Type.ImportDeclaration) {
+				ret ~= cast(ImportDeclarationNode)decl.node;
 			}
 		}
 		return ret;

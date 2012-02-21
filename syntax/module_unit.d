@@ -21,8 +21,6 @@ import ast.declaration_node;
 import syntax.module_declaration_unit;
 import syntax.declaration_unit;
 
-import tango.io.Stdout;
-
 /*
 
   Module => module ModuleDecl

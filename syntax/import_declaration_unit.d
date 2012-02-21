@@ -30,11 +30,9 @@ private:
 
 	int    _state;
 
-	char[] _cur_string;
-
 	Token  _last;
 
-	char[] cur_string = "";
+	char[] _cur_string = "";
 
 	static const char[] _common_error_msg = "The import declaration is not formed correctly.";
 	static const char[][] _common_error_usages = [
@@ -63,7 +61,7 @@ public:
 			_last = token;
 		}
 
-		return cur_string;
+		return _cur_string;
 	}
 
 	bool tokenFound(Token token) {
