@@ -23,10 +23,6 @@ public:
 	}
 
 	ImportDeclarationNode[] imports() {
-		if (_declarations is null) {
-			return null;
-		}
-
 		ImportDeclarationNode[] ret = [];
 		foreach(decl; _declarations) {
 			if (decl.type == DeclarationNode.Type.ImportDeclaration) {
