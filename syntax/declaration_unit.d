@@ -17,17 +17,21 @@ import syntax.import_declaration_unit;
 import syntax.constructor_declaration_unit;
 import syntax.destructor_declaration_unit;
 
+import ast.declaration_node;
+import ast.import_declaration_node;
+
 import lex.lexer;
 import lex.token;
 
 import logger;
 
-import ast.declaration_node;
-
 class DeclarationUnit {
 private:
 	Lexer  _lexer;
 	Logger _logger;
+
+	DeclarationNode.Type _type;
+	Object _node;
 
 public:
 	this(Lexer lexer, Logger logger) {
@@ -42,7 +46,7 @@ public:
 			token = _lexer.pop();
 		} while (tokenFound(token));
 
-		return new DeclarationNode();
+		return new DeclarationNode(_type, _node);
 	}
 
 	bool tokenFound(Token token) {
@@ -87,7 +91,9 @@ public:
 
 			// Import Declaration
 			case Token.Type.Import:
-				auto decl = (new ImportDeclarationUnit(_lexer, _logger)).parse;
+				auto import_path = (new ImportDeclarationUnit(_lexer, _logger)).parse;
+				_type = DeclarationNode.Type.ImportDeclaration;
+				_node = new ImportDeclarationNode(import_path);
 				break;
 
 			// Enum Declaration

@@ -20,4 +20,18 @@ public:
 	DeclarationNode[] declarations() {
 		return _declarations;
 	}
+
+	DeclarationNode[] imports() {
+		if (_declarations is null) {
+			return null;
+		}
+
+		DeclarationNode[] ret = [];
+		foreach(node; _declarations) {
+			if (node.type == DeclarationNode.Type.ImportDeclaration) {
+				ret ~= node;
+			}
+		}
+		return ret;
+	}
 }
