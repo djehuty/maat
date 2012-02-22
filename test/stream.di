@@ -5,14 +5,14 @@ import io.buffer;
 /*
 This class represents a data stream of arbitrary bytes.
 */
-
-int x = 4;
-
 class Stream {
 	this();
 	this();
 	~this();
 
+    /* This function will do a thing
+       x: The first thing to input.
+       a: The second thing to input. */
 	void foo(int x, int a) {
 	}
 }
