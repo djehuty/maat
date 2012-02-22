@@ -34,7 +34,7 @@ int main() {
 			foreach(func; classNode.methods) {
 				Stdout("  Function: ")(func.name).newline;
 				foreach(param; func.parameters) {
-					Stdout("    Parameter: ")(param.name).newline;
+					Stdout("    Parameter: ")(param.type.identifier)(" ")(param.name).newline;
 				}
 			}
 		}

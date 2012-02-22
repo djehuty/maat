@@ -173,6 +173,10 @@ public:
 						_state == States.FoundPassBySpecifier) {
 					// Hopefully this is a BasicType 
 					auto typeNode = (new BasicTypeUnit(_lexer, _logger)).parse;
+					_type = typeNode.type;
+					_subtype = typeNode.subtype;
+					_identifier = typeNode.identifier;
+
 					_state = States.FoundBasicType;
 				}
 				else if (_state == States.FoundDeclaratorMiddle) {

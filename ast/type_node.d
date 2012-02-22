@@ -51,7 +51,9 @@ public:
 	this(Type type, TypeNode subtype, char[] identifier) {
 		_type = type;
 		_subtype = subtype;
-		_identifier = identifier;
+		if (_type == Type.UserDefined) {
+			_identifier = identifier;
+		}
 	}
 
 	Type type() {
@@ -63,6 +65,54 @@ public:
 	}
 
 	char[] identifier() {
+		switch (_type) {
+			case Type.Char:
+				return "char";
+			case Type.Dchar:
+				return "dchar";
+			case Type.Wchar:
+				return "wchar";
+			case Type.Float:
+				return "float";
+			case Type.Ifloat:
+				return "ifloat";
+			case Type.Cfloat:
+				return "cfloat";
+			case Type.Double:
+				return "double";
+			case Type.Idouble:
+				return "idouble";
+			case Type.Cdouble:
+				return "cdouble";
+			case Type.Real:
+				return "real";
+			case Type.Ireal:
+				return "ireal";
+			case Type.Creal:
+				return "creal";
+			case Type.Byte:
+				return "byte";
+			case Type.Ubyte:
+				return "ubyte";
+			case Type.Short:
+				return "short";
+			case Type.Ushort:
+				return "ushort";
+			case Type.Int:
+				return "int";
+			case Type.Uint:
+				return "uint";
+			case Type.Long:
+				return "long";
+			case Type.Ulong:
+				return "ulong";
+			case Type.Void:
+				return "void";
+			case Type.Array:
+				return _subtype.identifier ~ "[]";
+			case Type.Pointer:
+				return _subtype.identifier ~ "*";
+		}
 		return _identifier;
 	}
 }
