@@ -15,6 +15,8 @@ import lex.lexer;
 import lex.token;
 import logger;
 
+import tango.io.Stdout;
+
 class ClassBodyUnit {
 private:
 	Lexer  _lexer;
@@ -71,7 +73,7 @@ public:
 					_constructors ~= cast(FunctionNode)decl.node;
 				}
 				else if (decl.type == DeclarationNode.Type.DestructorDeclaration) {
-					if (_destructor !is null) {
+					if (_destructor is null) {
 						_destructor = cast(FunctionNode)decl.node;
 					}
 					else {

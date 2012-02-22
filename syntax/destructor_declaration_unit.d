@@ -7,6 +7,8 @@ module syntax.destructor_declaration_unit;
 
 import syntax.function_body_unit;
 
+import ast.function_node;
+
 import lex.lexer;
 import lex.token;
 import logger;
@@ -19,6 +21,8 @@ private:
 	int    _state;
 
 	bool   _thisFound = false;
+
+	FunctionNode _functionNode;
 
 	static const char[] _common_error_msg = "Destructor declaration invalid.";
 	static const char[][] _common_error_usages = [
@@ -33,14 +37,14 @@ public:
 		_logger = logger;
 	}
 	
-	char[] parse() {
+	FunctionNode parse() {
 		Token token;
 
 		do {
 			token = _lexer.pop();
 		} while (tokenFound(token));
 
-		return "";
+		return _functionNode;
 	}
 
 	bool tokenFound(Token token) {
@@ -137,6 +141,7 @@ public:
 				// Function body!
 				_lexer.push(token);
 				auto destructor_body = (new FunctionBodyUnit(_lexer, _logger)).parse;
+				_functionNode = new FunctionNode(null, null, null, null);
 
 				// Done.
 				return false;

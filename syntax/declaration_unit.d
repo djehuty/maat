@@ -135,7 +135,8 @@ public:
 
 			// Destructor Declaration
 			case Token.Type.Cat:
-				auto decl = (new DestructorDeclarationUnit(_lexer, _logger)).parse;
+				_type = DeclarationNode.Type.DestructorDeclaration;
+				_node = (new DestructorDeclarationUnit(_lexer, _logger)).parse;
 				break;
 
 			// Version Block

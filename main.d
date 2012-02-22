@@ -28,6 +28,9 @@ int main() {
 			foreach(func; classNode.constructors) {
 				Stdout("  Constructor!").newline;
 			}
+			if (classNode.destructor !is null) {
+				Stdout("  Destructor!").newline;
+			}
 			foreach(func; classNode.methods) {
 				Stdout("  Function: ")(func.name).newline;
 			}

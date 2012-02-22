@@ -13,8 +13,6 @@ import lex.lexer;
 import lex.token;
 import logger;
 
-import tango.io.Stdout;
-
 class ClassDeclarationUnit {
 private:
 	Lexer  _lexer;
@@ -89,7 +87,6 @@ public:
 					// Error: Two names?
 					// TODO:
 				}
-				Stdout("Class: ")(token.string).newline;
 				_cur_string = token.string;
 				break;
 

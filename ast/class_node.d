@@ -28,4 +28,8 @@ public:
 	FunctionNode[] constructors() {
 		return _constructors.dup;
 	}
+
+	FunctionNode destructor() {
+		return _destructor;
+	}
 }
