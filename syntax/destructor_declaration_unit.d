@@ -111,6 +111,7 @@ public:
 							_common_error_usages);
 				}
 				// Done.
+				_functionNode = new FunctionNode(null, null, null, null);
 				return false;
 
 				// Function body

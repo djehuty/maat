@@ -77,6 +77,7 @@ public:
 					// TODO:
 				}
 				Stdout("Constructor without body.").newline;
+				_functionNode = new FunctionNode(null, null, null, null);
 				// Done.
 				return false;
 
