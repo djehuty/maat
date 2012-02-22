@@ -15,8 +15,6 @@ import lex.token;
 import lex.lexer;
 import logger;
 
-import tango.io.Stdout;
-
 /*
 
    ModuleDecl => ( . Identifier )+ ;
@@ -105,7 +103,6 @@ public:
 					return true;
 				}
 
-				Stdout("Module: ")(cur_string).newline;
 				// End of declaration
 				return false;
 

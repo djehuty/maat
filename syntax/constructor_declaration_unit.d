@@ -9,12 +9,11 @@ import syntax.parameter_list_unit;
 import syntax.function_body_unit;
 
 import ast.function_node;
+import ast.variable_declaration_node;
 
 import lex.lexer;
 import lex.token;
 import logger;
-
-import tango.io.Stdout;
 
 class ConstructorDeclarationUnit {
 private:
@@ -23,7 +22,8 @@ private:
 
 	int    _state;
 
-	FunctionNode _functionNode;
+	FunctionNode              _functionNode;
+	VariableDeclarationNode[] _parameters;
 
 public:
 
@@ -76,8 +76,7 @@ public:
 					// Error: Have not found a right paren!
 					// TODO:
 				}
-				Stdout("Constructor without body.").newline;
-				_functionNode = new FunctionNode(null, null, null, null);
+				_functionNode = new FunctionNode(null, null, null, null, null);
 				// Done.
 				return false;
 
@@ -103,7 +102,7 @@ public:
 				// Function body!
 				_lexer.push(token);
 				auto functionBody = (new FunctionBodyUnit(_lexer, _logger)).parse;
-				_functionNode = new FunctionNode(null, null, null, null);
+				_functionNode = new FunctionNode(null, _parameters, null, null, null);
 
 				// Done.
 				return false;
@@ -114,7 +113,7 @@ public:
 					// Found a left paren, but not a right paren...
 					// Look for the parameter list.
 					_lexer.push(token);
-					auto params = (new ParameterListUnit(_lexer, _logger)).parse;
+					_parameters = (new ParameterListUnit(_lexer, _logger)).parse;
 				}
 				else {
 					// Errors!

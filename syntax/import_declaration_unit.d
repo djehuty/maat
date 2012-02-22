@@ -9,8 +9,6 @@ import lex.lexer;
 import lex.token;
 import logger;
 
-import tango.io.Stdout;
-
 /*
 
 	ImportDecl => ( static )? import ImportList ;
@@ -82,7 +80,6 @@ public:
 
 			case Token.Type.Semicolon:
 				// End of declaration
-				Stdout("Import: ")(_cur_string).newline;
 				return false;
 
 			case Token.Type.Identifier:

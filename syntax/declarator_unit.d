@@ -6,14 +6,15 @@
 module syntax.declarator_unit;
 
 import syntax.basic_type_suffix_unit;
+import syntax.declarator_suffix_unit;
+import syntax.parameter_list_unit;
 
 import ast.declarator_node;
+import ast.variable_declaration_node;
 
 import lex.token;
 import lex.lexer;
 import logger;
-
-import tango.io.Stdout;
 
 /*
 
@@ -57,6 +58,8 @@ private:
 
 	char[] _name;
 
+	VariableDeclarationNode[] _parameters;
+
 public:
 
 	this(Lexer lexer, Logger logger) {
@@ -71,7 +74,7 @@ public:
 			token = _lexer.pop();
 		} while (tokenFound(token));
 
-		return new DeclaratorNode(_name);
+		return new DeclaratorNode(_name, _parameters);
 	}
 
 	bool tokenFound(Token token) {
@@ -83,7 +86,6 @@ public:
 					case Token.Type.Function:
 					case Token.Type.Mul:
 						_lexer.push(token);
-						Stdout("BasicTypeSuffixUnit").newline;
 						auto basic_type = (new BasicTypeSuffixUnit(_lexer, _logger)).parse;
 						break;
 
@@ -96,7 +98,6 @@ public:
 					case Token.Type.Identifier:
 						_state = 3;
 						_name = token.string;
-						Stdout("Name: ")(token.string).newline;
 						break;
 
 					default:
@@ -117,7 +118,6 @@ public:
 					case Token.Type.Identifier:
 						_state = 3;
 						_name = token.string;
-						Stdout("Name: ")(token.string).newline;
 						break;
 					default:
 						// Bad
@@ -141,11 +141,14 @@ public:
 			// Found (Declarator) or Identifier... look for Declarator Suffix (if exists)
 			case 3:
 				switch(token.type) {
+					case Token.Type.LeftParen:
+						_parameters = (new ParameterListUnit(_lexer, _logger)).parse;
+						break;
+
 					case Token.Type.LeftBracket:
 					case Token.Type.Mul:
-					case Token.Type.LeftParen:
 						_lexer.push(token);
-						//auto tree = expand!(DeclaratorSuffixUnit)();
+						auto tree = (new DeclaratorSuffixUnit(_lexer, _logger)).parse;
 						break;
 
 					default:

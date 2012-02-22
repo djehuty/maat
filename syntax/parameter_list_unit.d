@@ -7,6 +7,8 @@ module syntax.parameter_list_unit;
 
 import syntax.parameter_unit;
 
+import ast.variable_declaration_node;
+
 import lex.lexer;
 import lex.token;
 import logger;
@@ -27,6 +29,8 @@ private:
 
 	int    _state;
 
+	VariableDeclarationNode[] _parameters;
+
 public:
 
 	this(Lexer lexer, Logger logger) {
@@ -34,14 +38,14 @@ public:
 		_logger = logger;
 	}
 	
-	char[] parse() {
+	VariableDeclarationNode[] parse() {
 		Token token;
 
 		do {
 			token = _lexer.pop();
 		} while (tokenFound(token));
 
-		return "";
+		return _parameters;
 	}
 
 	bool tokenFound(Token token) {
@@ -73,7 +77,7 @@ public:
 				if (_state == 0) {
 					// Look for a parameter
 					_lexer.push(token);
-					auto param = (new ParameterUnit(_lexer, _logger)).parse;
+					_parameters ~= (new ParameterUnit(_lexer, _logger)).parse;
 					_state = 1;
 				}
 				else if (_state == 2) {

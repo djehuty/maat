@@ -8,11 +8,11 @@ module syntax.declarator_middle_unit;
 import syntax.basic_type_suffix_unit;
 import syntax.declarator_suffix_unit;
 
+import ast.declarator_node;
+
 import lex.lexer;
 import lex.token;
 import logger;
-
-import tango.io.Stdout;
 
 /*
 
@@ -55,6 +55,8 @@ private:
 
 	int    _state;
 
+	char[] _name;
+
 public:
 
 	this(Lexer lexer, Logger logger) {
@@ -62,14 +64,14 @@ public:
 		_logger = logger;
 	}
 	
-	char[] parse() {
+	DeclaratorNode parse() {
 		Token token;
 
 		do {
 			token = _lexer.pop();
 		} while (tokenFound(token));
 
-		return "";
+		return new DeclaratorNode(_name, null);
 	}
 
 	bool tokenFound(Token token) {
@@ -92,7 +94,7 @@ public:
 
 					case Token.Type.Identifier:
 						_state = 3;
-						Stdout("Name: ")(token.string).newline;
+						_name = token.string;
 						break;
 
 					default:
@@ -113,7 +115,7 @@ public:
 						break;
 					case Token.Type.Identifier:
 						_state = 3;
-						Stdout("Name: ")(token.string).newline;
+						_name = token.string;
 						break;
 					default:
 						// OK.

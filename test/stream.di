@@ -13,6 +13,6 @@ class Stream {
 	this();
 	~this();
 
-	void foo() {
+	void foo(int x, int a) {
 	}
 }

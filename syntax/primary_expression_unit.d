@@ -9,8 +9,6 @@ import lex.lexer;
 import lex.token;
 import logger;
 
-import tango.io.Stdout;
-
 /*
 
 */
@@ -51,13 +49,10 @@ public:
 				_cur_string = token.string;
 				return false;
 			case Token.Type.IntegerLiteral:
-				Stdout("Value: ")(token.integer).newline;
 				return false;
 			case Token.Type.Identifier:
-				Stdout("Variable: ")(token.string).newline;
 				return false;
 			default:
-				Stdout("Primary Expr Default").newline;
 				break;
 		}
 		return false;

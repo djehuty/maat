@@ -7,6 +7,11 @@ module syntax.parameter_unit;
 
 import syntax.assign_expression_unit;
 import syntax.declarator_middle_unit;
+import syntax.basic_type_unit;
+
+import ast.variable_declaration_node;
+import ast.declarator_node;
+import ast.type_node;
 
 import lex.lexer;
 import lex.token;
@@ -68,6 +73,15 @@ private:
 		FoundDeclaratorMiddle,
 	}
 
+	// For TypeNode formation
+	TypeNode.Type _type;
+	TypeNode      _subtype;
+	char[]        _identifier;
+
+	char[]        _name;
+
+	DeclaratorNode _node;
+
 public:
 
 	this(Lexer lexer, Logger logger) {
@@ -75,14 +89,16 @@ public:
 		_logger = logger;
 	}
 	
-	char[] parse() {
+	VariableDeclarationNode parse() {
 		Token token;
 
 		do {
 			token = _lexer.pop();
 		} while (tokenFound(token));
 
-		return "";
+		return new VariableDeclarationNode(_name,
+		                                   new TypeNode(_type, _subtype, _identifier),
+										   null);
 	}
 
 	bool tokenFound(Token token) {
@@ -139,7 +155,8 @@ public:
 
 				_lexer.push(token);
 
-				auto middle = (new DeclaratorMiddleUnit(_lexer, _logger)).parse;
+				_node = (new DeclaratorMiddleUnit(_lexer, _logger)).parse;
+				_name = _node.name;
 				_state = States.FoundDeclaratorMiddle;
 				break;
 
@@ -148,13 +165,14 @@ public:
 
 				if (_state == States.FoundBasicType) {
 					// Could be a declarator then.
-					auto middle = (new DeclaratorMiddleUnit(_lexer, _logger)).parse;
+					_node = (new DeclaratorMiddleUnit(_lexer, _logger)).parse;
+					_name = _node.name;
 					_state = States.FoundDeclaratorMiddle;
 				}
 				else if (_state == States.Start ||
 						_state == States.FoundPassBySpecifier) {
 					// Hopefully this is a BasicType 
-//					auto tree = expand!(BasicTypeUnit)();
+					auto typeNode = (new BasicTypeUnit(_lexer, _logger)).parse;
 					_state = States.FoundBasicType;
 				}
 				else if (_state == States.FoundDeclaratorMiddle) {

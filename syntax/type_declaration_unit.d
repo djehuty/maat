@@ -18,8 +18,6 @@ import ast.type_declaration_node;
 import ast.declarator_node;
 import ast.function_node;
 
-import tango.io.Stdout;
-
 class TypeDeclarationUnit {
 private:
 	Lexer  _lexer;
@@ -42,9 +40,6 @@ public:
 			token = _lexer.pop();
 		} while (tokenFound(token));
 
-		if (_function !is null) {
-			Stdout("Function ")(_node.name).newline;
-		}
 		return new TypeDeclarationNode(_function);
 	}
 
@@ -85,7 +80,6 @@ public:
 						// XXX: Handle scoped identifiers?
 
 						// We have a basic type... look for Declarator
-						Stdout("DECLARaaATOR").newline;
 						_node = (new DeclaratorUnit(_lexer, _logger)).parse();
 						this._state = 1;
 						break;
@@ -122,7 +116,6 @@ public:
 						return false;
 					case Token.Type.Comma:
 						// Look for another declarator
-						Stdout("DECLARATOR").newline;
 						auto expr = (new DeclaratorUnit(_lexer, _logger)).parse;
 						break;
 
@@ -138,7 +131,7 @@ public:
 						// It could be a function body
 						_lexer.push(token);
 						auto function_body = (new FunctionBodyUnit(_lexer, _logger)).parse;
-						_function = new FunctionNode(_node.name, null, null, null);
+						_function = new FunctionNode(_node.name, _node.parameters, null, null, null);
 						return false;
 
 					default:
