@@ -23,6 +23,8 @@ private:
 	int    _state;
 
 	FunctionNode[] _functions;
+	FunctionNode[] _constructors;
+	FunctionNode   _destructor;
 
 public:
 
@@ -38,7 +40,7 @@ public:
 			token = _lexer.pop();
 		} while (tokenFound(token));
 
-		return [_functions, null, null];
+		return [_constructors, [_destructor], _functions];
 	}
 
 	bool tokenFound(Token token) {
@@ -64,6 +66,17 @@ public:
 				auto decl = (new DeclarationUnit(_lexer, _logger)).parse;
 				if (decl.type == DeclarationNode.Type.FunctionDeclaration) {
 					_functions ~= cast(FunctionNode)decl.node;
+				}
+				else if (decl.type == DeclarationNode.Type.ConstructorDeclaration) {
+					_constructors ~= cast(FunctionNode)decl.node;
+				}
+				else if (decl.type == DeclarationNode.Type.DestructorDeclaration) {
+					if (_destructor !is null) {
+						_destructor = cast(FunctionNode)decl.node;
+					}
+					else {
+						// XXX: Error. Two destructors.
+					}
 				}
 				break;
 		}

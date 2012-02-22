@@ -25,6 +25,9 @@ int main() {
 		if (decl.type == DeclarationNode.Type.ClassDeclaration) {
 			auto classNode = cast(ClassNode)decl.node;
 			Stdout("Class: ")(classNode.name).newline;
+			foreach(func; classNode.constructors) {
+				Stdout("  Constructor!").newline;
+			}
 			foreach(func; classNode.methods) {
 				Stdout("  Function: ")(func.name).newline;
 			}

@@ -8,6 +8,8 @@ module syntax.constructor_declaration_unit;
 import syntax.parameter_list_unit;
 import syntax.function_body_unit;
 
+import ast.function_node;
+
 import lex.lexer;
 import lex.token;
 import logger;
@@ -21,6 +23,8 @@ private:
 
 	int    _state;
 
+	FunctionNode _functionNode;
+
 public:
 
 	this(Lexer lexer, Logger logger) {
@@ -28,14 +32,14 @@ public:
 		_logger = logger;
 	}
 	
-	char[] parse() {
+	FunctionNode parse() {
 		Token token;
 
 		do {
 			token = _lexer.pop();
 		} while (tokenFound(token));
 
-		return "";
+		return _functionNode;
 	}
 
 	bool tokenFound(Token token) {
@@ -97,7 +101,8 @@ public:
 
 				// Function body!
 				_lexer.push(token);
-				auto function_body = (new FunctionBodyUnit(_lexer, _logger)).parse;
+				auto functionBody = (new FunctionBodyUnit(_lexer, _logger)).parse;
+				_functionNode = new FunctionNode(null, null, null, null);
 
 				// Done.
 				return false;

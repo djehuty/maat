@@ -5,6 +5,8 @@ public:
 
 	enum Type {
 		ClassDeclaration,
+		ConstructorDeclaration,
+		DestructorDeclaration,
 		EnumDeclaration,
 		FunctionDeclaration,
 		ImportDeclaration,

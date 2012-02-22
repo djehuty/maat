@@ -48,7 +48,7 @@ public:
 			// The start of the body
 			case Token.Type.LeftCurly:
 				auto classBody = (new ClassBodyUnit(_lexer, _logger)).parse;
-				_classNode = new ClassNode(_cur_string, null, null, classBody[0]);
+				_classNode = new ClassNode(_cur_string, classBody[0], classBody[1][0], classBody[2]);
 
 				// Done.
 				return false;

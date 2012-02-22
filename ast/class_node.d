@@ -22,6 +22,10 @@ public:
 	}
 
 	FunctionNode[] methods() {
-		return _methods;
+		return _methods.dup;
+	}
+	
+	FunctionNode[] constructors() {
+		return _constructors.dup;
 	}
 }

@@ -129,7 +129,8 @@ public:
 
 			// Constructor Declaration
 			case Token.Type.This:
-				auto decl = (new ConstructorDeclarationUnit(_lexer, _logger)).parse;
+				_type = DeclarationNode.Type.ConstructorDeclaration;
+				_node = (new ConstructorDeclarationUnit(_lexer, _logger)).parse;
 				break;
 
 			// Destructor Declaration
