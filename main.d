@@ -7,6 +7,9 @@ import syntax.parser;
 
 import tango.io.Stdout;
 
+import ast.class_node;
+import ast.declaration_node;
+
 int main() {
 	auto lex = new Lexer("test/stream.di");
 
@@ -16,6 +19,16 @@ int main() {
 
 	foreach(decl; ast.imports) {
 		Stdout("Importing ")(decl.moduleName).newline;
+	}
+
+	foreach(decl; ast.declarations) {
+		if (decl.type == DeclarationNode.Type.ClassDeclaration) {
+			auto classNode = cast(ClassNode)decl.node;
+			Stdout("Class: ")(classNode.name).newline;
+			foreach(func; classNode.methods) {
+				Stdout("  Function: ")(func.name).newline;
+			}
+		}
 	}
 
 	return 0;

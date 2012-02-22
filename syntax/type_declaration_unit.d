@@ -45,7 +45,7 @@ public:
 		if (_function !is null) {
 			Stdout("Function ")(_node.name).newline;
 		}
-		return new TypeDeclarationNode();
+		return new TypeDeclarationNode(_function);
 	}
 
 	bool tokenFound(Token token) {

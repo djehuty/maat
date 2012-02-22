@@ -24,6 +24,8 @@ private:
 	
 	char[] _cur_string;
 
+	ClassNode _classNode;
+
 public:
 
 	this(Lexer lexer, Logger logger) {
@@ -38,14 +40,15 @@ public:
 			token = _lexer.pop();
 		} while (tokenFound(token));
 
-		return null;
+		return _classNode;
 	}
 
 	bool tokenFound(Token token) {
 		switch (token.type) {
 			// The start of the body
 			case Token.Type.LeftCurly:
-				auto class_body = (new ClassBodyUnit(_lexer, _logger)).parse;
+				auto classBody = (new ClassBodyUnit(_lexer, _logger)).parse;
+				_classNode = new ClassNode(_cur_string, null, null, classBody[0]);
 
 				// Done.
 				return false;

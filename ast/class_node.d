@@ -7,11 +7,21 @@ private:
 	FunctionNode[] _constructors;
 	FunctionNode[] _methods;
 	FunctionNode   _destructor;
+	char[]         _name;
 
 public:
-	this(FunctionNode[] constructors, FunctionNode destructor, FunctionNode[] methods) {
+	this(char[] name, FunctionNode[] constructors, FunctionNode destructor, FunctionNode[] methods) {
 		_constructors = constructors.dup;
 		_destructor   = destructor;
 		_methods      = methods.dup;
+		_name         = name;
+	}
+
+	char[] name() {
+		return _name;
+	}
+
+	FunctionNode[] methods() {
+		return _methods;
 	}
 }

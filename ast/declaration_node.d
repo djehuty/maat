@@ -6,6 +6,7 @@ public:
 	enum Type {
 		ClassDeclaration,
 		EnumDeclaration,
+		FunctionDeclaration,
 		ImportDeclaration,
 		InterfaceDeclaration
 	}

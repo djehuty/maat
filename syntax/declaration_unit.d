@@ -19,6 +19,7 @@ import syntax.destructor_declaration_unit;
 
 import ast.declaration_node;
 import ast.import_declaration_node;
+import ast.type_declaration_node;
 
 import lex.lexer;
 import lex.token;
@@ -111,7 +112,8 @@ public:
 
 			// Class Declaration
 			case Token.Type.Class:
-				auto decl = (new ClassDeclarationUnit(_lexer, _logger)).parse;
+				_type = DeclarationNode.Type.ClassDeclaration;
+				_node = (new ClassDeclarationUnit(_lexer, _logger)).parse;
 				break;
 
 			// Interface Declaration
@@ -166,6 +168,10 @@ public:
 			default:
 				_lexer.push(token);
 				auto decl = (new TypeDeclarationUnit(_lexer, _logger)).parse;
+				if (decl.type == TypeDeclarationNode.Type.FunctionDeclaration) {
+					_node = decl.node;
+					_type = DeclarationNode.Type.FunctionDeclaration;
+				}
 				break;
 		}
 		return false;

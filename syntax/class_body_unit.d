@@ -7,6 +7,10 @@ module syntax.class_body_unit;
 
 import syntax.declaration_unit;
 
+import ast.class_node;
+import ast.function_node;
+import ast.declaration_node;
+
 import lex.lexer;
 import lex.token;
 import logger;
@@ -18,6 +22,8 @@ private:
 
 	int    _state;
 
+	FunctionNode[] _functions;
+
 public:
 
 	this(Lexer lexer, Logger logger) {
@@ -25,14 +31,14 @@ public:
 		_logger = logger;
 	}
 	
-	char[] parse() {
+	FunctionNode[][] parse() {
 		Token token;
 
 		do {
 			token = _lexer.pop();
 		} while (tokenFound(token));
 
-		return "";
+		return [_functions, null, null];
 	}
 
 	bool tokenFound(Token token) {
@@ -56,6 +62,9 @@ public:
 			default:
 				_lexer.push(token);
 				auto decl = (new DeclarationUnit(_lexer, _logger)).parse;
+				if (decl.type == DeclarationNode.Type.FunctionDeclaration) {
+					_functions ~= cast(FunctionNode)decl.node;
+				}
 				break;
 		}
 		return true;
