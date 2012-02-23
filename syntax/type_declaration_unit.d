@@ -26,6 +26,7 @@ private:
 
 	DeclaratorNode _node;
 	FunctionNode _function;
+	char[] _comment;
 
 public:
 	this(Lexer lexer, Logger logger) {
@@ -34,6 +35,13 @@ public:
 	}
 
 	TypeDeclarationNode parse() {
+		// Get all comments
+		_comment = "";
+		while(!_lexer.commentEmpty()) {
+			auto t = _lexer.commentPop();
+			_comment ~= t.string;
+		}
+
 		Token token;
 
 		do {
@@ -131,7 +139,7 @@ public:
 						// It could be a function body
 						_lexer.push(token);
 						auto function_body = (new FunctionBodyUnit(_lexer, _logger)).parse;
-						_function = new FunctionNode(_node.name, _node.parameters, null, null, null);
+						_function = new FunctionNode(_node.name, _node.parameters, null, null, null, _comment);
 						return false;
 
 					default:

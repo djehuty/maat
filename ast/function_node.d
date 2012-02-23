@@ -10,19 +10,22 @@ private:
 	StatementNode[]           _inBlock;
 	StatementNode[]           _outBlock;
 	VariableDeclarationNode[] _params;
+	char[]                    _comment;
 
 public:
 	this(char[] name,
 		 VariableDeclarationNode[] params,
 	     StatementNode[] bodyBlock,
 	     StatementNode[] inBlock,
-		 StatementNode[] outBlock) {
+		 StatementNode[] outBlock,
+		 char[]          comment = null) {
 
 		_name = name.dup;
 		_bodyBlock = bodyBlock.dup;
 		_inBlock = inBlock.dup;
 		_outBlock = outBlock.dup;
 		_params = params.dup;
+		_comment = comment.dup;
 	}
 
 	char[] name() {
@@ -43,5 +46,9 @@ public:
 
 	VariableDeclarationNode[] parameters() {
 		return _params.dup;
+	}
+
+	char[] comment() {
+		return _comment.dup;
 	}
 }
