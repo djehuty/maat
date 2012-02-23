@@ -92,14 +92,29 @@ private:
 	bool inDecimal;
 	bool inExponent;
 
-
 	char[][] _lines;
 
 	// Simple stack of tokens
 	Token[] _bank;
 
+	Token[] _comment_bank;
+
+	void _comment_bank_push(Token token) {
+		_comment_bank ~= token;
+	}
+
+	bool _comment_bank_empty() {
+		return _comment_bank.length == 0;
+	}
+
+	Token _comment_bank_pop() {
+		Token ret = _comment_bank[$-1];
+		_comment_bank = _comment_bank[0..$-1];
+		return ret;
+	}
+
 	void _bank_push(Token token) {
-		_bank = _bank ~ [token];
+		_bank ~= token;
 	}
 
 	bool _bank_empty() {
@@ -112,23 +127,7 @@ private:
 		return ret;
 	}
 
-public:
-	char[] filename() {
-		return _filename;
-	}
-
-	char[] line(uint idx) {
-		return _lines[idx-1];
-	}
-
-	void push(Token token) {
-		_bank_push(token);
-	}
-
-	Token pop() {
-		if (!_bank_empty) {
-			return _bank_pop();
-		}
+	Token _next() {
 		Token current = new Token(Token.Type.EOF);
 		current.line = _lineNumber;
 		current.column = _pos + 1;
@@ -1044,6 +1043,50 @@ public:
 		}
 
 		return Token.init;
+	}
+
+public:
+	char[] filename() {
+		return _filename;
+	}
+
+	char[] line(uint idx) {
+		return _lines[idx-1];
+	}
+
+	Token commentPop() {
+		if (!_comment_bank_empty()) {
+			return _comment_bank_pop();
+		}
+		return Token.init;
+	}
+
+	void commentClear() {
+		_comment_bank = [];
+	}
+
+	bool commentEmpty() {
+		return _comment_bank_empty();
+	}
+
+	void push(Token token) {
+		_bank_push(token);
+	}
+
+	Token pop() {
+		if (!_bank_empty()) {
+			return _bank_pop();
+		}
+
+		for(;;) {
+			Token t = _next();
+			if (t.type == Token.Type.Comment) {
+				_comment_bank_push(t);
+			}
+			else {
+				return t;
+			}
+		}
 	}
 
 	this(char[] file) {
