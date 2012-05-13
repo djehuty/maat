@@ -76,61 +76,59 @@ public:
   }
 
   bool tokenFound(Token token) {
-    if (token.type == Token.Type.Static) {
-      _addAttributeIfUnique(Attribute.Static);
-      return true;
-    }
+    switch(token.type) {
+      case Token.Type.Static:
+        _addAttributeIfUnique(Attribute.Static);
+        return true;
 
-    if (token.type == Token.Type.Const) {
-      _addAttributeIfUnique(Attribute.Const);
-      return true;
-    }
+      case Token.Type.Const:
+        _addAttributeIfUnique(Attribute.Const);
+        return true;
 
-    if (token.type == Token.Type.Public) {
-      _addAttributeIfUnique(Attribute.Public);
-      return true;
-    }
+      case Token.Type.Public:
+        _addAttributeIfUnique(Attribute.Public);
+        return true;
 
-    if (token.type == Token.Type.Private) {
-      _addAttributeIfUnique(Attribute.Private);
-      return true;
-    }
+      case Token.Type.Private:
+        _addAttributeIfUnique(Attribute.Private);
+        return true;
 
-    if (token.type == Token.Type.Protected) {
-      _addAttributeIfUnique(Attribute.Protected);
-      return true;
-    }
+      case Token.Type.Protected:
+        _addAttributeIfUnique(Attribute.Protected);
+        return true;
 
-    if (token.type == Token.Type.Package) {
-      _addAttributeIfUnique(Attribute.Package);
-      return true;
-    }
+      case Token.Type.Package:
+        _addAttributeIfUnique(Attribute.Package);
+        return true;
 
-    if (token.type == Token.Type.Synchronized) {
-      _addAttributeIfUnique(Attribute.Synchronized);
-      return true;
-    }
+      case Token.Type.Synchronized:
+        _addAttributeIfUnique(Attribute.Synchronized);
+        return true;
 
-    if (token.type == Token.Type.Deprecated) {
-      _addAttributeIfUnique(Attribute.Deprecated);
-      return true;
-    }
+      case Token.Type.Deprecated:
+        _addAttributeIfUnique(Attribute.Deprecated);
+        return true;
 
-    if (token.type == Token.Type.Override) {
-      _addAttributeIfUnique(Attribute.Override);
-      return true;
-    }
+      case Token.Type.Override:
+        _addAttributeIfUnique(Attribute.Override);
+        return true;
 
-    if (token.type == Token.Type.Extern) {
-      _addAttributeIfUnique(Attribute.Extern);
-      // TODO: extern ( x ) // Do parens list
-      return true;
-    }
+      case Token.Type.Final:
+        _addAttributeIfUnique(Attribute.Final);
+        return true;
 
-    if (token.type == Token.Type.Scope) {
-      // TODO: scope ( x ) // Do parens list
-      _addAttributeIfUnique(Attribute.Extern);
-      return true;
+      case Token.Type.Extern:
+        _addAttributeIfUnique(Attribute.Extern);
+        // TODO: extern ( x ) // Do parens list
+        return true;
+
+      case Token.Type.Scope:
+        // TODO: scope ( x ) // Do parens list
+        _addAttributeIfUnique(Attribute.Extern);
+        return true;
+
+      default:
+        break;
     }
 
     // Followed by declaration
