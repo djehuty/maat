@@ -60,6 +60,7 @@ private:
 	static const Token.Type[] tokenMapping = [
 		'!':Token.Type.Bang,
 		':':Token.Type.Colon,
+    '?':Token.Type.Question,
 		';':Token.Type.Semicolon,
 		'.':Token.Type.Dot,
 		',':Token.Type.Comma,
