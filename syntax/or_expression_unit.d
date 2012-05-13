@@ -48,11 +48,27 @@ public:
 		}
 
 		switch (token.type) {
+      case Token.Type.Or:
+				if (this._state == 1) {
+					this._state = 0;
+					break;
+				}
+
+				// Fall through
+				goto default;
+
 			default:
 				_lexer.push(token);
+				if (this._state == 1) {
+					// Done.
+					return false;
+				}
 				auto tree = (new XorExpressionUnit(_lexer, _logger)).parse;
+
+        _state = 1;
 				break;
 		}
-		return false;
-	}
+
+		return true;
+  }
 }
