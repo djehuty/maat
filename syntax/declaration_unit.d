@@ -53,6 +53,10 @@ public:
 	}
 
 	bool tokenFound(Token token) {
+    if (token.type == Token.Type.Colon) {
+      _logger.println("man");
+    }
+
 		switch (token.type) {
 			case Token.Type.EOF:
 				return false;
@@ -95,6 +99,8 @@ public:
 				break;
 
 			// Attribute Specifier
+      case Token.Type.Colon:
+        // Let the error go to the appropriate place
       case Token.Type.Const:
 			case Token.Type.Synchronized:
 			case Token.Type.Deprecated:

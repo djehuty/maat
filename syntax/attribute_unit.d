@@ -127,6 +127,17 @@ public:
         _addAttributeIfUnique(Attribute.Extern);
         return true;
 
+      case Token.Type.Colon:
+        if (_attributes.length == 0) {
+          _logger.error(_lexer, token,
+              "Attribute list is empty.",
+              "Did you mean to place 'public' or 'private' (etc) here?",
+              ["public:", "private:", "public static:"]);
+        }
+
+        // Done
+        return false;
+
       default:
         break;
     }
