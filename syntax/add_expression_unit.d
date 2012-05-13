@@ -53,8 +53,8 @@ public:
 			case Token.Type.Add:
 			case Token.Type.Sub:
 			case Token.Type.Cat:
-				if (this._state == 1) {
-					this._state = 0;
+				if (_state == 1) {
+					_state = 0;
 					break;
 				}
 
@@ -63,14 +63,15 @@ public:
 
 			default:
 				_lexer.push(token);
-				if (this._state == 1) {
+				if (_state == 1) {
 					// Done.
 					return false;
 				}
 				auto expr = (new MultiplyExpressionUnit(_lexer, _logger)).parse;
-				this._state = 1;
+				_state = 1;
 				break;
 		}
-		return false;
+
+		return true;
 	}
 }
