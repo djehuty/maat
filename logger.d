@@ -46,4 +46,8 @@ public:
 	bool errors() {
 		return _errors;
 	}
+
+  void println(char[] string) {
+    Stdout(string).newline;
+  }
 }
