@@ -11,6 +11,7 @@ import syntax.parameter_list_unit;
 
 import ast.declarator_node;
 import ast.variable_declaration_node;
+import ast.type_node;
 
 import lex.token;
 import lex.lexer;
@@ -56,9 +57,11 @@ private:
 
 	int    _state;
 
-	char[] _name;
+	char[]   _name;
+  TypeNode _type;
+  TypeNode _basicType;
 
-	VariableDeclarationNode[] _parameters;
+	VariableDeclarationNode[] _parameters = null;
 
 public:
 
@@ -67,14 +70,16 @@ public:
 		_logger = logger;
 	}
 	
-	DeclaratorNode parse() {
+	DeclaratorNode parse(TypeNode basicType) {
+    _basicType = basicType;
+
 		Token token;
 
 		do {
 			token = _lexer.pop();
 		} while (tokenFound(token));
 
-		return new DeclaratorNode(_name, _parameters);
+		return new DeclaratorNode(_name, _type, _parameters);
 	}
 
 	bool tokenFound(Token token) {
@@ -86,12 +91,17 @@ public:
 					case Token.Type.Function:
 					case Token.Type.Mul:
 						_lexer.push(token);
-						auto basic_type = (new BasicTypeSuffixUnit(_lexer, _logger)).parse;
+            auto suffixType = (new BasicTypeSuffixUnit(_lexer, _logger)).parse;
+            if (_type is null) {
+              _type = _basicType;
+            }
+
+            _type = new TypeNode(suffixType.type, _type, suffixType.identifier);
 						break;
 
 					case Token.Type.LeftParen:
 						// Recursive Declarator
-						auto inner_declarator = (new DeclaratorUnit(_lexer, _logger)).parse;
+						auto inner_declarator = (new DeclaratorUnit(_lexer, _logger)).parse(_basicType);
 						_state = 2;
 						break;
 

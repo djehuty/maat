@@ -9,16 +9,19 @@ module syntax.basic_type_suffix_unit;
 
 import syntax.expression_unit;
 
+import ast.type_node;
+
 import lex.token;
 import lex.lexer;
-import logger;
 
-import tango.io.Stdout;
+import logger;
 
 class BasicTypeSuffixUnit {
 private:
 	Lexer  _lexer;
 	Logger _logger;
+
+  TypeNode _type;
 
 	int    _state;
 
@@ -29,14 +32,14 @@ public:
 		_logger = logger;
 	}
 	
-	char[] parse() {
+	TypeNode parse() {
 		Token token;
 
 		do {
 			token = _lexer.pop();
 		} while (tokenFound(token));
 
-		return "";
+		return _type;
 	}
 
 	bool tokenFound(Token token) {
@@ -58,7 +61,7 @@ public:
 					default:
 						// Error:
 						// TODO:
-						Stdout("terrible").newline;
+            _logger.println("error");
 						break;
 				}
 				break;
@@ -67,6 +70,7 @@ public:
 			case 1:
 				switch(token.type) {
 					case Token.Type.RightBracket:
+            _type = new TypeNode(TypeNode.Type.Array, null, null);
 						return false;
 
 					default:

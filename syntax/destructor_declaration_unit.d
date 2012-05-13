@@ -111,7 +111,7 @@ public:
 							_common_error_usages);
 				}
 				// Done.
-				_functionNode = new FunctionNode(null, null, null, null, null);
+				_functionNode = new FunctionNode(null, null, null, null, null, null);
 				return false;
 
 				// Function body
@@ -142,7 +142,7 @@ public:
 				// Function body!
 				_lexer.push(token);
 				auto destructor_body = (new FunctionBodyUnit(_lexer, _logger)).parse;
-				_functionNode = new FunctionNode(null, null, null, null, null);
+				_functionNode = new FunctionNode(null, null, null, null, null, null);
 
 				// Done.
 				return false;

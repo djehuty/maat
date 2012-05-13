@@ -42,6 +42,7 @@ public:
 
 		_lexer.push(token);
 		auto expr = (new AssignExpressionUnit(_lexer, _logger)).parse;
+
 		return false;
 	}
 }

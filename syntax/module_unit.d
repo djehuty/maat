@@ -58,7 +58,10 @@ public:
 					break;
 				default:
 					_lexer.push(token);
-					_declarations ~= (new DeclarationUnit(_lexer, _logger)).parse;
+          auto decl = (new DeclarationUnit(_lexer, _logger)).parse;
+          if (decl) {
+            _declarations ~= decl;
+          }
 					break;
 			}
 

@@ -2,6 +2,7 @@ module ast.function_node;
 
 import ast.statement_node;
 import ast.variable_declaration_node;
+import ast.type_node;
 
 class FunctionNode {
 private:
@@ -10,45 +11,52 @@ private:
 	StatementNode[]           _inBlock;
 	StatementNode[]           _outBlock;
 	VariableDeclarationNode[] _params;
+  TypeNode                  _returnType;
 	char[]                    _comment;
 
 public:
 	this(char[] name,
-		 VariableDeclarationNode[] params,
-	     StatementNode[] bodyBlock,
-	     StatementNode[] inBlock,
-		 StatementNode[] outBlock,
-		 char[]          comment = null) {
+       TypeNode returnType,
+       VariableDeclarationNode[] params,
+       StatementNode[] bodyBlock,
+       StatementNode[] inBlock,
+       StatementNode[] outBlock,
+       char[]          comment = null) {
 
-		_name = name.dup;
-		_bodyBlock = bodyBlock.dup;
-		_inBlock = inBlock.dup;
-		_outBlock = outBlock.dup;
-		_params = params.dup;
-		_comment = comment.dup;
-	}
+    _name = name.dup;
+    _bodyBlock = bodyBlock.dup;
+    _inBlock = inBlock.dup;
+    _outBlock = outBlock.dup;
+    _params = params.dup;
+    _comment = comment.dup;
+    _returnType = returnType;
+  }
 
-	char[] name() {
-		return _name.dup;
-	}
+  char[] name() {
+    return _name.dup;
+  }
 
-	StatementNode[] bodyBlock() {
-		return _bodyBlock.dup;
-	}
+  TypeNode returnType() {
+    return _returnType;
+  }
 
-	StatementNode[] inBlock() {
-		return _inBlock.dup;
-	}
+  StatementNode[] bodyBlock() {
+    return _bodyBlock.dup;
+  }
 
-	StatementNode[] outBlock() {
-		return _outBlock.dup;
-	}
+  StatementNode[] inBlock() {
+    return _inBlock.dup;
+  }
 
-	VariableDeclarationNode[] parameters() {
-		return _params.dup;
-	}
+  StatementNode[] outBlock() {
+    return _outBlock.dup;
+  }
 
-	char[] comment() {
-		return _comment.dup;
-	}
+  VariableDeclarationNode[] parameters() {
+    return _params.dup;
+  }
+
+  char[] comment() {
+    return _comment.dup;
+  }
 }

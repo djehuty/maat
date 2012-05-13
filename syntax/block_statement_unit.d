@@ -11,8 +11,6 @@ import lex.lexer;
 import lex.token;
 import logger;
 
-import tango.io.Stdout;
-
 class BlockStatementUnit {
 private:
 	Lexer  _lexer;
@@ -46,8 +44,6 @@ public:
 				// We can look for a simple declaration
 				_lexer.push(token);
 				auto stmt = (new StatementUnit(_lexer, _logger)).parse;
-
-				Stdout("Statement Consumed").newline;
 				break;
 		}
 		return true;

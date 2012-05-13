@@ -164,8 +164,9 @@ public:
 
 			case Token.Type.Identifier:
 				// Named Type, could be a scoped list
-				_lexer.push(token);
+				//_lexer.push(token);
 				//auto tree = expand!(IdentifierListUnit)();
+        _typeNode = new TypeNode(TypeNode.Type.UserDefined, null, token.string);
 				return false;
 
 			// Scope Operator

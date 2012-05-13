@@ -21,6 +21,7 @@ private:
 	int    _state;
 	
 	char[] _cur_string;
+	char[] _comment;
 
 	ClassNode _classNode;
 
@@ -32,6 +33,13 @@ public:
 	}
 	
 	ClassNode parse() {
+		// Get all comments
+		_comment = "";
+		while(!_lexer.commentEmpty()) {
+			auto t = _lexer.commentPop();
+			_comment = t.string ~ _comment;
+		}
+
 		Token token;
 
 		do {
@@ -46,7 +54,7 @@ public:
 			// The start of the body
 			case Token.Type.LeftCurly:
 				auto classBody = (new ClassBodyUnit(_lexer, _logger)).parse;
-				_classNode = new ClassNode(_cur_string, classBody[0], classBody[1][0], classBody[2]);
+				_classNode = new ClassNode(_cur_string, classBody[0], classBody[1][0], classBody[2], _comment);
 
 				// Done.
 				return false;

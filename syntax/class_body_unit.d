@@ -15,8 +15,6 @@ import lex.lexer;
 import lex.token;
 import logger;
 
-import tango.io.Stdout;
-
 class ClassBodyUnit {
 private:
 	Lexer  _lexer;
@@ -61,6 +59,19 @@ public:
 			case Token.Type.Delete:
 				// TODO:
 				break;
+
+      case Token.Type.Public:
+        break;
+      case Token.Type.Private:
+        break;
+      case Token.Type.Static:
+        break;
+      case Token.Type.Final:
+        break;
+      case Token.Type.Protected:
+        break;
+      case Token.Type.Colon:
+        break;
 
 			// Otherwise, it must be some Declarator
 			default:

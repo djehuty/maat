@@ -37,6 +37,9 @@ public:
 
 		do {
 			token = _lexer.pop();
+			if (_logger.errors) {
+				return null;
+			}
 		} while (tokenFound(token));
 
 		return "";
@@ -52,6 +55,11 @@ public:
 				if (_state == 1) {
 					// Error: Multiple expressions
 					// TODO:
+          _logger.error(_lexer, token,
+            "There are two expressions given for this return statement.",
+            "Did you mean to place a semicolon between the two?",
+            ["return;", "return 3", "return 2+2;"]);
+          return true;
 				}
 
 				_lexer.push(token);
@@ -59,7 +67,6 @@ public:
 				// Expression follows... and then a semicolon
 				auto expr = (new ExpressionUnit(_lexer, _logger)).parse;
 				_state = 1;
-
 				break;
 		}
 		return true;

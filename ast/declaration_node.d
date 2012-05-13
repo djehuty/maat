@@ -10,7 +10,8 @@ public:
 		EnumDeclaration,
 		FunctionDeclaration,
 		ImportDeclaration,
-		InterfaceDeclaration
+		InterfaceDeclaration,
+    VariableDeclaration
 	}
 
 private:

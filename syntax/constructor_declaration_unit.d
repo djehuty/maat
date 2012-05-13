@@ -24,6 +24,7 @@ private:
 
 	FunctionNode              _functionNode;
 	VariableDeclarationNode[] _parameters;
+	char[] _comment;
 
 public:
 
@@ -33,6 +34,13 @@ public:
 	}
 	
 	FunctionNode parse() {
+		// Get all comments
+		_comment = "";
+		while(!_lexer.commentEmpty()) {
+			auto t = _lexer.commentPop();
+			_comment ~= t.string;
+		}
+
 		Token token;
 
 		do {
@@ -76,7 +84,9 @@ public:
 					// Error: Have not found a right paren!
 					// TODO:
 				}
-				_functionNode = new FunctionNode(null, null, null, null, null);
+        if (_functionNode is null) {
+          _functionNode = new FunctionNode(null, null, _parameters, null, null, null, _comment);
+        }
 				// Done.
 				return false;
 
@@ -102,7 +112,7 @@ public:
 				// Function body!
 				_lexer.push(token);
 				auto functionBody = (new FunctionBodyUnit(_lexer, _logger)).parse;
-				_functionNode = new FunctionNode(null, _parameters, null, null, null);
+				_functionNode = new FunctionNode(null, null, _parameters, null, null, null, _comment);
 
 				// Done.
 				return false;

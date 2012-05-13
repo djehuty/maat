@@ -71,7 +71,7 @@ public:
 			token = _lexer.pop();
 		} while (tokenFound(token));
 
-		return new DeclaratorNode(_name, null);
+		return new DeclaratorNode(_name, null, null);
 	}
 
 	bool tokenFound(Token token) {

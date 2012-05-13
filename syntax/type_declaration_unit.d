@@ -8,6 +8,7 @@ module syntax.type_declaration_unit;
 import syntax.declarator_unit;
 import syntax.initializer_unit;
 import syntax.function_body_unit;
+import syntax.basic_type_unit;
 
 import lex.lexer;
 import lex.token;
@@ -17,6 +18,8 @@ import logger;
 import ast.type_declaration_node;
 import ast.declarator_node;
 import ast.function_node;
+import ast.variable_declaration_node;
+import ast.type_node;
 
 class TypeDeclarationUnit {
 private:
@@ -24,8 +27,11 @@ private:
 	Logger _logger;
 	int    _state = 0;
 
+  TypeNode _basicType;
+  TypeNode _type;
 	DeclaratorNode _node;
 	FunctionNode _function;
+  VariableDeclarationNode _variable;
 	char[] _comment;
 
 public:
@@ -39,7 +45,7 @@ public:
 		_comment = "";
 		while(!_lexer.commentEmpty()) {
 			auto t = _lexer.commentPop();
-			_comment ~= t.string;
+			_comment = t.string ~ _comment;
 		}
 
 		Token token;
@@ -48,7 +54,19 @@ public:
 			token = _lexer.pop();
 		} while (tokenFound(token));
 
-		return new TypeDeclarationNode(_function);
+    if (_function) {
+      return new TypeDeclarationNode(_function);
+    }
+
+    if (_type is null) {
+      _type = _basicType;
+    }
+
+    if (_variable is null) {
+      _variable = new VariableDeclarationNode(_node.name, _type, null);
+    }
+
+    return new TypeDeclarationNode(_variable);
 	}
 
 	bool tokenFound(Token token) {
@@ -83,13 +101,15 @@ public:
 					case Token.Type.Cdouble:
 					case Token.Type.Creal:
 					case Token.Type.Void:
-						// Named Type
 					case Token.Type.Identifier:
-						// XXX: Handle scoped identifiers?
+            _lexer.push(token);
+            _basicType = (new BasicTypeUnit(_lexer, _logger)).parse();
 
 						// We have a basic type... look for Declarator
-						_node = (new DeclaratorUnit(_lexer, _logger)).parse();
-						this._state = 1;
+						_node = (new DeclaratorUnit(_lexer, _logger)).parse(_basicType);
+            this._state = 1;
+
+            _type = _node.type;
 						break;
 
 					case Token.Type.Typeof:
@@ -109,7 +129,7 @@ public:
 
 						// We will pass this off to a Declarator
 						_lexer.push(token);
-						auto decl = (new DeclaratorUnit(_lexer, _logger)).parse();
+						auto decl = (new DeclaratorUnit(_lexer, _logger)).parse(_basicType);
 						this._state = 1;
 						break;
 				}
@@ -121,10 +141,13 @@ public:
 				switch(token.type) {
 					case Token.Type.Semicolon:
 						// Done
+            if (_node !is null && _node.parameters !is null) {
+  						_function = new FunctionNode(_node.name, _basicType, _node.parameters, null, null, null, _comment);
+            }
 						return false;
 					case Token.Type.Comma:
 						// Look for another declarator
-						auto expr = (new DeclaratorUnit(_lexer, _logger)).parse;
+						auto expr = (new DeclaratorUnit(_lexer, _logger)).parse(_basicType);
 						break;
 
 					case Token.Type.Assign:
@@ -139,7 +162,7 @@ public:
 						// It could be a function body
 						_lexer.push(token);
 						auto function_body = (new FunctionBodyUnit(_lexer, _logger)).parse;
-						_function = new FunctionNode(_node.name, _node.parameters, null, null, null, _comment);
+						_function = new FunctionNode(_node.name, _basicType, _node.parameters, null, null, null, _comment);
 						return false;
 
 					default:
@@ -152,7 +175,7 @@ public:
 				switch(token.type) {
 					case Token.Type.Comma:
 						// Initializer list
-						auto decl = (new DeclaratorUnit(_lexer, _logger)).parse;
+						auto decl = (new DeclaratorUnit(_lexer, _logger)).parse(_basicType);
 						_state = 1;
 						break;
 

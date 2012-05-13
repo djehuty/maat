@@ -126,7 +126,7 @@ public:
 				break;
 			case Token.Type.Return:
 				auto stmt = (new ReturnStatementUnit(_lexer, _logger)).parse;
-				break;
+        return false;
 			case Token.Type.Throw:
 				auto stmt = (new ThrowStatementUnit(_lexer, _logger)).parse;
 				break;

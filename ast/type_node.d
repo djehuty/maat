@@ -66,6 +66,8 @@ public:
 
 	char[] identifier() {
 		switch (_type) {
+      case Type.Bool:
+        return "bool";
 			case Type.Char:
 				return "char";
 			case Type.Dchar:
@@ -109,9 +111,17 @@ public:
 			case Type.Void:
 				return "void";
 			case Type.Array:
-				return _subtype.identifier ~ "[]";
+        if (_subtype !is null) {
+          return _subtype.identifier ~ "[]";
+        }
 			case Type.Pointer:
-				return _subtype.identifier ~ "*";
+        if (_subtype !is null) {
+          return _subtype.identifier ~ "*";
+        }
+      case Type.UserDefined:
+        return _identifier;
+      default:
+        return "x";
 		}
 		return _identifier;
 	}
