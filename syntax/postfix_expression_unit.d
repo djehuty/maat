@@ -10,6 +10,7 @@ import lex.token;
 import logger;
 
 import syntax.primary_expression_unit;
+import syntax.index_or_slice_expression_unit;
 
 /*
 
@@ -42,15 +43,32 @@ public:
 
 	bool tokenFound(Token token) {
 		if (token.type == Token.Type.Comment) {
-			return false;
+			return true;
 		}
 
 		switch (token.type) {
+      case Token.Type.LeftBracket:
+        if (_state == 1) {
+          // Disambiguate between index and slice expression
+          auto expr = (new IndexOrSliceExpressionUnit(_lexer, _logger)).parse;
+        }
+        else {
+          goto default;
+        }
+
+        break;
+
 			default:
 				_lexer.push(token);
+        if (_state == 1) {
+          // Done.
+          return false;
+        }
 				auto expr = (new PrimaryExpressionUnit(_lexer, _logger)).parse;
+        _state = 1;
 				break;
 		}
-		return false;
+
+		return true;
 	}
 }
