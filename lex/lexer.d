@@ -152,11 +152,19 @@ private:
 
 			for(; _pos <= _line.length; _pos++) {
 				char chr;
+        char nextChr;
 				if (_pos == _line.length) {
 					chr = '\n';
+          nextChr = '\n';
 				}
 				else {
 					chr = _line[_pos];
+          if (_pos == _line.length-1) {
+            nextChr = '\n';
+          }
+          else {
+            nextChr = _line[_pos+1];
+          }
 				}
 				switch (state) {
 					default:
@@ -748,7 +756,17 @@ private:
 						// check for valid succeeding character
 
 						// we may want to switch to floating point state
+            // may want to defer because this is a .. or ... token
 						if (chr == '.') {
+              if (nextChr == '.') {
+                // 5.. implies that this token is an Integer followed by a slice token
+                current.columnEnd = _pos;
+                current.lineEnd = _lineNumber;
+
+                state = LexerState.Normal;
+                return current;
+              }
+
 							if (cur_base <= 0) {
 								cur_base = 10;
 							}
