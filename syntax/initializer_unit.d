@@ -6,6 +6,7 @@
 module syntax.initializer_unit;
 
 import syntax.assign_expression_unit;
+import syntax.array_initializer_unit;
 
 import lex.lexer;
 import lex.token;
@@ -44,10 +45,14 @@ public:
 	bool tokenFound(Token token) {
 		switch (token.type) {
 			case Token.Type.Void:
+        // Done
 				return false;
 
 			case Token.Type.LeftBracket:
 				// Could be an ArrayInitializer
+        auto expr = (new ArrayInitializerUnit(_lexer, _logger)).parse;
+
+        // Done
 				return false;
 
 			case Token.Type.LeftCurly:
