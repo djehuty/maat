@@ -17,12 +17,7 @@ import lex.token;
 import logger;
 
 class StaticDisambiguationUnit {
-private:
-	Lexer  _lexer;
-	Logger _logger;
-
-	int    _state;
-
+public:
   enum StaticVariant {
     StaticIf,
     StaticAssert,
@@ -30,6 +25,12 @@ private:
     StaticDestructor,
     StaticAttribute
   }
+
+private:
+	Lexer  _lexer;
+	Logger _logger;
+
+	int    _state;
 
 public:
 
