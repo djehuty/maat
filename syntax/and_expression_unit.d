@@ -44,7 +44,7 @@ public:
 
 	bool tokenFound(Token token) {
 		if (token.type == Token.Type.Comment) {
-			return false;
+			return true;
 		}
 
 		switch (token.type) {
