@@ -86,11 +86,11 @@ public:
           break;
         }
         else if (_state == 1) {
-          // Expecting Question, got colon
-          _logger.error(_lexer, token,
-              "Ternary operator is missing question mark.",
-              "Did you mean to have a question mark instead of a colon?",
-              _common_error_usages);
+          // Expecting Question, got colon... not an error, but it means this is not a conditional
+          _lexer.push(token);
+
+          // Done.
+          return false;
         }
         else if (_state == 2) {
           // No expression given
