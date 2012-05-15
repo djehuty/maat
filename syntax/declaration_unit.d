@@ -53,10 +53,6 @@ public:
 	}
 
 	bool tokenFound(Token token) {
-    if (token.type == Token.Type.Colon) {
-      _logger.println("man");
-    }
-
 		switch (token.type) {
 			case Token.Type.EOF:
 				return false;
