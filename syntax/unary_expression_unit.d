@@ -5,11 +5,12 @@
 
 module syntax.unary_expression_unit;
 
+import syntax.postfix_expression_unit;
+import syntax.cast_expression_unit;
+
 import lex.lexer;
 import lex.token;
 import logger;
-
-import syntax.postfix_expression_unit;
 
 /*
 
@@ -56,15 +57,20 @@ public:
 
 	bool tokenFound(Token token) {
 		if (token.type == Token.Type.Comment) {
-			return false;
+			return true;
 		}
 
 		switch (token.type) {
+      case Token.Type.Cast:
+        auto cast_expr = (new CastExpressionUnit(_lexer, _logger)).parse;
+        return true;
+
 			default:
 				_lexer.push(token);
 				auto expr = (new PostfixExpressionUnit(_lexer, _logger)).parse;
 				break;
 		}
+
 		return false;
 	}
 }
