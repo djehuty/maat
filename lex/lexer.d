@@ -62,6 +62,7 @@ private:
 		':':Token.Type.Colon,
     '?':Token.Type.Question,
 		';':Token.Type.Semicolon,
+    '$':Token.Type.Dollar,
 		'.':Token.Type.Dot,
 		',':Token.Type.Comma,
 		'(':Token.Type.LeftParen,
