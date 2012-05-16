@@ -181,11 +181,23 @@ public:
 
 					case Token.Type.Assign:
 						// Bad
+            _logger.error(_lexer, token,
+                "Declaration cannot contain more than one assignment."
+                "Did you mean to place a semicolon here?",
+                []);
 						break;
 
 					case Token.Type.Semicolon:
 						// Done
 						return false;
+
+          default:
+            // Bad
+            _logger.error(_lexer, token,
+                "Declaration malformed.",
+                "Did you mean to place a semicolon here?",
+                []);
+            return false;
 				}
 				break;
 
