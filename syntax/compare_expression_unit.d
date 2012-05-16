@@ -71,6 +71,10 @@ public:
 					// !is
 					this._state = 2;
 				}
+        else {
+          _lexer.push(foo);
+          goto default;
+        }
 				break;
 
 			case Token.Type.Equals:						 // ==
