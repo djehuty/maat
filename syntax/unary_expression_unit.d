@@ -7,6 +7,7 @@ module syntax.unary_expression_unit;
 
 import syntax.postfix_expression_unit;
 import syntax.cast_expression_unit;
+import syntax.new_expression_unit;
 
 import lex.lexer;
 import lex.token;
@@ -107,6 +108,11 @@ public:
       // DeleteExpression: delete x
       case Token.Type.Delete:
         auto expr = (new UnaryExpressionUnit(_lexer, _logger)).parse;
+        return false;
+
+      // NewExpression: new x
+      case Token.Type.New:
+        auto expr = (new NewExpressionUnit(_lexer, _logger)).parse;
         return false;
 
 			default:
