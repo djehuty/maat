@@ -63,7 +63,7 @@ public:
 		switch (token.type) {
       case Token.Type.Cast:
         auto cast_expr = (new CastExpressionUnit(_lexer, _logger)).parse;
-        return true;
+        return false;
 
 			default:
 				_lexer.push(token);
