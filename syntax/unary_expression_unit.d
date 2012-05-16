@@ -16,18 +16,17 @@ import logger;
 
 	UnaryExpr => & UnaryExpr
 	           | ++ UnaryExpr
-			   | -- UnaryExpr
-			   | * UnaryExpr
-			   | - UnaryExpr
-			   | + UnaryExpr
-			   | ! UnaryExpr
-			   | ~ UnaryExpr
-			   | ( Type ) . Identifier
-			   | NewExpr
-			   | DeleteExpr
-			   | CastExpr
-			   | NewAnonClassExpr
-			   | PostfixExpr
+             | -- UnaryExpr
+             | * UnaryExpr
+             | - UnaryExpr
+             | + UnaryExpr
+             | ! UnaryExpr
+             | ~ UnaryExpr
+             | ( Type ) . Identifier
+             | NewExpression
+             | delete UnaryExpression
+             | CastExpression
+             | PostfixExpression
 
 */
 
@@ -102,6 +101,11 @@ public:
 
       // ReferenceExpression: &x
       case Token.Type.And:
+        auto expr = (new UnaryExpressionUnit(_lexer, _logger)).parse;
+        return false;
+
+      // DeleteExpression: delete x
+      case Token.Type.Delete:
         auto expr = (new UnaryExpressionUnit(_lexer, _logger)).parse;
         return false;
 
