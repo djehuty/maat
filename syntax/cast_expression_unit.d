@@ -16,17 +16,6 @@ import logger;
 
   cast
   CastExpression = ( Type ) UnaryExpression
-                 | ( CastQual ) UnaryExpression
-                 | ( ) UnaryExpression
-
-  CastQual = const
-           | const shared
-           | shared const
-           | inout
-           | inout shared
-           | shared inout
-           | immutable
-           | shared
 
 */
 
@@ -73,6 +62,15 @@ public:
           _logger.error(_lexer, token,
               "Cast has a malformed type specification.",
               "Did you mean to place a '(' here?",
+              ["cast(int)5", "cast(Object)foo", "cast(typeof(5))42"]);
+          return false;
+        }
+
+        if (_state == 1) {
+          // Error: No type specification.
+          _logger.error(_lexer, token,
+              "Cast must provide a type specification to indicate the type to yield.",
+              "Place a type within the parentheses.",
               ["cast(int)5", "cast(Object)foo", "cast(typeof(5))42"]);
           return false;
         }
