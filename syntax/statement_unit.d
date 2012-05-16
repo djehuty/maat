@@ -7,6 +7,7 @@ module syntax.statement_unit;
 
 import syntax.if_statement_unit;
 import syntax.for_statement_unit;
+import syntax.try_statement_unit;
 import syntax.foreach_statement_unit;
 import syntax.case_statement_unit;
 import syntax.goto_statement_unit;
@@ -133,6 +134,7 @@ public:
 			case Token.Type.Scope:
 				break;
 			case Token.Type.Try:
+        auto stmt = (new TryStatementUnit(_lexer, _logger)).parse;
 				break;
 			case Token.Type.Pragma:
 				auto stmt = (new PragmaStatementUnit(_lexer, _logger)).parse;
