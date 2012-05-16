@@ -11,7 +11,8 @@ import logger;
 
 /*
 
-	ImportDecl => ( static )? import ImportList ;
+  import 
+  ImportDecl => ImportList ;
 
 	ImportList => ( Identifier . )+ ( : ImportBindList )? , ImportList
 	            | ( Identifier . )+ ( : ImportBindList )?
@@ -31,6 +32,7 @@ private:
 	Token  _last;
 
 	char[] _cur_string = "";
+  char[] _name = "";
 
 	static const char[] _common_error_msg = "The import declaration is not formed correctly.";
 	static const char[][] _common_error_usages = [
@@ -96,8 +98,14 @@ public:
 					// Add the package or module name to the overall value.
 					_cur_string ~= token.string;
 				}
-
 				break;
+
+      case Token.Type.Assign:
+        // renamed import
+        _name = _cur_string;
+        _cur_string = "";
+        break;
+
 			case Token.Type.Slice:
 				// Error: Found .. when we expected just one dot.
 				_logger.error(_lexer, token, _common_error_msg,
@@ -111,8 +119,8 @@ public:
 					"You placed three dots, did you mean to only have one?",
 					_common_error_usages);
 				break;
-			default:
 
+			default:
 				// Error: Found some illegal token. Probably due to lack of semicolon.
 				_logger.errorAtEnd(_lexer, _last, _common_error_msg,
 					"You probably forgot a semicolon.",
