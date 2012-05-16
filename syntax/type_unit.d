@@ -5,6 +5,9 @@
 
 module syntax.type_unit;
 
+import syntax.basic_type_unit;
+import syntax.basic_type_suffix_unit;
+
 import lex.lexer;
 import lex.token;
 import logger;
@@ -34,10 +37,28 @@ public:
 	}
 
 	bool tokenFound(Token token) {
-		switch (token.type) {
-			default:
-				break;
-		}
+    if (_state == 0) {
+      _lexer.push(token);
+      auto basicType = (new BasicTypeUnit(_lexer, _logger)).parse;
+      _state = 1;
+    }
+    else {
+      _lexer.push(token);
+      switch(token.type) {
+        default:
+          break;
+
+        case Token.Type.Mul:
+        case Token.Type.Function:
+        case Token.Type.Delegate:
+        case Token.Type.LeftBracket:
+          auto basicTypeSuffix = (new BasicTypeSuffixUnit(_lexer, _logger)).parse;
+          break;
+      }
+
+      return false;
+    }
+
 		return true;
 	}
 }
