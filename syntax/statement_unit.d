@@ -101,7 +101,7 @@ public:
 				auto stmt = (new ForeachStatementUnit(_lexer, _logger)).parse;
 				return false;
 			case Token.Type.Foreach_reverse:
-				break;
+				return false;
 			case Token.Type.Synchronized:
 				break;
 			case Token.Type.Volatile:
@@ -121,7 +121,7 @@ public:
 				break;
 			case Token.Type.Break:
 				auto stmt = (new BreakStatementUnit(_lexer, _logger)).parse;
-				break;
+        return false;
 			case Token.Type.Goto:
 				auto stmt = (new GotoStatementUnit(_lexer, _logger)).parse;
 				break;
