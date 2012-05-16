@@ -75,6 +75,7 @@ public:
         }
       default:
         // AssignExpression
+        _lexer.push(token);
         if (_state == 0 || _state == 2) {
           auto expr = (new AssignExpressionUnit(_lexer, _logger)).parse;
           _state = 1;
