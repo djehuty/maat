@@ -69,13 +69,6 @@ public:
           _isIndexExpression = true;
         }
 
-        if (_isSliceExpression) {
-          _logger.println("Woo Slice");
-        }
-        else if (_isIndexExpression){
-          _logger.println("Woo Index");
-        }
-
         if (_state == 2) {
           // Error: Expecting an expression.
           if (_isSliceExpression) {
