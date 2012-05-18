@@ -62,11 +62,7 @@ public:
 		switch (token.type) {
       case Token.Type.RightBracket:
         if (_state == 2) {
-          // Error: Saw comma. Require expression
-          _logger.error(_lexer, token,
-              "This array literal is missing a value before a closing bracket.",
-              "The last value may not be followed by a comma. Did you mean to remove it?",
-              _common_error_usages);
+          // Oddly, this is allowed.
         }
 
         // Done
@@ -97,7 +93,7 @@ public:
         if (_state == 0 || _state == 2) {
           // Error. Have not seen any expressions.
           _logger.error(_lexer, token,
-              "Array literal is malformed due to an unexpected comma.",
+              "Array literal is malformed due to an unexpected colon.",
               "This array literal should start with a value.",
               _common_error_usages);
           return false;
