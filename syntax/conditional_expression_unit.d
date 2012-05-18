@@ -101,10 +101,8 @@ public:
         }
         else {
           // Colon is surprising!
-          _logger.error(_lexer, token,
-              "Ternary operator is malformed.",
-              "You seem to have misplaced this colon.",
-              _common_error_usages);
+          _lexer.push(token);
+          return false;
         }
 
         goto default;
