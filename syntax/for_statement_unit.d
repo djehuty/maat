@@ -7,6 +7,7 @@ module syntax.for_statement_unit;
 
 import syntax.scoped_statement_unit;
 import syntax.statement_unit;
+import syntax.block_statement_unit;
 import syntax.expression_unit;
 
 import lex.lexer;
@@ -52,18 +53,17 @@ public:
 	bool tokenFound(Token token) {
 		switch (token.type) {
 			case Token.Type.LeftParen:
-				auto stmt = (new StatementUnit(_lexer, _logger)).parse;
 				_state = 1;
 				break;
 
 			case Token.Type.RightParen:
-				if (_state < 3 || _state > 4) {
+				if (_state < 4 || _state > 5) {
 				}
 
 				// Found end of for loop expressions
-				_state = 5;
+				_state = 6;
 				auto stmt = (new ScopedStatementUnit(_lexer, _logger)).parse;
-				break;
+        return false;
 
 			case Token.Type.Semicolon:
 				if (_state == 0) {
@@ -71,28 +71,34 @@ public:
 
 				if (_state == 1) {
 					// No expression.
-					_state = 3;
+					_state = 2;
 				}
-				else if (_state == 2) {
+				else if (_state == 2 || _state == 3) {
 					// Had expression, looking for end
 					// or loop expression
-					_state = 3;
+					_state = 4;
 				}
 				break;
 
 			// We have an expression here.	
 			default:
 				if (_state == 1) {
+          // Initialization Expression
+					_lexer.push(token);
+					auto stmt = (new StatementUnit(_lexer, _logger)).parse;
+          _state = 2;
+        }
+        else if (_state == 2) {
 					// Invariant Expression
 					_lexer.push(token);
 					auto expr = (new ExpressionUnit(_lexer, _logger)).parse;
-					_state = 2;
+					_state = 3;
 				}
-				else if (_state == 3) {
+				else if (_state == 4) {
 					// Loop expression
 					_lexer.push(token);
 					auto expr = (new ExpressionUnit(_lexer, _logger)).parse;
-					_state = 4;
+					_state = 5;
 				}
 				break;
 		}
