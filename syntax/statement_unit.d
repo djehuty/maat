@@ -20,6 +20,8 @@ import syntax.pragma_statement_unit;
 import syntax.return_statement_unit;
 import syntax.volatile_statement_unit;
 
+import syntax.expression_declaration_disambiguation_unit;
+
 import syntax.expression_unit;
 
 import syntax.type_declaration_unit;
@@ -109,28 +111,28 @@ public:
 				break;
 			case Token.Type.Case:
 				auto stmt = (new CaseStatementUnit(_lexer, _logger)).parse;
-				break;
+				return false;
 			case Token.Type.Switch:
 				auto stmt = (new SwitchStatementUnit(_lexer, _logger)).parse;
-				break;
+				return false;
 			case Token.Type.Default:
 				auto stmt = (new DefaultStatementUnit(_lexer, _logger)).parse;
-				break;
+				return false;
 			case Token.Type.Continue:
 				auto stmt = (new ContinueStatementUnit(_lexer, _logger)).parse;
-				break;
+				return false;
 			case Token.Type.Break:
 				auto stmt = (new BreakStatementUnit(_lexer, _logger)).parse;
         return false;
 			case Token.Type.Goto:
 				auto stmt = (new GotoStatementUnit(_lexer, _logger)).parse;
-				break;
+        return false;
 			case Token.Type.Return:
 				auto stmt = (new ReturnStatementUnit(_lexer, _logger)).parse;
         return false;
 			case Token.Type.Throw:
 				auto stmt = (new ThrowStatementUnit(_lexer, _logger)).parse;
-				break;
+				return false;
 			case Token.Type.Scope:
 				break;
 			case Token.Type.Try:
@@ -163,18 +165,30 @@ public:
 			case Token.Type.Cdouble:
 			case Token.Type.Creal:
 			case Token.Type.Void:
+      case Token.Type.Auto:
 				// Declaration
 				_lexer.push(token);
 				auto decl = (new TypeDeclarationUnit(_lexer, _logger)).parse;
 				return false;
 
 			case Token.Type.Identifier:
+        // OH FUCK
 				// I DON'T KNOW. COULD BE AN EXPRESSION:
 				//  a = 5;
 				// OR A TYPE DECLARATION!
 				// size_t foo = 4;
 				
-				// Must disabiguate
+				// Must disambiguate
+        auto disambiguation = (new ExpressionDeclarationDisambiguationUnit(_lexer, _logger)).parse;
+        if (disambiguation == ExpressionDeclarationDisambiguationUnit.Variant.Expression) {
+          _lexer.push(token);
+          auto expr = (new ExpressionUnit(_lexer, _logger)).parse;
+        }
+        else {
+          _lexer.push(token);
+          auto expr = (new TypeDeclarationUnit(_lexer, _logger)).parse;
+        }
+        _state = 1;
 				break;
 			
 			// 2 + 2;
