@@ -12,8 +12,6 @@ import lex.lexer;
 import lex.token;
 import logger;
 
-import tango.io.Stdout;
-
 /*
 
 */
