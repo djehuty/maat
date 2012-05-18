@@ -62,7 +62,7 @@ public:
       _type = _basicType;
     }
 
-    if (_variable is null) {
+    if (_variable is null && _node !is null) {
       _variable = new VariableDeclarationNode(_node.name, _type, null);
     }
 
@@ -133,6 +133,7 @@ public:
 						this._state = 1;
 						break;
 				}
+        break;
 
 			// We have found a basic type and are looking for either an initializer
 			// or another type declaration. We could also have a function body
@@ -145,6 +146,7 @@ public:
   						_function = new FunctionNode(_node.name, _basicType, _node.parameters, null, null, null, _comment);
             }
 						return false;
+
 					case Token.Type.Comma:
 						// Look for another declarator
 						auto expr = (new DeclaratorUnit(_lexer, _logger)).parse(_basicType);
@@ -204,6 +206,7 @@ public:
 			default:
 				break;
 		}
+
 		return true;
 	}
 }
