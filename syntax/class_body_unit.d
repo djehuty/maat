@@ -77,7 +77,9 @@ public:
 			default:
 				_lexer.push(token);
 				auto decl = (new DeclarationUnit(_lexer, _logger)).parse;
-				if (decl.type == DeclarationNode.Type.FunctionDeclaration) {
+        if (decl is null) {
+        }
+        else if (decl.type == DeclarationNode.Type.FunctionDeclaration) {
 					_functions ~= cast(FunctionNode)decl.node;
 				}
 				else if (decl.type == DeclarationNode.Type.ConstructorDeclaration) {
