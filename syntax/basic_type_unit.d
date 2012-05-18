@@ -55,6 +55,8 @@ private:
 
 	TypeNode _typeNode;
 
+  char[] _cur_string = "";
+
 public:
 
 	this(Lexer lexer, Logger logger) {
@@ -69,10 +71,35 @@ public:
 			token = _lexer.pop();
 		} while (tokenFound(token));
 
+    if (_typeNode is null && _cur_string.length > 0) {
+      _typeNode = new TypeNode(TypeNode.Type.UserDefined, null, _cur_string);
+    }
+
 		return _typeNode;
 	}
 
 	bool tokenFound(Token token) {
+    if (_state == 1 || _state == 2) {
+      // Identifier list
+      if (_state == 2 && token.type == Token.Type.Dot) {
+        // Good
+        _cur_string ~= ".";
+        _state = 1;
+      }
+      else if (_state == 1 && token.type == Token.Type.Identifier) {
+        // Good.
+        _cur_string ~= token.string;
+        _state = 2;
+      }
+      else {
+        // Done
+        _lexer.push(token);
+        return false;
+      }
+
+      return true;
+    }
+
 		switch (token.type) {
 			case Token.Type.Bool:
 				_typeNode = new TypeNode(TypeNode.Type.Bool, null, null);
@@ -164,14 +191,14 @@ public:
 
 			case Token.Type.Identifier:
 				// Named Type, could be a scoped list
-				//_lexer.push(token);
-				//auto tree = expand!(IdentifierListUnit)();
-        _typeNode = new TypeNode(TypeNode.Type.UserDefined, null, token.string);
-				return false;
+        _cur_string ~= token.string;
+        _state = 2;
+        break;
 
 			// Scope Operator
 			case Token.Type.Dot:
-				//auto tree = expand!(IdentifierListUnit)();
+        _state = 1;
+        _cur_string ~= ".";
 				break;
 
 			case Token.Type.Typeof:
