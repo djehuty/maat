@@ -3,6 +3,7 @@ import lex.lexer;
 
 import tango.io.Stdout;
 import tango.util.Convert;
+import tango.text.Util;
 
 class Logger {
 private:
@@ -10,7 +11,7 @@ private:
 
 	void _printerror(Lexer lexer, char[] msg, char[] desc, char[][] usages, uint line, uint column) {
 		Stdout("Syntax Error: ")(lexer.filename).newline;
-		Stdout("   Line (")(line)(":")(column)(") ")(lexer.line(line)).newline;
+		Stdout("   Line (")(line)(":")(column)(") ")(lexer.line(line).replace('\t', ' ')).newline;
 		uint position = to!(char[])(line).length + 1 + to!(char[])(column).length + 11;
 		for (uint i; i < position; i++) {
 			Stdout(" ");
