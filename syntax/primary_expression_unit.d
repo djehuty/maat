@@ -7,6 +7,7 @@ module syntax.primary_expression_unit;
 
 import syntax.array_literal_disambiguation_unit;
 import syntax.array_literal_unit;
+import syntax.expression_unit;
 
 import lex.lexer;
 import lex.token;
@@ -109,6 +110,29 @@ public:
           auto array = (new ArrayLiteralUnit(_lexer, _logger)).parse;
         }
         return false;
+
+      case Token.Type.LeftParen:
+        if (_state == 2) {
+          // Error: Unexpected left parentheses.
+          return false;
+        }
+        auto expr = (new ExpressionUnit(_lexer, _logger)).parse;
+        _state = 2;
+        return true;
+
+      case Token.Type.RightParen:
+        if (_state == 2) {
+          // Good
+          return false;
+        }
+        else {
+          // Maybe the close of the last expression? Let's throw it back.
+          // Whichever the case, we are Done here.
+          _lexer.push(token);
+          return false;
+        }
+        break;
+
 			default:
 				break;
 		}
