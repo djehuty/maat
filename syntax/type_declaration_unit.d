@@ -184,7 +184,7 @@ public:
 					case Token.Type.Assign:
 						// Bad
             _logger.error(_lexer, token,
-                "Declaration cannot contain more than one assignment."
+                "Declaration cannot contain more than one assignment.",
                 "Did you mean to place a semicolon here?",
                 []);
 						break;
