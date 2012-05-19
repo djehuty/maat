@@ -11,6 +11,7 @@ import syntax.try_statement_unit;
 import syntax.foreach_statement_unit;
 import syntax.case_statement_unit;
 import syntax.goto_statement_unit;
+import syntax.do_statement_unit;
 import syntax.throw_statement_unit;
 import syntax.switch_statement_unit;
 import syntax.continue_statement_unit;
@@ -88,12 +89,16 @@ public:
 			case Token.Type.Cat:
 				break;
 			case Token.Type.Do:
-				break;
+        auto stmt = (new DoStatementUnit(_lexer, _logger)).parse;
+        return false;
+
 			case Token.Type.While:
-				break;
+				return false;
+
 			case Token.Type.If:
 				auto stmt = (new IfStatementUnit(_lexer, _logger)).parse;
 				return false;
+
 			case Token.Type.With:
 				break;
 			case Token.Type.For:
