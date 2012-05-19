@@ -8,6 +8,7 @@ module syntax.primary_expression_unit;
 import syntax.array_literal_disambiguation_unit;
 import syntax.array_literal_unit;
 import syntax.expression_unit;
+import syntax.template_argument_list_unit;
 
 import lex.lexer;
 import lex.token;
@@ -48,61 +49,87 @@ public:
 			return false;
 		}
 
+    if (_state == 3) {
+      if (token.type == Token.Type.Bang) {
+        // Template Argument List
+        auto templateList = (new TemplateArgumentListUnit(_lexer, _logger)).parse;
+        // Done.
+        return false;
+      }
+      else {
+        // Done.
+        _lexer.push(token);
+        return false;
+      }
+    }
+
 		switch (token.type) {
 			case Token.Type.StringLiteral:
+      case Token.Type.CharacterLiteral:
         if (_state == 1) {
           // Error:
           return false;
         }
 				_cur_string = token.string;
 				return false;
+
 			case Token.Type.IntegerLiteral:
         if (_state == 1) {
           // Error:
           return false;
         }
 				return false;
+
 			case Token.Type.Identifier:
-				return false;
+        _state = 3;
+        return true;
+
       case Token.Type.This:
         if (_state == 1) {
           // Error:
           return false;
         }
         return false;
+
       case Token.Type.Null:
         if (_state == 1) {
           // Error:
           return false;
         }
         return false;
+
       case Token.Type.True:
         if (_state == 1) {
           // Error:
           return false;
         }
         return false;
+
       case Token.Type.False:
         if (_state == 1) {
           // Error:
           return false;
         }
         return false;
+
       case Token.Type.Dollar:
         if (_state == 1) {
           // Error:
           return false;
         }
         return false;
+
       case Token.Type.Super:
         if (_state == 1) {
           // Error:
           return false;
         }
         return false;
+
       case Token.Type.Dot:
         _state = 1;
-        break;
+        return true;
+
       case Token.Type.LeftBracket:
         // Disambiguate between different array literal types:
         auto arrayType = (new ArrayLiteralDisambiguationUnit(_lexer, _logger)).parse;
