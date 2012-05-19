@@ -7,15 +7,19 @@ import syntax.parser;
 
 import tango.io.Stdout;
 
+import Integer = tango.text.convert.Integer;
+
 import ast.class_node;
 import ast.declaration_node;
 
-int main() {
-	auto lex = new Lexer("test/stream.di");
+int main(char[][] args) {
+	auto lex = new Lexer(args[1]);
 
 	Parser p = new Parser(lex);
 	Logger logger = new Logger();
-	auto ast = p.parse(logger);
+
+  try {
+    auto ast = p.parse(logger);
 
 	foreach(decl; ast.imports) {
 		Stdout("Importing ")(decl.moduleName).newline;
@@ -41,5 +45,9 @@ int main() {
 		}
 	}
 
+  }
+  catch(Exception e) {
+    logger.error(lex, lex.pop, e.toString, e.file ~ ":" ~ Integer.toString(e.line), ["???"]);
+  }
 	return 0;
 }
