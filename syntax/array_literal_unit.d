@@ -73,6 +73,8 @@ public:
           // Have seen an expression
           _state = 2;
         }
+        break;
+
       default:
         // AssignExpression
         _lexer.push(token);
