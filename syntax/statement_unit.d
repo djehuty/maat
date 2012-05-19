@@ -12,6 +12,7 @@ import syntax.foreach_statement_unit;
 import syntax.case_statement_unit;
 import syntax.goto_statement_unit;
 import syntax.do_statement_unit;
+import syntax.while_statement_unit;
 import syntax.throw_statement_unit;
 import syntax.switch_statement_unit;
 import syntax.continue_statement_unit;
@@ -93,6 +94,7 @@ public:
         return false;
 
 			case Token.Type.While:
+        auto stmt = (new WhileStatementUnit(_lexer, _logger)).parse;
 				return false;
 
 			case Token.Type.If:
