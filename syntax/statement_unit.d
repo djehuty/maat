@@ -107,9 +107,8 @@ public:
 				auto stmt = (new ForStatementUnit(_lexer, _logger)).parse;
 				return false;
 			case Token.Type.Foreach:
-				auto stmt = (new ForeachStatementUnit(_lexer, _logger)).parse;
-				return false;
 			case Token.Type.Foreach_reverse:
+				auto stmt = (new ForeachStatementUnit(_lexer, _logger)).parse;
 				return false;
 			case Token.Type.Synchronized:
 				break;
