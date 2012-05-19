@@ -75,7 +75,16 @@ public:
       case Token.Type.RightParen:
         if (_state == 3) {
           // OK.
-          // Done.
+          _state = 4;
+        }
+        else {
+          goto default;
+        }
+        break;
+
+      case Token.Type.Semicolon:
+        if (_state == 4) {
+          // OK. Done.
           return false;
         }
         else {
