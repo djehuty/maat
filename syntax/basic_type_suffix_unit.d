@@ -5,9 +5,8 @@
 
 module syntax.basic_type_suffix_unit;
 
-//import ast.basictypesuffixunit;
-
 import syntax.expression_unit;
+import syntax.parameter_list_unit;
 
 import ast.type_node;
 
@@ -86,7 +85,8 @@ public:
 			case 2:
 				switch(token.type) {
 					case Token.Type.LeftParen:
-						//auto tree = expand!(ParameterListUnit)();
+            auto params = (new ParameterListUnit(_lexer, _logger)).parse;
+            _type = new TypeNode(TypeNode.Type.UserDefined, null, "delegate");
 						return false;
 
 					default:
@@ -99,6 +99,7 @@ public:
 			case 3:
 				switch(token.type) {
 					case Token.Type.RightBracket:
+            _type = new TypeNode(TypeNode.Type.Array, null, null);
 						return false;
 
 					case Token.Type.Slice:
@@ -112,6 +113,7 @@ public:
 			case 4:
 				switch(token.type) {
 					case Token.Type.RightBracket:
+            _type = new TypeNode(TypeNode.Type.Array, null, null);
 						return false;
 					default:
 						// Bad
