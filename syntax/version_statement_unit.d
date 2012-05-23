@@ -11,6 +11,21 @@ import lex.lexer;
 import lex.token;
 import logger;
 
+/*
+
+  version
+  VersionStatement = ( Identifier ) DeclarationBlock
+                   | ( IntegerLiteral ) DeclarationBlock
+
+  DeclarationBlock = { }
+                   | Declaration
+                   | { Declarations }
+
+  Declarations = Declaration
+               | Declaration Declarations
+
+*/               
+
 class VersionStatementUnit {
 private:
 	Lexer  _lexer;
@@ -38,11 +53,17 @@ public:
 	}
 
 	bool tokenFound(Token token) {
+    if (_state == 7 && token.type != Token.Type.Else) {
+      // Done
+      _lexer.push(token);
+      return false;
+    }
+
 		if (this._state == 4) {
 			// We are looking for declarations
 			if (token.type == Token.Type.RightCurly) {
-				// Done.
-				return false;
+				// Done. Maybe.
+        _state = 7;
 			}
 			else {
 				_lexer.push(token);
@@ -88,7 +109,9 @@ public:
 					// Error: We already found a right paren... Expected colon or brace
 					// TODO:
 				}
-				this._state = 1;
+        else {
+          this._state = 1;
+        }
 				break;
 
 			// For version assignment, we are looking for a semicolon to end it.
@@ -118,6 +141,13 @@ public:
 
 				// Done.
 				return false;
+
+      case Token.Type.Else:
+        if (_state == 7) {
+          // Good.
+          _state = 8;
+        }
+        break;
 
 			// Looking for some literal or identifier to use as the version
 			case Token.Type.Identifier:
@@ -202,12 +232,20 @@ public:
 				}
 
 				// Now we look for declarations.
-				this._state = 4;
+        this._state = 4;
 				break;
 
-			// Errors for any unknown tokens.
 			default:
-				// TODO:
+        if (_state == 3 || _state == 8) {
+          // Declaration
+          _lexer.push(token);
+          auto decl = (new DeclarationUnit(_lexer, _logger)).parse;
+          if (_state == 8) {
+            // Done.
+            return false;
+          }
+          _state = 7;
+        }
 				break;
 		}
 		return true;
