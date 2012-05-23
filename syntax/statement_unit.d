@@ -5,6 +5,7 @@
 
 module syntax.statement_unit;
 
+import syntax.version_statement_unit;
 import syntax.if_statement_unit;
 import syntax.for_statement_unit;
 import syntax.try_statement_unit;
@@ -67,7 +68,8 @@ public:
 
 		switch (token.type) {
 			case Token.Type.Version:
-				break;
+        auto stmt = (new VersionStatementUnit(_lexer, _logger)).parse;
+        return false;
 			case Token.Type.Debug:
 				break;
 			case Token.Type.Static:
@@ -84,8 +86,6 @@ public:
 			case Token.Type.Template:
 				break;
 			case Token.Type.Enum:
-				break;
-			case Token.Type.This:
 				break;
 			case Token.Type.Cat:
 				break;
