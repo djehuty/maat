@@ -19,6 +19,7 @@ import syntax.aggregate_declaration_unit;
 import syntax.import_declaration_unit;
 import syntax.constructor_declaration_unit;
 import syntax.destructor_declaration_unit;
+import syntax.version_statement_unit;
 
 import ast.declaration_node;
 import ast.import_declaration_node;
@@ -80,7 +81,11 @@ public:
 //          _declaration = (new StaticIfStatementUnit(_lexer, _logger)).parse;
         }
         else if (staticVariant == StaticDisambiguationUnit.StaticVariant.StaticAssert) {
-//          _declaration = (new StaticAssertStatementUnit(_lexer, _logger)).parse;
+          // Get rid of assert token
+          _lexer.pop();
+
+          // Get declaration that follows
+          _declaration = (new StaticAssertStatementUnit(_lexer, _logger)).parse;
         }
         else if (staticVariant == StaticDisambiguationUnit.StaticVariant.StaticConstructor) {
 //          _declaration = (new StaticConstructorStatementUnit(_lexer, _logger)).parse;
@@ -170,7 +175,7 @@ public:
 
 			// Version Block
 			case Token.Type.Version:
-//				auto tree = expand!(VersionUnit)();
+				auto tree = (new VersionStatementUnit(_lexer, _logger)).parse;
 				break;
 
 			// Debug Block
