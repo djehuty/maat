@@ -76,6 +76,27 @@ public:
   }
 
   bool tokenFound(Token token) {
+    if (_state > 0) {
+      switch (token.type) {
+        case Token.Type.LeftParen:
+          _state = 1;
+          break;
+
+        case Token.Type.Identifier:
+          _state = 2;
+          break;
+
+        case Token.Type.Increment:
+          _state = 2;
+          break;
+
+        case Token.Type.RightParen:
+          _state = 0;
+          break;
+      }
+      return true;
+    }
+
     switch(token.type) {
       case Token.Type.Static:
         _addAttributeIfUnique(Attribute.Static);
@@ -119,6 +140,7 @@ public:
 
       case Token.Type.Extern:
         _addAttributeIfUnique(Attribute.Extern);
+        _state = 1;
         // TODO: extern ( x ) // Do parens list
         return true;
 
