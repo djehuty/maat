@@ -1,3 +1,5 @@
+module logger;
+
 import lex.token;
 import lex.lexer;
 
