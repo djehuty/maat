@@ -46,6 +46,7 @@ public:
 			case 0:
 				switch (token.type) {
 					case Token.Type.Mul:
+            _type = new TypeNode(TypeNode.Type.Pointer, null, null);
 						return false;
 
 					case Token.Type.LeftBracket:
