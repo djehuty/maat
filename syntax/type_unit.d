@@ -46,6 +46,7 @@ public:
       _lexer.push(token);
       switch(token.type) {
         default:
+          return false;
           break;
 
         case Token.Type.Mul:
@@ -55,8 +56,6 @@ public:
           auto basicTypeSuffix = (new BasicTypeSuffixUnit(_lexer, _logger)).parse;
           break;
       }
-
-      return false;
     }
 
 		return true;
