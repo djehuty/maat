@@ -45,7 +45,7 @@ public:
 		_comment = "";
 		while(!_lexer.commentEmpty()) {
 			auto t = _lexer.commentPop();
-			_comment = t.string ~ _comment;
+			_comment = t.string ~ "\n" ~ _comment;
 		}
 
 		Token token;
