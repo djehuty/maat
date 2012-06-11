@@ -5,6 +5,8 @@
 
 module syntax.primary_expression_unit;
 
+import syntax.function_literal_expression_disambiguation_unit;
+import syntax.function_literal_unit;
 import syntax.array_literal_disambiguation_unit;
 import syntax.array_literal_unit;
 import syntax.expression_unit;
@@ -143,6 +145,16 @@ public:
           // Error: Unexpected left parentheses.
           return false;
         }
+
+        auto isFunctionLiteral = (new FunctionLiteralExpressionDisambiguationUnit(_lexer, _logger)).parse;
+
+        _logger.println("func");
+        if (isFunctionLiteral == FunctionLiteralExpressionDisambiguationUnit.ExpressionVariant.FunctionLiteral) {
+          _lexer.push(token);
+          auto expr = (new FunctionLiteralUnit(_lexer, _logger)).parse;
+          return false;
+        }
+
         auto expr = (new ExpressionUnit(_lexer, _logger)).parse;
         _state = 2;
         return true;
@@ -159,6 +171,16 @@ public:
           return false;
         }
         break;
+
+      case Token.Type.Function:
+      case Token.Type.Delegate:
+      case Token.Type.Body:
+      case Token.Type.In:
+      case Token.Type.Out:
+      case Token.Type.LeftCurly:
+        _lexer.push(token);
+        auto expr = (new FunctionLiteralUnit(_lexer, _logger)).parse;
+        return false;
 
 			default:
 				break;
