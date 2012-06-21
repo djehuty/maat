@@ -149,6 +149,11 @@ public:
         _addAttributeIfUnique(Attribute.Extern);
         return true;
 
+      case Token.Type.Auto:
+        // TODO: scope ( x ) // Do parens list
+        _addAttributeIfUnique(Attribute.Auto);
+        return true;
+
       case Token.Type.Colon:
         if (_attributes.length == 0) {
           _logger.error(_lexer, token,
