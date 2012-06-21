@@ -87,6 +87,10 @@ public:
           // ArgumentList start
           _state = 6;
         }
+        else if (_state == 6) {
+          // Fall through
+          goto default;
+        }
 
         break;
 
