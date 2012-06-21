@@ -143,7 +143,7 @@ public:
 				break;
 			case Token.Type.Try:
         auto stmt = (new TryStatementUnit(_lexer, _logger)).parse;
-				break;
+        return false;
 			case Token.Type.Pragma:
 				auto stmt = (new PragmaStatementUnit(_lexer, _logger)).parse;
 				break;
