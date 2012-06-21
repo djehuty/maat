@@ -148,7 +148,6 @@ public:
 
         auto isFunctionLiteral = (new FunctionLiteralExpressionDisambiguationUnit(_lexer, _logger)).parse;
 
-        _logger.println("func");
         if (isFunctionLiteral == FunctionLiteralExpressionDisambiguationUnit.ExpressionVariant.FunctionLiteral) {
           _lexer.push(token);
           auto expr = (new FunctionLiteralUnit(_lexer, _logger)).parse;
