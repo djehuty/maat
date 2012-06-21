@@ -1,3 +1,5 @@
+module main;
+
 import lex.lexer;
 import lex.token;
 
