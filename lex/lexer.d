@@ -11,9 +11,11 @@ class Lexer {
 private:
 
 	void _error(char[] msg) {
+    Stdout(msg).newline;
 		//Console.forecolor = Color.Red;
 		//Console.putln("Lexical Error: file.d @ ", _lineNumber+1, ":", _pos+1, " - ", msg);
 		//Console.putln();
+    for(;;){}
 	}
 
 	// Describe the number lexer states
@@ -28,6 +30,7 @@ private:
 
 	LexerState state;
 	bool inEscape;
+  int  characterEscapeDigitsLeft;
 	bool foundLeadingChar;
 	bool foundLeadingSlash;
 	uint nestedCommentDepth;
@@ -167,11 +170,12 @@ private:
             nextChr = _line[_pos+1];
           }
 				}
+
 				switch (state) {
 					default:
 						// error
-						_error("error");
-						return Token.init;
+						_error("!!error!!");
+						return new Token(Token.Type.EOF);
 
 					case LexerState.Normal:
 						Token.Type newType = tokenMapping[chr];
@@ -476,7 +480,7 @@ private:
 										return current;
 									}
 //									_error("Unknown operator.");
-									return Token.init;
+									return new Token(Token.Type.EOF);
 							}
 							
 							continue;
@@ -578,7 +582,28 @@ private:
 
 					case LexerState.String:
 						if (inEscape) {
-							inEscape = false;
+              if (characterEscapeDigitsLeft > 0) {
+                characterEscapeDigitsLeft--;
+                cur_integer *= 16;
+                if (chr >= '0' && chr <= '9') {
+                  cur_integer += (chr - '0');
+                }
+                else if (chr >= 'a' && chr <= 'f') {
+                  cur_integer += (chr - 'a') + 10;
+                }
+                else if (chr >= 'A' && chr <= 'F') {
+                  cur_integer += (chr - 'A') + 10;
+                }
+
+                if (characterEscapeDigitsLeft == 0) {
+                  cur_string ~= cast(char)cur_integer;
+                  inEscape = false;
+                }
+
+                continue;
+              }
+
+              inEscape = false;
 							if (chr == 't') {
 								chr = '\t';
 							}
@@ -595,10 +620,28 @@ private:
 								chr = '\0';
 							}
 							else if (chr == 'x' || chr == 'X') {
-								// BLEH!
+                // Expect 2 digit code
+                characterEscapeDigitsLeft = 2;
+								cur_integer = 0;
+                inEscape = true;
 							}
-							cur_string ~= chr;
-							continue;
+              else if (chr == 'u') {
+                // Expect 4 digit code
+                characterEscapeDigitsLeft = 4;
+								cur_integer = 0;
+                inEscape = true;
+              }
+              else if (chr == 'U') {
+                // Expect 8 digit code
+                characterEscapeDigitsLeft = 8;
+								cur_integer = 0;
+                inEscape = true;
+              }
+
+              if (!inEscape) {
+                cur_string ~= chr;
+              }
+              continue;
 						}
 
 						if (inStringType == StringType.DoubleQuote) {
@@ -661,6 +704,7 @@ private:
 						if ((inStringType == StringType.DoubleQuote || inStringType == StringType.Character) && (chr == '\\')) {
 							// Escaped Characters
 							inEscape = true;
+              characterEscapeDigitsLeft = 0;
 						}
 						else {
 							cur_string ~= chr;
@@ -773,11 +817,11 @@ private:
 							}
 							else if (cur_base == 2) {
 								_error("Cannot have binary floating point literals");
-								return Token.init;
+								return new Token(Token.Type.EOF);
 							}
 							else if (cur_base == 8) {
 								_error("Cannot have octal floating point literals");
-								return Token.init;
+								return new Token(Token.Type.EOF);
 							}
 
 							// Reset this just in case, it will get interpreted
@@ -819,7 +863,7 @@ private:
 							// Cannot be any other value
 							else {
 								_error("Integer literal expected.");
-								return Token.init;
+								return new Token(Token.Type.EOF);
 							}
 						}
 						else if (cur_base == -1) {
@@ -888,7 +932,7 @@ private:
 						else if (cur_base == 8) {
 							if (chr >= '8' && chr <= '9') {
 								_error("Digits higher than 7 in an octal integer literal are invalid.");
-								return Token.init;
+								return new Token(Token.Type.EOF);
 							}
 							else if (chr < '0' || chr > '7') {
 								current.type = Token.Type.IntegerLiteral;
@@ -929,7 +973,7 @@ private:
 							// We are now parsing the decimal portion
 							if (inDecimal) {
 								_error("Only one decimal point is allowed per floating point literal.");
-								return Token.init;
+								return new Token(Token.Type.EOF);
 							}
 							else if (inExponent) {
 								_error("Cannot put a decimal point after an exponent in a floating point literal.");
@@ -951,12 +995,12 @@ private:
 						else if (cur_base == 10) {
 							if (chr == 'p' || chr == 'P') {
 								_error("Cannot have a hexidecimal exponent in a non-hexidecimal floating point literal.");
-								return Token.init;
+								return new Token(Token.Type.EOF);
 							}
 							else if (chr < '0' || chr > '9') {
 								if (inExponent && cur_exponent == -1) {
 									_error("You need to specify a value for the exponent part of the floating point literal.");
-									return Token.init;
+									return new Token(Token.Type.EOF);
 								}
 								current.type = Token.Type.FloatingPointLiteral;
 								double value = cast(double)cur_integer + (cast(double)cur_decimal / cast(double)cur_denominator);
@@ -989,11 +1033,11 @@ private:
 							if ((chr < '0' || chr > '9') && (chr < 'a' || chr > 'f') && (chr < 'A' || chr > 'F')) {
 								if (inDecimal && !inExponent) {
 									_error("You need to provide an exponent with the decimal portion of a hexidecimal floating point number. Ex: 0xff.3p2");
-									return Token.init;
+									return new Token(Token.Type.EOF);
 								}
 								if (inExponent && cur_exponent == -1) {
 									_error("You need to specify a value for the exponent part of the floating point literal.");
-									return Token.init;
+									return new Token(Token.Type.EOF);
 								}
 								current.type = Token.Type.FloatingPointLiteral;
 								double value = cast(double)cur_integer + (cast(double)cur_decimal / cast(double)cur_denominator);
@@ -1056,13 +1100,13 @@ private:
 			else if (state == LexerState.String) {
 				if (inStringType == StringType.Character) {
 					_error("Unmatched character literal.");
-					return Token.init;
+					return new Token(Token.Type.EOF);
 				}
 				cur_string ~= '\n';
 			}
 		}
 
-		return Token.init;
+		return new Token(Token.Type.EOF);
 	}
 
 public:
@@ -1078,7 +1122,7 @@ public:
 		if (!_comment_bank_empty()) {
 			return _comment_bank_pop();
 		}
-		return Token.init;
+		return new Token(Token.Type.EOF);
 	}
 
 	void commentClear() {
