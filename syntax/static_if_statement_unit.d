@@ -12,7 +12,7 @@ import lex.lexer;
 import lex.token;
 import logger;
 
-class StaticIfStatementUnit {
+final class StaticIfStatementUnit {
 private:
 	Lexer  _lexer;
 	Logger _logger;

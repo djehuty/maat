@@ -68,7 +68,7 @@ public:
 
 		switch (token.type) {
 			case Token.Type.Version:
-        auto stmt = (new VersionStatementUnit(_lexer, _logger)).parse;
+        auto stmt = (new VersionStatementUnit(false, _lexer, _logger)).parse;
         return false;
 			case Token.Type.Debug:
 				break;

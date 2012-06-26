@@ -175,7 +175,7 @@ public:
 
 			// Version Block
 			case Token.Type.Version:
-				auto tree = (new VersionStatementUnit(_lexer, _logger)).parse;
+				auto tree = (new VersionStatementUnit(true, _lexer, _logger)).parse;
 				break;
 
 			// Debug Block

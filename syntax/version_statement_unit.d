@@ -6,6 +6,7 @@
 module syntax.version_statement_unit;
 
 import syntax.declaration_unit;
+import syntax.block_statement_unit;
 
 import lex.lexer;
 import lex.token;
@@ -32,12 +33,14 @@ private:
 	Logger _logger;
 
 	int    _state;
+  bool   _asDeclaration;
 
 	char[] _cur_string;
 
 public:
 
-	this(Lexer lexer, Logger logger) {
+	this(bool asDeclaration, Lexer lexer, Logger logger) {
+    _asDeclaration = asDeclaration;
 		_lexer  = lexer;
 		_logger = logger;
 	}
@@ -66,8 +69,14 @@ public:
         _state = 7;
 			}
 			else {
-				_lexer.push(token);
-				auto decl = (new DeclarationUnit(_lexer, _logger)).parse;
+        _lexer.push(token);
+        if (_asDeclaration) {
+          auto decl = (new DeclarationUnit(_lexer, _logger)).parse;
+        }
+        else {
+          auto decl = (new BlockStatementUnit(_lexer, _logger)).parse;
+          _state = 7;
+        }
 			}
 			return true;
 		}
