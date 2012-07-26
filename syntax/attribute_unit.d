@@ -76,24 +76,49 @@ public:
   }
 
   bool tokenFound(Token token) {
-    if (_state > 0) {
+    if (_state == 1) {
       switch (token.type) {
         case Token.Type.LeftParen:
-          _state = 1;
+          _state = 2;
+          return true;
+
+        default:
+          // Followed by declaration
+          _lexer.push(token);
+          _declaration = (new DeclarationUnit(_lexer, _logger)).parse;
+          return false;
+      }
+    }
+
+    if (_state == 2) {
+      switch (token.type) {
+        case Token.Type.Identifier:
+          _state = 3;
           break;
 
-        case Token.Type.Identifier:
-          _state = 2;
+        case Token.Type.IntegerLiteral:
+          _state = 3;
           break;
 
         case Token.Type.Increment:
-          _state = 2;
+          _state = 3;
           break;
 
-        case Token.Type.RightParen:
-          _state = 0;
+        default:
+          // TODO: error
           break;
       }
+      return true;
+    }
+
+    if (_state == 3) {
+      if (token.type == Token.Type.RightParen) {
+        _state = 0;
+      }
+      else {
+        // TODO: error
+      }
+
       return true;
     }
 
@@ -136,6 +161,12 @@ public:
 
       case Token.Type.Final:
         _addAttributeIfUnique(Attribute.Final);
+        return true;
+
+      case Token.Type.Align:
+        _addAttributeIfUnique(Attribute.Extern);
+        _state = 1;
+        // TODO: align ( x ) // Do parens list
         return true;
 
       case Token.Type.Extern:
