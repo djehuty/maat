@@ -18,7 +18,7 @@ import logger;
 
 	for
 	ForStmt => ( NoScopeNonEmptyStmt ; Increment ) ScopeStmt
-	         | ( NoScopeNonEmptyStmy ; ; ) ScopeStmt
+	         | ( NoScopeNonEmptyStmt ; ; ) ScopeStmt
 	         | ( ; Expression ; Increment ) ScopeStmt
 	         | ( ; Expression ; ) ScopeStmt
 	         | ( ; ; Increment ) ScopeStmt
@@ -53,8 +53,11 @@ public:
 	bool tokenFound(Token token) {
 		switch (token.type) {
 			case Token.Type.LeftParen:
-				_state = 1;
-				break;
+        if (_state == 0) {
+          _state = 1;
+          break;
+        }
+        goto default;
 
 			case Token.Type.RightParen:
 				if (_state < 4 || _state > 5) {
