@@ -7,6 +7,7 @@ module syntax.initializer_unit;
 
 import syntax.assign_expression_unit;
 import syntax.array_initializer_unit;
+import syntax.struct_initializer_unit;
 
 import lex.lexer;
 import lex.token;
@@ -55,6 +56,9 @@ public:
 
 			case Token.Type.LeftCurly:
 				// Could be a StructInitializer
+        auto expr = (new StructInitializerUnit(_lexer, _logger)).parse;
+
+        // Done
 				return false;
 
 			default:
