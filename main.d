@@ -67,13 +67,13 @@ CommentData formatComment(char[] comment) {
     }
 
     if (inParamDescription) {
-      ret.params[$-1] ~= " " ~ trim(line);
+      ret.params[$-1] ~= " " ~ substitute(trim(line), "\"", "\\\"");
     }
     else if (inReturnDescription) {
-      ret.returns ~= " " ~ trim(line);
+      ret.returns ~= " " ~ substitute(trim(line), "\"", "\\\"");
     }
     else {
-      ret.description ~= trim(line) ~ " ";
+      ret.description ~= substitute(trim(line), "\"", "\\\"") ~ " ";
     }
   }
 
@@ -120,10 +120,20 @@ void parseFile(char[] filename, char[] outputPath) {
 	Parser p = new Parser(lex);
 	Logger logger = new Logger();
 
-  auto file = new File(outputPath, File.WriteCreate);
-
   try {
     auto ast = p.parse(logger);
+
+    File file = null;
+    foreach(decl; ast.declarations) {
+      if (decl.type == DeclarationNode.Type.ClassDeclaration) {
+        file = new File(outputPath, File.WriteCreate);
+        break;
+      }
+    }
+
+    if (file is null) {
+      return;
+    }
 
     writeln(file, "module: " ~ ast.name);
 
