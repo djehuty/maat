@@ -96,6 +96,8 @@ private:
 	ulong cur_denominator;
 	bool inDecimal;
 	bool inExponent;
+  bool signFound;
+  bool positive;
 
 	char[][] _lines;
 
@@ -564,6 +566,7 @@ private:
 								inExponent = false;
 								cur_integer = 0;
 								cur_base = 10;
+                signFound = false;
 								state = LexerState.FloatingPoint;
 								goto case LexerState.FloatingPoint;
 							}
@@ -828,6 +831,7 @@ private:
 							// in the Floating Point state
 							inDecimal = false;
 							inExponent = false;
+              signFound = false;
 
 							state = LexerState.FloatingPoint;
 							goto case LexerState.FloatingPoint;
@@ -837,6 +841,7 @@ private:
 							// in the Floating Point state
 							inDecimal = false;
 							inExponent = false;
+              signFound = false;
 
 							state = LexerState.FloatingPoint;
 							goto case LexerState.FloatingPoint;
@@ -997,6 +1002,22 @@ private:
 								_error("Cannot have a hexidecimal exponent in a non-hexidecimal floating point literal.");
 								return new Token(Token.Type.EOF);
 							}
+              else if (chr == '+') {
+                if (signFound) {
+									_error("Exponent sign exists twice.");
+									return new Token(Token.Type.EOF);
+                }
+                positive = true;
+                signFound = true;
+              }
+              else if (chr == '-') {
+                if (signFound) {
+									_error("Exponent sign exists twice.");
+									return new Token(Token.Type.EOF);
+                }
+                signFound = true;
+                positive = false;
+              }
 							else if (chr < '0' || chr > '9') {
 								if (inExponent && cur_exponent == -1) {
 									_error("You need to specify a value for the exponent part of the floating point literal.");
