@@ -78,7 +78,7 @@ public:
         auto staticVariant = (new StaticDisambiguationUnit(_lexer, _logger)).parse;
 
         if (staticVariant == StaticDisambiguationUnit.StaticVariant.StaticIf) {
-//          _declaration = (new StaticIfStatementUnit(_lexer, _logger)).parse;
+          _declaration = (new StaticIfStatementUnit(_lexer, _logger)).parse;
         }
         else if (staticVariant == StaticDisambiguationUnit.StaticVariant.StaticAssert) {
           // Get rid of assert token

@@ -7,6 +7,9 @@ module syntax.static_if_statement_unit;
 
 import syntax.assign_expression_unit;
 import syntax.declaration_unit;
+import syntax.scoped_statement_unit;
+
+import ast.declaration_node;
 
 import lex.lexer;
 import lex.token;
@@ -26,32 +29,17 @@ public:
 		_logger = logger;
 	}
 	
-	char[] parse() {
+	DeclarationNode parse() {
 		Token token;
 
 		do {
 			token = _lexer.pop();
 		} while (tokenFound(token));
 
-		return "";
+		return null;
 	}
 
 	bool tokenFound(Token token) {
-		if (this._state == 3) {
-			// We are looking for declarations
-			if (token.type == Token.Type.RightCurly) {
-				// Done.
-				return false;
-			}
-			else {
-				_lexer.push(token);
-				auto decl = (new DeclarationUnit(_lexer, _logger)).parse;
-			}
-			return true;
-		}
-
-		// Else, we are looking for the condition
-
 		switch (token.type) {
 			// Look for a left paren first. It must exist.
 			case Token.Type.LeftParen:
@@ -114,11 +102,24 @@ public:
 				}
 
 				// Now we look for declarations.
-				this._state = 3;
-				break;
+        _lexer.push(token);
+        auto stmt = (new ScopedStatementUnit(_lexer, _logger)).parse;
+        _state = 3;
+        break;
 
-			// Errors for any unknown tokens.
+      case Token.Type.Else:
+        if (_state == 3) {
+          auto stmt = (new ScopedStatementUnit(_lexer, _logger)).parse;
+          return false;
+        }
+        goto default;
+
 			default:
+        if (_state == 3) {
+          _lexer.push(token);
+          return false;
+        }
+
 				break;
 		}
 
