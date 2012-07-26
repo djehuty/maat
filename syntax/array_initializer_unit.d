@@ -5,6 +5,8 @@
 
 module syntax.array_initializer_unit;
 
+import syntax.struct_initializer_unit;
+
 import syntax.assign_expression_unit;
 
 import lex.lexer;
@@ -135,8 +137,9 @@ public:
         break;
 
       case Token.Type.LeftCurly:
-        // TODO: StructInitializerUnit
         if (_state == 0 || _state == 2 || _state == 3) {
+          auto expr = (new StructInitializerUnit(_lexer, _logger)).parse;
+          _state = 1;
         }
         else {
           // Follow through for error
